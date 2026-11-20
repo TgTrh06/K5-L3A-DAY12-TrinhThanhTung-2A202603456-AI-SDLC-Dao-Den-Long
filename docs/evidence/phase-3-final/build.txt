@@ -11,7 +11,7 @@ dist/index.html                    5.49 kB │ gzip:   1.96 kB
 dist/assets/index-DALO14Tp.css     9.75 kB │ gzip:   3.20 kB
 dist/assets/metrics-DXILHC0x.js    2.01 kB │ gzip:   1.24 kB
 dist/assets/index-BOJR34rc.js    566.93 kB │ gzip: 149.92 kB
-✓ built in 4.98s
+✓ built in 4.58s
 
 (!) Some chunks are larger than 500 kB after minification. Consider:
 - Using dynamic import() to code-split the application

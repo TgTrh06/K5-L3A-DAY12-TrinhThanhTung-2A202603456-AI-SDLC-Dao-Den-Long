@@ -8,6 +8,9 @@
   its original disabled state after the persistence check.
 - The live scene rendered the player, terrain, lanterns, fireflies and HUD. No
   blank scene or overlay/layout failure was observed in this pass.
+- A follow-up attempt to move through nearby fireflies did not collect any; the
+  active HUD remained `0 / 10`, and no lantern was lit. This attempt is not counted
+  as gameplay or fuel-bar verification.
 
 ## Not demonstrated in this pass
 

@@ -114,4 +114,5 @@ Do not mark later phases complete until their released tickets are implemented.
 - Local unit/headless verification passes on Windows. A limited production-preview
   browser smoke check verified menu, Night 1 HUD and color-palette persistence;
   fuel-bar/low-fuel visuals and a complete manual campaign remain open. Ubuntu
-  Actions is configured but has not run because the changes have not been pushed.
+  Actions passed for both the Phase 2 tag commit and Phase 3 commit; the run warning
+  about action Node.js 20 deprecation is non-blocking and documented in the evidence.

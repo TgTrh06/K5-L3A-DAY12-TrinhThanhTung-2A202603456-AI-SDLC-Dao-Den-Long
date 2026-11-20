@@ -58,9 +58,9 @@ the same deterministic 60 Hz simulation. Design choices are recorded in
 | Headless v1.2 state/events and malformed inputs | `tests/phase3.test.js`, `tests/phase2.test.js` | JSONL fixture and test log |
 | Colorblind preference persistence | `tests/audio-settings.test.js`; Chrome preview reload | Test log and [browser review](../evidence/phase-3-final/browser-review.md) |
 | Full regression and build | `npm test`, `npm run build` | `docs/evidence/phase-3-final/` |
-| Ubuntu install/test/build/HTTP smoke | GitHub Actions Phase 3 workflow | Run URL/artifact after push; currently pending |
+| Ubuntu install/test/build/HTTP smoke | GitHub Actions Phase 3 workflow | [Successful run on `1d314d3`](../evidence/phase-3-final/ubuntu-ci.md); artifact attached |
 | Visible browser fuel bar and warning colors | Manual production browser QA | Partial: menu, Night 1 HUD and saved preference observed; fuel bar, low-fuel blinking and 30-second warning remain open |
 
-The hidden Coach suite is unavailable locally. Ubuntu workflow, fuel-bar and
-low-fuel warning visuals, and a complete manual campaign remain open; none is
-inferred from local simulation tests.
+The hidden Coach suite is unavailable locally. Fuel-bar and low-fuel warning
+visuals, and a complete manual campaign remain open; none is inferred from local
+simulation tests.

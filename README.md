@@ -7,8 +7,8 @@ Trịnh Thanh Tùng · MSSV **2A202603456** · K5-L3A · Day 12.
 Game 3D góc nhìn thứ ba: Mây thu thập đom đóm, thắp đèn và tránh Bóng Mực trên ba
 hòn đảo. Phase 3 Ticket-03 / Contract 1.2 đang được triển khai trong working
 tree. Phase 1 đã phát hành; Phase 2 có tag lịch sử. Phase 3 local verification
-và một lượt browser smoke check đã được ghi trong `docs/evidence/phase-3-final/`;
-fuel-bar gameplay review và Ubuntu CI vẫn cần hoàn tất trước tag.
+và browser smoke check được ghi trong `docs/evidence/phase-3-final/`; Ubuntu CI
+đã đạt trên commit `1d314d3`. Fuel-bar gameplay review vẫn cần hoàn tất trước tag.
 
 Đã công bố tag **`phase-1`** tại commit `a53d13a`, kèm các giới hạn đã ghi trong bằng chứng.
 Kiểm chứng bổ sung sau tag đang tiếp tục; việc có tag không đồng nghĩa mọi mục đã đạt.
@@ -148,9 +148,10 @@ chiếu vào bản game. Có hỗ trợ giảm chuyển động trang trí theo 
   và lưu video/ảnh demo. Browser smoke check Phase 3 chỉ kiểm tra menu, HUD đêm 1
   và persistence của cài đặt; thanh dầu, cảnh báo dầu yếu và thắng campaign chưa
   được nhìn thấy trong lượt này. Âm thanh vẫn chưa được xác nhận bằng nghe.
-- Push và chạy workflow Ubuntu cho Phase 3; workflow hiện ở working tree. WebGL
-  trên Linux/macOS chưa được kiểm tra bằng mắt. Workflow lịch sử Phase 2 cũng
-  chưa có run evidence mới.
+- Kiểm tra bằng mắt thanh dầu/nhấp nháy và WebGL trên Linux/macOS. Workflow
+  Phase 3 đã xanh trên commit `1d314d3`; workflow lịch sử Phase 2 cũng đã xanh
+  trên commit `5ba809b` ([run Phase 2](https://github.com/TgTrh06/K5-L3A-DAY12-TrinhThanhTung-2A202603456-AI-SDLC-Dao-Den-Long/actions/runs/44788725148),
+  [run Phase 3](https://github.com/TgTrh06/K5-L3A-DAY12-TrinhThanhTung-2A202603456-AI-SDLC-Dao-Den-Long/actions/runs/44802419364)).
 - Hoàn thiện và nghiệm thu từng phase; tags `phase-1` … `phase-4` đúng commit.
 - Release `v1.0.0` có bản chạy được; video `.mp4` dưới 5 phút, link ở đầu README.
 - Chọn và bổ sung `LICENSE`; CREDITS hiện có nhưng chưa thay thế giấy phép dự án.

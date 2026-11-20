@@ -56,5 +56,5 @@ verifier were then updated. Initial runs exposed stale v1.1 expectations and
 fixture arithmetic errors; assertions were corrected to approved v1.2 behavior,
 not skipped. Usage estimate: 15k–30k tokens, rough estimate only; the desktop
 session does not expose authoritative token or cost telemetry. The limited browser
-smoke result is recorded separately; full fuel-visual gameplay and Ubuntu results
-are not claimed until verified.
+smoke result and successful Ubuntu Phase 2/3 runs are recorded separately; full
+fuel-visual gameplay and a human campaign win are not claimed.
