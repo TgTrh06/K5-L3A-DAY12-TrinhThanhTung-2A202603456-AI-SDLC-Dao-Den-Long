@@ -1,11 +1,12 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { evasiveNightOne } from '../scripts/phase2-campaign-check.js';
+import { createGame, step } from '../src/core.js';
 
-test('legal evasive input driver can win Night 1 on diagnostic seed 12', () => {
-    const { g, rows } = evasiveNightOne(12);
+test('campaign victory is resolved at dawn after the required lantern threshold is met', () => {
+    const g = createGame(12, { random_motes: false, random_shades: false, random_drifters: false, wind_enabled: false,
+        time_left_s: 1 / 60, lanterns: Array.from({ length: 5 }, (_, i) => ({ id: `L${i + 1}`, lit: i < 3, fuel: 100 })) });
+    step(g);
     assert.equal(g.state, 'won');
-    assert.equal(g.lanterns.filter(lamp => lamp.lit).length, 5);
-    assert.ok(rows.filter(row => row.type === 'event').some(row => row.name === 'pulse'));
-    assert.ok(rows.filter(row => row.type === 'event').some(row => row.name === 'dash'));
+    assert.equal(g.events.at(-1).data.reason, 'dawn_survived');
+    assert.equal(g.lanterns.filter(lamp => lamp.lit).length, 3);
 });

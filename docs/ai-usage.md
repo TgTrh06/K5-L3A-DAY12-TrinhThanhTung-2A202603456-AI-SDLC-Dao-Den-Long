@@ -47,3 +47,14 @@ Night 2 pad direction from the destination island, and applied the ticket's 20
 initial motes consistently across all nights. Added deterministic shade wandering
 and expanded spawn/motion/render-adapter scenarios. Estimated additional usage:
 5k–10k tokens, not billing telemetry; exact cost unavailable.
+
+Phase 3 (2026-11-21): one Codex primary agent, no delegation or new dependencies.
+Tests were added first for integer fuel ticks, refuel target selection, draining
+shade transitions, dawn outcomes, dynamic capacity and JSONL v1.2. The core, HUD,
+world, persistent color palette, contract validator, ADR, changelog and Ubuntu
+verifier were then updated. Initial runs exposed stale v1.1 expectations and
+fixture arithmetic errors; assertions were corrected to approved v1.2 behavior,
+not skipped. Usage estimate: 15k–30k tokens, rough estimate only; the desktop
+session does not expose authoritative token or cost telemetry. The limited browser
+smoke result is recorded separately; full fuel-visual gameplay and Ubuntu results
+are not claimed until verified.

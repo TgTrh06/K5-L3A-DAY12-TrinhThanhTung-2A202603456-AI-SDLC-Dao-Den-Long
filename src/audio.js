@@ -48,3 +48,5 @@ export function createAudio() {
 
 export function loadSensitivity() { return Number(localStorage.getItem('dao-den-long.sensitivity') ?? .4); }
 export function saveSensitivity(value) { const sensitivity = Math.max(.1, Math.min(1.2, Number(value))); localStorage.setItem('dao-den-long.sensitivity', String(sensitivity)); return sensitivity; }
+export function loadDistinctPalette() { return localStorage.getItem('dao-den-long.distinct-palette') === 'true'; }
+export function saveDistinctPalette(value) { const enabled = Boolean(value); localStorage.setItem('dao-den-long.distinct-palette', String(enabled)); return enabled; }

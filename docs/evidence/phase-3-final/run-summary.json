@@ -1,0 +1,1968 @@
+{
+  "generatedAt": "2026-11-20T19:05:53.318Z",
+  "baseCommit": "5ba809bfb1d445245dcdc2801e8b98a985fe2957",
+  "worktreeDirty": true,
+  "dirtyPaths": [
+    ".github/workflows/verify-phase-2.yml",
+    ".github/workflows/verify-phase-3.yml",
+    "AGENTS.md",
+    "CHANGELOG.md",
+    "README.md",
+    "docs/adr/0003-fuel-and-dawn.md",
+    "docs/ai-usage.md",
+    "docs/phases/phase-3-spec.md",
+    "docs/retro.md",
+    "game.contract.json",
+    "index.html",
+    "package.json",
+    "scripts/verify-phase3.js",
+    "src/audio.js",
+    "src/core.js",
+    "src/headless.js",
+    "src/main.js",
+    "src/style.css",
+    "src/visuals/hud.js",
+    "src/visuals/world.js",
+    "tests/audio-settings.test.js",
+    "tests/campaign-driver.test.js",
+    "tests/phase1-regression.test.js",
+    "tests/phase2.test.js",
+    "tests/phase3.test.js",
+    "tests/scenarios/phase3.json"
+  ],
+  "platform": "win32",
+  "arch": "x64",
+  "node": "v22.12.0",
+  "commands": [
+    {
+      "label": "tests",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "--test"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "build",
+      "command": [
+        "npm.cmd",
+        "run",
+        "build"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "fixture-first-light",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "src/headless.js",
+        "--seed",
+        "12",
+        "--night",
+        "1",
+        "--ticks",
+        "1",
+        "--snapshot-every",
+        "1",
+        "--scenario",
+        "C:\\Users\\admin\\AppData\\Local\\Temp\\dao-den-long-phase3-P5D6kD\\first-light-scenario.json",
+        "--inputs",
+        "C:\\Users\\admin\\AppData\\Local\\Temp\\dao-den-long-phase3-P5D6kD\\first-light-inputs.json",
+        "--out",
+        "D:\\docs\\doc.academic\\vinuni\\K5-L3A-DAY12-TrinhThanhTung-2A202603456-AI-SDLC-Dao-Den-Long\\docs\\evidence\\phase-3-final\\fixtures\\first-light.jsonl"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "repeat-first-light",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "src/headless.js",
+        "--seed",
+        "12",
+        "--night",
+        "1",
+        "--ticks",
+        "1",
+        "--snapshot-every",
+        "1",
+        "--scenario",
+        "C:\\Users\\admin\\AppData\\Local\\Temp\\dao-den-long-phase3-P5D6kD\\first-light-scenario.json",
+        "--inputs",
+        "C:\\Users\\admin\\AppData\\Local\\Temp\\dao-den-long-phase3-P5D6kD\\first-light-inputs.json",
+        "--out",
+        "C:\\Users\\admin\\AppData\\Local\\Temp\\dao-den-long-phase3-P5D6kD\\first-light-repeat.jsonl"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "fixture-refuel-rounding",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "src/headless.js",
+        "--seed",
+        "12",
+        "--night",
+        "1",
+        "--ticks",
+        "1",
+        "--snapshot-every",
+        "1",
+        "--scenario",
+        "C:\\Users\\admin\\AppData\\Local\\Temp\\dao-den-long-phase3-P5D6kD\\refuel-rounding-scenario.json",
+        "--inputs",
+        "C:\\Users\\admin\\AppData\\Local\\Temp\\dao-den-long-phase3-P5D6kD\\refuel-rounding-inputs.json",
+        "--out",
+        "D:\\docs\\doc.academic\\vinuni\\K5-L3A-DAY12-TrinhThanhTung-2A202603456-AI-SDLC-Dao-Den-Long\\docs\\evidence\\phase-3-final\\fixtures\\refuel-rounding.jsonl"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "repeat-refuel-rounding",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "src/headless.js",
+        "--seed",
+        "12",
+        "--night",
+        "1",
+        "--ticks",
+        "1",
+        "--snapshot-every",
+        "1",
+        "--scenario",
+        "C:\\Users\\admin\\AppData\\Local\\Temp\\dao-den-long-phase3-P5D6kD\\refuel-rounding-scenario.json",
+        "--inputs",
+        "C:\\Users\\admin\\AppData\\Local\\Temp\\dao-den-long-phase3-P5D6kD\\refuel-rounding-inputs.json",
+        "--out",
+        "C:\\Users\\admin\\AppData\\Local\\Temp\\dao-den-long-phase3-P5D6kD\\refuel-rounding-repeat.jsonl"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "fixture-weak-lantern-drain",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "src/headless.js",
+        "--seed",
+        "12",
+        "--night",
+        "1",
+        "--ticks",
+        "60",
+        "--snapshot-every",
+        "60",
+        "--scenario",
+        "C:\\Users\\admin\\AppData\\Local\\Temp\\dao-den-long-phase3-P5D6kD\\weak-lantern-drain-scenario.json",
+        "--inputs",
+        "C:\\Users\\admin\\AppData\\Local\\Temp\\dao-den-long-phase3-P5D6kD\\weak-lantern-drain-inputs.json",
+        "--out",
+        "D:\\docs\\doc.academic\\vinuni\\K5-L3A-DAY12-TrinhThanhTung-2A202603456-AI-SDLC-Dao-Den-Long\\docs\\evidence\\phase-3-final\\fixtures\\weak-lantern-drain.jsonl"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "repeat-weak-lantern-drain",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "src/headless.js",
+        "--seed",
+        "12",
+        "--night",
+        "1",
+        "--ticks",
+        "60",
+        "--snapshot-every",
+        "60",
+        "--scenario",
+        "C:\\Users\\admin\\AppData\\Local\\Temp\\dao-den-long-phase3-P5D6kD\\weak-lantern-drain-scenario.json",
+        "--inputs",
+        "C:\\Users\\admin\\AppData\\Local\\Temp\\dao-den-long-phase3-P5D6kD\\weak-lantern-drain-inputs.json",
+        "--out",
+        "C:\\Users\\admin\\AppData\\Local\\Temp\\dao-den-long-phase3-P5D6kD\\weak-lantern-drain-repeat.jsonl"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "fixture-dawn-survived",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "src/headless.js",
+        "--seed",
+        "12",
+        "--night",
+        "1",
+        "--ticks",
+        "1",
+        "--snapshot-every",
+        "1",
+        "--scenario",
+        "C:\\Users\\admin\\AppData\\Local\\Temp\\dao-den-long-phase3-P5D6kD\\dawn-survived-scenario.json",
+        "--inputs",
+        "C:\\Users\\admin\\AppData\\Local\\Temp\\dao-den-long-phase3-P5D6kD\\dawn-survived-inputs.json",
+        "--out",
+        "D:\\docs\\doc.academic\\vinuni\\K5-L3A-DAY12-TrinhThanhTung-2A202603456-AI-SDLC-Dao-Den-Long\\docs\\evidence\\phase-3-final\\fixtures\\dawn-survived.jsonl"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "repeat-dawn-survived",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "src/headless.js",
+        "--seed",
+        "12",
+        "--night",
+        "1",
+        "--ticks",
+        "1",
+        "--snapshot-every",
+        "1",
+        "--scenario",
+        "C:\\Users\\admin\\AppData\\Local\\Temp\\dao-den-long-phase3-P5D6kD\\dawn-survived-scenario.json",
+        "--inputs",
+        "C:\\Users\\admin\\AppData\\Local\\Temp\\dao-den-long-phase3-P5D6kD\\dawn-survived-inputs.json",
+        "--out",
+        "C:\\Users\\admin\\AppData\\Local\\Temp\\dao-den-long-phase3-P5D6kD\\dawn-survived-repeat.jsonl"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "fixture-dawn-no-flames-priority",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "src/headless.js",
+        "--seed",
+        "12",
+        "--night",
+        "1",
+        "--ticks",
+        "1",
+        "--snapshot-every",
+        "1",
+        "--scenario",
+        "C:\\Users\\admin\\AppData\\Local\\Temp\\dao-den-long-phase3-P5D6kD\\dawn-no-flames-priority-scenario.json",
+        "--inputs",
+        "C:\\Users\\admin\\AppData\\Local\\Temp\\dao-den-long-phase3-P5D6kD\\dawn-no-flames-priority-inputs.json",
+        "--out",
+        "D:\\docs\\doc.academic\\vinuni\\K5-L3A-DAY12-TrinhThanhTung-2A202603456-AI-SDLC-Dao-Den-Long\\docs\\evidence\\phase-3-final\\fixtures\\dawn-no-flames-priority.jsonl"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "repeat-dawn-no-flames-priority",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "src/headless.js",
+        "--seed",
+        "12",
+        "--night",
+        "1",
+        "--ticks",
+        "1",
+        "--snapshot-every",
+        "1",
+        "--scenario",
+        "C:\\Users\\admin\\AppData\\Local\\Temp\\dao-den-long-phase3-P5D6kD\\dawn-no-flames-priority-scenario.json",
+        "--inputs",
+        "C:\\Users\\admin\\AppData\\Local\\Temp\\dao-den-long-phase3-P5D6kD\\dawn-no-flames-priority-inputs.json",
+        "--out",
+        "C:\\Users\\admin\\AppData\\Local\\Temp\\dao-den-long-phase3-P5D6kD\\dawn-no-flames-priority-repeat.jsonl"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "full-night-1",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "src/headless.js",
+        "--seed",
+        "12",
+        "--night",
+        "1",
+        "--ticks",
+        "14400",
+        "--snapshot-every",
+        "600",
+        "--scenario",
+        "C:\\Users\\admin\\AppData\\Local\\Temp\\dao-den-long-phase3-P5D6kD\\full-night-scenario.json",
+        "--out",
+        "D:\\docs\\doc.academic\\vinuni\\K5-L3A-DAY12-TrinhThanhTung-2A202603456-AI-SDLC-Dao-Den-Long\\docs\\evidence\\phase-3-final\\full-night-1.jsonl"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "full-night-2",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "src/headless.js",
+        "--seed",
+        "12",
+        "--night",
+        "2",
+        "--ticks",
+        "16200",
+        "--snapshot-every",
+        "600",
+        "--scenario",
+        "C:\\Users\\admin\\AppData\\Local\\Temp\\dao-den-long-phase3-P5D6kD\\full-night-scenario.json",
+        "--out",
+        "D:\\docs\\doc.academic\\vinuni\\K5-L3A-DAY12-TrinhThanhTung-2A202603456-AI-SDLC-Dao-Den-Long\\docs\\evidence\\phase-3-final\\full-night-2.jsonl"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "full-night-3",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "src/headless.js",
+        "--seed",
+        "12",
+        "--night",
+        "3",
+        "--ticks",
+        "18000",
+        "--snapshot-every",
+        "600",
+        "--scenario",
+        "C:\\Users\\admin\\AppData\\Local\\Temp\\dao-den-long-phase3-P5D6kD\\full-night-scenario.json",
+        "--out",
+        "D:\\docs\\doc.academic\\vinuni\\K5-L3A-DAY12-TrinhThanhTung-2A202603456-AI-SDLC-Dao-Den-Long\\docs\\evidence\\phase-3-final\\full-night-3.jsonl"
+      ],
+      "exitCode": 0
+    }
+  ],
+  "fixtures": [
+    {
+      "name": "first-light",
+      "night": 1,
+      "ticks": 1,
+      "events": [
+        "deposit",
+        "lantern_lit"
+      ],
+      "state": "playing",
+      "reason": null,
+      "finalSnapshot": {
+        "type": "snapshot",
+        "tick": 1,
+        "sim_tick": 1,
+        "state": "playing",
+        "night": 1,
+        "time_left_s": 239.983333,
+        "score": 150,
+        "campaign_score": 0,
+        "wind": {
+          "active": false,
+          "dir_deg": 0
+        },
+        "player": {
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "vel": [
+            0,
+            0,
+            0
+          ],
+          "carried": 0,
+          "capacity": 12,
+          "flames": 3,
+          "grounded": true,
+          "invuln": 0,
+          "dash_cd_s": 0,
+          "pulse_cd_s": 0,
+          "charm_s": 0
+        },
+        "lanterns": [
+          {
+            "id": "L1",
+            "pos": [
+              0,
+              0,
+              0
+            ],
+            "deposited": 10,
+            "lit": true,
+            "fuel": 100,
+            "ever_lit": true,
+            "relit_count": 0
+          },
+          {
+            "id": "L2",
+            "pos": [
+              23.8,
+              0,
+              7.7
+            ],
+            "deposited": 0,
+            "lit": false,
+            "fuel": 0,
+            "ever_lit": false,
+            "relit_count": 0
+          },
+          {
+            "id": "L3",
+            "pos": [
+              14.7,
+              0,
+              -20.2
+            ],
+            "deposited": 0,
+            "lit": false,
+            "fuel": 0,
+            "ever_lit": false,
+            "relit_count": 0
+          },
+          {
+            "id": "L4",
+            "pos": [
+              -14.7,
+              0,
+              -20.2
+            ],
+            "deposited": 0,
+            "lit": false,
+            "fuel": 0,
+            "ever_lit": false,
+            "relit_count": 0
+          },
+          {
+            "id": "L5",
+            "pos": [
+              -23.8,
+              0,
+              7.7
+            ],
+            "deposited": 0,
+            "lit": false,
+            "fuel": 0,
+            "ever_lit": false,
+            "relit_count": 0
+          }
+        ],
+        "shades": [],
+        "motes": [
+          {
+            "id": "M1",
+            "pos": [
+              12,
+              0,
+              0
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M2",
+            "pos": [
+              8.485,
+              0,
+              8.485
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M3",
+            "pos": [
+              0,
+              0,
+              12
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M4",
+            "pos": [
+              -8.485,
+              0,
+              8.485
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M5",
+            "pos": [
+              -12,
+              0,
+              0
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M6",
+            "pos": [
+              -8.485,
+              0,
+              -8.485
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M7",
+            "pos": [
+              0,
+              0,
+              -12
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M8",
+            "pos": [
+              8.485,
+              0,
+              -8.485
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M9",
+            "pos": [
+              33,
+              0,
+              0
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M10",
+            "pos": [
+              30.488,
+              0,
+              12.629
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M11",
+            "pos": [
+              23.335,
+              0,
+              23.335
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M12",
+            "pos": [
+              12.629,
+              0,
+              30.488
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M13",
+            "pos": [
+              0,
+              0,
+              33
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M14",
+            "pos": [
+              -12.629,
+              0,
+              30.488
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M15",
+            "pos": [
+              -23.335,
+              0,
+              23.335
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M16",
+            "pos": [
+              -30.488,
+              0,
+              12.629
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M17",
+            "pos": [
+              -33,
+              0,
+              0
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M18",
+            "pos": [
+              -30.488,
+              0,
+              -12.629
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M19",
+            "pos": [
+              -23.335,
+              0,
+              -23.335
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M20",
+            "pos": [
+              -12.629,
+              0,
+              -30.488
+            ],
+            "kind": "random",
+            "ttl_s": null
+          }
+        ],
+        "drifters": [],
+        "charms": []
+      }
+    },
+    {
+      "name": "refuel-rounding",
+      "night": 1,
+      "ticks": 1,
+      "events": [
+        "refuel"
+      ],
+      "state": "playing",
+      "reason": null,
+      "finalSnapshot": {
+        "type": "snapshot",
+        "tick": 1,
+        "sim_tick": 1,
+        "state": "playing",
+        "night": 1,
+        "time_left_s": 239.983333,
+        "score": 10,
+        "campaign_score": 0,
+        "wind": {
+          "active": false,
+          "dir_deg": 0
+        },
+        "player": {
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "vel": [
+            0,
+            0,
+            0
+          ],
+          "carried": 1,
+          "capacity": 10,
+          "flames": 3,
+          "grounded": true,
+          "invuln": 0,
+          "dash_cd_s": 0,
+          "pulse_cd_s": 0,
+          "charm_s": 0
+        },
+        "lanterns": [
+          {
+            "id": "L1",
+            "pos": [
+              0,
+              0,
+              0
+            ],
+            "deposited": 0,
+            "lit": true,
+            "fuel": 100,
+            "ever_lit": true,
+            "relit_count": 0
+          },
+          {
+            "id": "L2",
+            "pos": [
+              23.8,
+              0,
+              7.7
+            ],
+            "deposited": 0,
+            "lit": false,
+            "fuel": 0,
+            "ever_lit": false,
+            "relit_count": 0
+          },
+          {
+            "id": "L3",
+            "pos": [
+              14.7,
+              0,
+              -20.2
+            ],
+            "deposited": 0,
+            "lit": false,
+            "fuel": 0,
+            "ever_lit": false,
+            "relit_count": 0
+          },
+          {
+            "id": "L4",
+            "pos": [
+              -14.7,
+              0,
+              -20.2
+            ],
+            "deposited": 0,
+            "lit": false,
+            "fuel": 0,
+            "ever_lit": false,
+            "relit_count": 0
+          },
+          {
+            "id": "L5",
+            "pos": [
+              -23.8,
+              0,
+              7.7
+            ],
+            "deposited": 0,
+            "lit": false,
+            "fuel": 0,
+            "ever_lit": false,
+            "relit_count": 0
+          }
+        ],
+        "shades": [],
+        "motes": [
+          {
+            "id": "M1",
+            "pos": [
+              12,
+              0,
+              0
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M2",
+            "pos": [
+              8.485,
+              0,
+              8.485
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M3",
+            "pos": [
+              0,
+              0,
+              12
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M4",
+            "pos": [
+              -8.485,
+              0,
+              8.485
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M5",
+            "pos": [
+              -12,
+              0,
+              0
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M6",
+            "pos": [
+              -8.485,
+              0,
+              -8.485
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M7",
+            "pos": [
+              0,
+              0,
+              -12
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M8",
+            "pos": [
+              8.485,
+              0,
+              -8.485
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M9",
+            "pos": [
+              33,
+              0,
+              0
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M10",
+            "pos": [
+              30.488,
+              0,
+              12.629
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M11",
+            "pos": [
+              23.335,
+              0,
+              23.335
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M12",
+            "pos": [
+              12.629,
+              0,
+              30.488
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M13",
+            "pos": [
+              0,
+              0,
+              33
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M14",
+            "pos": [
+              -12.629,
+              0,
+              30.488
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M15",
+            "pos": [
+              -23.335,
+              0,
+              23.335
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M16",
+            "pos": [
+              -30.488,
+              0,
+              12.629
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M17",
+            "pos": [
+              -33,
+              0,
+              0
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M18",
+            "pos": [
+              -30.488,
+              0,
+              -12.629
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M19",
+            "pos": [
+              -23.335,
+              0,
+              -23.335
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M20",
+            "pos": [
+              -12.629,
+              0,
+              -30.488
+            ],
+            "kind": "random",
+            "ttl_s": null
+          }
+        ],
+        "drifters": [],
+        "charms": []
+      }
+    },
+    {
+      "name": "weak-lantern-drain",
+      "night": 1,
+      "ticks": 60,
+      "events": [
+        "fuel_drain"
+      ],
+      "state": "playing",
+      "reason": null,
+      "finalSnapshot": {
+        "type": "snapshot",
+        "tick": 60,
+        "sim_tick": 60,
+        "state": "playing",
+        "night": 1,
+        "time_left_s": 2,
+        "score": 0,
+        "campaign_score": 0,
+        "wind": {
+          "active": false,
+          "dir_deg": 0
+        },
+        "player": {
+          "pos": [
+            25,
+            0,
+            0
+          ],
+          "vel": [
+            0,
+            0,
+            0
+          ],
+          "carried": 0,
+          "capacity": 16,
+          "flames": 3,
+          "grounded": true,
+          "invuln": 0,
+          "dash_cd_s": 0,
+          "pulse_cd_s": 0,
+          "charm_s": 0
+        },
+        "lanterns": [
+          {
+            "id": "L1",
+            "pos": [
+              0,
+              0,
+              0
+            ],
+            "deposited": 0,
+            "lit": true,
+            "fuel": 23.2,
+            "ever_lit": true,
+            "relit_count": 0
+          },
+          {
+            "id": "L2",
+            "pos": [
+              10,
+              0,
+              0
+            ],
+            "deposited": 0,
+            "lit": true,
+            "fuel": 99,
+            "ever_lit": true,
+            "relit_count": 0
+          },
+          {
+            "id": "L3",
+            "pos": [
+              14.7,
+              0,
+              -20.2
+            ],
+            "deposited": 0,
+            "lit": false,
+            "fuel": 0,
+            "ever_lit": false,
+            "relit_count": 0
+          },
+          {
+            "id": "L4",
+            "pos": [
+              -14.7,
+              0,
+              -20.2
+            ],
+            "deposited": 0,
+            "lit": false,
+            "fuel": 0,
+            "ever_lit": false,
+            "relit_count": 0
+          },
+          {
+            "id": "L5",
+            "pos": [
+              -23.8,
+              0,
+              7.7
+            ],
+            "deposited": 0,
+            "lit": false,
+            "fuel": 0,
+            "ever_lit": false,
+            "relit_count": 0
+          }
+        ],
+        "shades": [
+          {
+            "id": "S1",
+            "pos": [
+              1,
+              0,
+              0
+            ],
+            "state": "drain",
+            "state_ticks_left": 0,
+            "target_lantern_id": "L1"
+          }
+        ],
+        "motes": [
+          {
+            "id": "M1",
+            "pos": [
+              12,
+              0,
+              0
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M2",
+            "pos": [
+              8.485,
+              0,
+              8.485
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M3",
+            "pos": [
+              0,
+              0,
+              12
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M4",
+            "pos": [
+              -8.485,
+              0,
+              8.485
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M5",
+            "pos": [
+              -12,
+              0,
+              0
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M6",
+            "pos": [
+              -8.485,
+              0,
+              -8.485
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M7",
+            "pos": [
+              0,
+              0,
+              -12
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M8",
+            "pos": [
+              8.485,
+              0,
+              -8.485
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M9",
+            "pos": [
+              33,
+              0,
+              0
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M10",
+            "pos": [
+              30.488,
+              0,
+              12.629
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M11",
+            "pos": [
+              23.335,
+              0,
+              23.335
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M12",
+            "pos": [
+              12.629,
+              0,
+              30.488
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M13",
+            "pos": [
+              0,
+              0,
+              33
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M14",
+            "pos": [
+              -12.629,
+              0,
+              30.488
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M15",
+            "pos": [
+              -23.335,
+              0,
+              23.335
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M16",
+            "pos": [
+              -30.488,
+              0,
+              12.629
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M17",
+            "pos": [
+              -33,
+              0,
+              0
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M18",
+            "pos": [
+              -30.488,
+              0,
+              -12.629
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M19",
+            "pos": [
+              -23.335,
+              0,
+              -23.335
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M20",
+            "pos": [
+              -12.629,
+              0,
+              -30.488
+            ],
+            "kind": "random",
+            "ttl_s": null
+          }
+        ],
+        "drifters": [],
+        "charms": []
+      }
+    },
+    {
+      "name": "dawn-survived",
+      "night": 1,
+      "ticks": 1,
+      "events": [
+        "game_over"
+      ],
+      "state": "won",
+      "reason": "dawn_survived",
+      "finalSnapshot": {
+        "type": "snapshot",
+        "tick": 1,
+        "sim_tick": 1,
+        "state": "won",
+        "night": 1,
+        "time_left_s": 0,
+        "score": 397,
+        "campaign_score": 397,
+        "wind": {
+          "active": false,
+          "dir_deg": 0
+        },
+        "player": {
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "vel": [
+            0,
+            0,
+            0
+          ],
+          "carried": 0,
+          "capacity": 10,
+          "flames": 2,
+          "grounded": true,
+          "invuln": 0,
+          "dash_cd_s": 0,
+          "pulse_cd_s": 0,
+          "charm_s": 0
+        },
+        "lanterns": [
+          {
+            "id": "L1",
+            "pos": [
+              20,
+              0,
+              0
+            ],
+            "deposited": 0,
+            "lit": true,
+            "fuel": 50,
+            "ever_lit": true,
+            "relit_count": 0
+          },
+          {
+            "id": "L2",
+            "pos": [
+              21,
+              0,
+              0
+            ],
+            "deposited": 0,
+            "lit": true,
+            "fuel": 50,
+            "ever_lit": true,
+            "relit_count": 0
+          },
+          {
+            "id": "L3",
+            "pos": [
+              22,
+              0,
+              0
+            ],
+            "deposited": 0,
+            "lit": true,
+            "fuel": 50,
+            "ever_lit": true,
+            "relit_count": 0
+          },
+          {
+            "id": "L4",
+            "pos": [
+              -14.7,
+              0,
+              -20.2
+            ],
+            "deposited": 0,
+            "lit": false,
+            "fuel": 0,
+            "ever_lit": false,
+            "relit_count": 0
+          },
+          {
+            "id": "L5",
+            "pos": [
+              -23.8,
+              0,
+              7.7
+            ],
+            "deposited": 0,
+            "lit": false,
+            "fuel": 0,
+            "ever_lit": false,
+            "relit_count": 0
+          }
+        ],
+        "shades": [],
+        "motes": [
+          {
+            "id": "M1",
+            "pos": [
+              12,
+              0,
+              0
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M2",
+            "pos": [
+              8.485,
+              0,
+              8.485
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M3",
+            "pos": [
+              0,
+              0,
+              12
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M4",
+            "pos": [
+              -8.485,
+              0,
+              8.485
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M5",
+            "pos": [
+              -12,
+              0,
+              0
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M6",
+            "pos": [
+              -8.485,
+              0,
+              -8.485
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M7",
+            "pos": [
+              0,
+              0,
+              -12
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M8",
+            "pos": [
+              8.485,
+              0,
+              -8.485
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M9",
+            "pos": [
+              33,
+              0,
+              0
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M10",
+            "pos": [
+              30.488,
+              0,
+              12.629
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M11",
+            "pos": [
+              23.335,
+              0,
+              23.335
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M12",
+            "pos": [
+              12.629,
+              0,
+              30.488
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M13",
+            "pos": [
+              0,
+              0,
+              33
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M14",
+            "pos": [
+              -12.629,
+              0,
+              30.488
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M15",
+            "pos": [
+              -23.335,
+              0,
+              23.335
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M16",
+            "pos": [
+              -30.488,
+              0,
+              12.629
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M17",
+            "pos": [
+              -33,
+              0,
+              0
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M18",
+            "pos": [
+              -30.488,
+              0,
+              -12.629
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M19",
+            "pos": [
+              -23.335,
+              0,
+              -23.335
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M20",
+            "pos": [
+              -12.629,
+              0,
+              -30.488
+            ],
+            "kind": "random",
+            "ttl_s": null
+          }
+        ],
+        "drifters": [],
+        "charms": []
+      }
+    },
+    {
+      "name": "dawn-no-flames-priority",
+      "night": 1,
+      "ticks": 1,
+      "events": [
+        "player_hit",
+        "game_over"
+      ],
+      "state": "lost",
+      "reason": "no_flames",
+      "finalSnapshot": {
+        "type": "snapshot",
+        "tick": 1,
+        "sim_tick": 1,
+        "state": "lost",
+        "night": 1,
+        "time_left_s": 0,
+        "score": 0,
+        "campaign_score": 0,
+        "wind": {
+          "active": false,
+          "dir_deg": 0
+        },
+        "player": {
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "vel": [
+            0,
+            0,
+            0
+          ],
+          "carried": 0,
+          "capacity": 10,
+          "flames": 0,
+          "grounded": true,
+          "invuln": 1.5,
+          "dash_cd_s": 0,
+          "pulse_cd_s": 0,
+          "charm_s": 0
+        },
+        "lanterns": [
+          {
+            "id": "L1",
+            "pos": [
+              20,
+              0,
+              0
+            ],
+            "deposited": 0,
+            "lit": true,
+            "fuel": 50,
+            "ever_lit": true,
+            "relit_count": 0
+          },
+          {
+            "id": "L2",
+            "pos": [
+              21,
+              0,
+              0
+            ],
+            "deposited": 0,
+            "lit": true,
+            "fuel": 50,
+            "ever_lit": true,
+            "relit_count": 0
+          },
+          {
+            "id": "L3",
+            "pos": [
+              22,
+              0,
+              0
+            ],
+            "deposited": 0,
+            "lit": true,
+            "fuel": 50,
+            "ever_lit": true,
+            "relit_count": 0
+          },
+          {
+            "id": "L4",
+            "pos": [
+              -14.7,
+              0,
+              -20.2
+            ],
+            "deposited": 0,
+            "lit": false,
+            "fuel": 0,
+            "ever_lit": false,
+            "relit_count": 0
+          },
+          {
+            "id": "L5",
+            "pos": [
+              -23.8,
+              0,
+              7.7
+            ],
+            "deposited": 0,
+            "lit": false,
+            "fuel": 0,
+            "ever_lit": false,
+            "relit_count": 0
+          }
+        ],
+        "shades": [
+          {
+            "id": "S1",
+            "pos": [
+              0,
+              0,
+              0
+            ],
+            "state": "recoil",
+            "state_ticks_left": 0,
+            "target_lantern_id": null
+          }
+        ],
+        "motes": [
+          {
+            "id": "M1",
+            "pos": [
+              12,
+              0,
+              0
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M2",
+            "pos": [
+              8.485,
+              0,
+              8.485
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M3",
+            "pos": [
+              0,
+              0,
+              12
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M4",
+            "pos": [
+              -8.485,
+              0,
+              8.485
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M5",
+            "pos": [
+              -12,
+              0,
+              0
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M6",
+            "pos": [
+              -8.485,
+              0,
+              -8.485
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M7",
+            "pos": [
+              0,
+              0,
+              -12
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M8",
+            "pos": [
+              8.485,
+              0,
+              -8.485
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M9",
+            "pos": [
+              33,
+              0,
+              0
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M10",
+            "pos": [
+              30.488,
+              0,
+              12.629
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M11",
+            "pos": [
+              23.335,
+              0,
+              23.335
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M12",
+            "pos": [
+              12.629,
+              0,
+              30.488
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M13",
+            "pos": [
+              0,
+              0,
+              33
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M14",
+            "pos": [
+              -12.629,
+              0,
+              30.488
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M15",
+            "pos": [
+              -23.335,
+              0,
+              23.335
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M16",
+            "pos": [
+              -30.488,
+              0,
+              12.629
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M17",
+            "pos": [
+              -33,
+              0,
+              0
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M18",
+            "pos": [
+              -30.488,
+              0,
+              -12.629
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M19",
+            "pos": [
+              -23.335,
+              0,
+              -23.335
+            ],
+            "kind": "random",
+            "ttl_s": null
+          },
+          {
+            "id": "M20",
+            "pos": [
+              -12.629,
+              0,
+              -30.488
+            ],
+            "kind": "random",
+            "ttl_s": null
+          }
+        ],
+        "drifters": [],
+        "charms": []
+      }
+    },
+    {
+      "name": "full-night-1",
+      "night": 1,
+      "ticks": 14400,
+      "elapsedMs": 442.3014999999996,
+      "state": "lost",
+      "reason": "dawn"
+    },
+    {
+      "name": "full-night-2",
+      "night": 2,
+      "ticks": 16200,
+      "elapsedMs": 441.2006000000001,
+      "state": "lost",
+      "reason": "dawn"
+    },
+    {
+      "name": "full-night-3",
+      "night": 3,
+      "ticks": 18000,
+      "elapsedMs": 643.805699999999,
+      "state": "lost",
+      "reason": "dawn"
+    }
+  ],
+  "browser": "manual production UI inspection is recorded separately; this verifier does not claim browser or FPS evidence"
+}

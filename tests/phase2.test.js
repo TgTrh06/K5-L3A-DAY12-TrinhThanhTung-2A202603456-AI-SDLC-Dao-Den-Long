@@ -19,13 +19,13 @@ function cli({ night = 1, scenario = quiet, inputs = { frames: [] }, ticks = 60,
     } finally { fs.rmSync(dir, { recursive: true, force: true }); }
 }
 
-test('contract tuning matches the runtime and exposes v1.1 fields', () => {
+test('contract tuning matches the runtime and exposes v1.2 fields', () => {
     const contract = JSON.parse(fs.readFileSync('game.contract.json', 'utf8'));
-    assert.equal(contract.contract_version, '1.1'); assert.deepEqual(contract.tuning, T);
-    for (const key of ['dash_speed', 'dash_duration_s', 'dash_cooldown_s', 'night2_duration_s', 'night3_duration_s']) assert.ok(key in contract.tuning);
+    assert.equal(contract.contract_version, '1.2'); assert.deepEqual(contract.tuning, T);
+    for (const key of ['dash_speed', 'dash_duration_s', 'dash_cooldown_s', 'night2_duration_s', 'night3_duration_s', 'fuel_max', 'fuel_decay_per_s', 'fuel_per_mote', 'relight_cost', 'win_ratio', 'drain_per_s', 'low_fuel_threshold', 'capacity_max']) assert.ok(key in contract.tuning);
 });
 test('standard maps use the specified lanterns, firefly counts and night durations', () => {
-    assert.deepEqual([1, 2, 3].map(n => NIGHT[n].seconds), [300, 330, 360]);
+    assert.deepEqual([1, 2, 3].map(n => NIGHT[n].seconds), [240, 270, 300]);
     assert.deepEqual([1, 2, 3].map(n => createGame(1, quiet, n).lanterns.length), [5, 6, 7]);
     assert.deepEqual([1, 2, 3].map(n => createGame(1, quiet, n).motes.length), [20, 20, 20]);
     for (const n of [1, 2, 3]) {
@@ -74,7 +74,7 @@ test('nearest lantern and ID tie-break deposit up to the remaining 10-mote cost'
     ] });
     step(g, { interact: true });
     assert.equal(g.lanterns.find(l => l.id === 'L1').deposited, 10); assert.equal(g.lanterns.find(l => l.id === 'L1').lit, true);
-    assert.equal(g.lanterns.find(l => l.id === 'L2').deposited, 5); assert.equal(g.player.carried, 4); assert.equal(g.score, 160);
+    assert.equal(g.lanterns.find(l => l.id === 'L2').deposited, 5); assert.equal(g.player.carried, 4); assert.equal(g.score, 130);
 });
 test('pulse costs three motes, targets 3D radius, stuns for 120 ticks and pushes 4 m', () => {
     const g = createGame(1, { ...quiet, player: { carried: 10 }, shades: [
@@ -222,20 +222,22 @@ test('pause advances wall tick only; resume restarts deterministic simulation ti
     step(g, { pause: true }); assert.equal(g.state, 'playing'); assert.equal(g.simTick, 1);
     step(g, { pause: false }); assert.equal(g.simTick, 2);
 });
-test('victory precedence, integer-tick clock and score use standardized formula', () => {
-    const g = createGame(1, { ...quiet, time_left_s: 1 / 60, player: { carried: 10, flames: 2 }, lanterns: Array.from({ length: 5 }, (_, i) => ({ id: `L${i + 1}`, lit: i > 0, pos: [0, 0, 0] })) });
-    step(g, { interact: true }); assert.equal(g.state, 'won'); assert.equal(g.events.at(-1).data.reason, 'all_lit');
-    assert.equal(g.score, 100 + 100 + 2 * 50);
+test('winning is evaluated at dawn under the six-tenths threshold', () => {
+    const g = createGame(1, { ...quiet, time_left_s: 1 / 60, player: { flames: 2 }, lanterns: Array.from({ length: 5 }, (_, i) => ({ id: `L${i + 1}`, lit: i < 3, fuel: 50, pos: [20 + i, 0, 0] })) });
+    step(g); assert.equal(g.state, 'won'); assert.equal(g.events.at(-1).data.reason, 'dawn_survived');
+    assert.equal(g.score, 3 * 99 + 2 * 50);
     const time = createGame(1, { ...quiet, time_left_s: 1 / 60 }); step(time); assert.equal(time.state, 'lost');
 });
-test('snapshot contains required v1.1 state and rounds positions to three decimals', () => {
+test('snapshot contains required v1.2 state and rounds positions to three decimals', () => {
     const s = snapshot(createGame(1, quiet, 3));
     assert.equal(s.night, 3); assert.deepEqual(s.wind, { active: false, dir_deg: 0 });
-    for (const key of ['vel', 'grounded', 'invuln', 'dash_cd_s', 'pulse_cd_s', 'charm_s']) assert.ok(key in s.player);
+    for (const key of ['vel', 'capacity', 'grounded', 'invuln', 'dash_cd_s', 'pulse_cd_s', 'charm_s']) assert.ok(key in s.player);
     for (const key of ['motes', 'drifters', 'charms']) assert.ok(Array.isArray(s[key]));
+    for (const key of ['fuel', 'ever_lit', 'relit_count']) assert.ok(key in s.lanterns[0]);
+    assert.equal(s.shades[0], undefined);
     assert.ok('ttl_s' in s.motes[0]);
 });
-test('CLI accepts all nights, emits v1.1 and is byte deterministic with action inputs', () => {
+test('CLI accepts all nights, emits v1.2 and is byte deterministic with action inputs', () => {
     const scenario = { ...quiet, player: { carried: 10 }, shades: [{ id: 'S1', pos: [4, 0, 0] }] };
     const options = { night: 3, scenario, ticks: 80, inputs: { frames: [{ tick: 0, dash: true, move: [0, 1] }, { tick: 12, dash: false }, { tick: 20, pulse: true }] } };
     const a = cli(options), b = cli(options); assert.equal(a.status, 0); assert.equal(a.text, b.text);

@@ -1,0 +1,103 @@
+name: Verify Phase 3 on Ubuntu
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/verify-phase-3.yml
+      - game.contract.json
+      - package.json
+      - package-lock.json
+      - index.html
+      - src/**
+      - tests/**
+      - scripts/**
+      - docs/adr/**
+      - docs/phases/phase-3-spec.md
+      - CHANGELOG.md
+
+permissions:
+  contents: read
+
+jobs:
+  phase-3:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      CI: 'true'
+    steps:
+      - name: Checkout current revision
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+
+      - name: Record environment
+        run: |
+          mkdir -p "$RUNNER_TEMP/phase3-ci"
+          {
+            printf 'tested_commit=%s\n' "$(git rev-parse HEAD)"
+            printf 'run_url=https://github.com/%s/actions/runs/%s\n' "$GITHUB_REPOSITORY" "$GITHUB_RUN_ID"
+            date -u +'%Y-%m-%dT%H:%M:%SZ'
+            uname -a
+            cat /etc/os-release
+          } 2>&1 | tee "$RUNNER_TEMP/phase3-ci/identity.txt"
+
+      - name: Set up Node 22
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Record runtime and install lockfile dependencies
+        run: |
+          { node --version; npm --version; } 2>&1 | tee "$RUNNER_TEMP/phase3-ci/runtime.txt"
+          npm ci 2>&1 | tee "$RUNNER_TEMP/phase3-ci/install.txt"
+
+      - name: Run Phase 3 tests, build, fixtures and full headless nights
+        run: npm run verify:phase3 2>&1 | tee "$RUNNER_TEMP/phase3-ci/verification.txt"
+
+      - name: Smoke test production HTTP assets
+        run: |
+          npm run preview -- --port 4184 --strictPort > "$RUNNER_TEMP/phase3-ci/preview.txt" 2>&1 &
+          preview_pid=$!
+          trap 'kill "$preview_pid" 2>/dev/null || true' EXIT
+          node --input-type=module <<'NODE' 2>&1 | tee "$RUNNER_TEMP/phase3-ci/http.txt"
+          import assert from 'node:assert/strict';
+          const origin = 'http://127.0.0.1:4184';
+          let response;
+          for (let attempt = 0; attempt < 40; attempt++) {
+            try { response = await fetch(origin, { signal: AbortSignal.timeout(2000) }); if (response.ok) break; }
+            catch { /* bounded retry while Vite starts */ }
+            await new Promise(resolve => setTimeout(resolve, 250));
+          }
+          assert.equal(response?.status, 200);
+          const html = await response.text();
+          assert.match(html, /Đảo Đèn Lồng/);
+          assert.match(html, /clock-warning/);
+          assert.match(html, /distinct-palette/);
+          const assets = [...html.matchAll(/(?:src|href)="([^"#]+\.(?:js|css))"/g)].map(match => new URL(match[1], origin));
+          assert.ok(assets.some(asset => asset.pathname.endsWith('.js')));
+          assert.ok(assets.some(asset => asset.pathname.endsWith('.css')));
+          for (const asset of assets) {
+            assert.equal(asset.origin, origin);
+            const result = await fetch(asset, { signal: AbortSignal.timeout(5000) });
+            assert.equal(result.status, 200, asset.pathname);
+            console.log(`PASS HTTP 200 ${asset.pathname}`);
+          }
+          NODE
+
+      - name: Collect fresh evidence
+        if: always()
+        run: |
+          mkdir -p "$RUNNER_TEMP/phase3-ci/evidence"
+          if [ -d docs/evidence/phase-3-final ]; then cp -R docs/evidence/phase-3-final/. "$RUNNER_TEMP/phase3-ci/evidence/"; fi
+
+      - name: Upload Ubuntu run logs and evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: phase-3-ubuntu-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/phase3-ci/
+          if-no-files-found: warn
+          retention-days: 30

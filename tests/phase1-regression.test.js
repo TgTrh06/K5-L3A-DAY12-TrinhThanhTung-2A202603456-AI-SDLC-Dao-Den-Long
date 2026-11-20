@@ -35,7 +35,7 @@ test('Phase 1 movement/yaw behavior and fixed-tick clock remain deterministic', 
         for (let i = 0; i < 60; i++) step(g, { move, cam_yaw_deg: yaw });
         assert.ok(Math.abs(g.player.pos[0] - expected[0]) < 1e-9, `move ${move}, yaw ${yaw}: x=${g.player.pos[0]}`);
         assert.ok(Math.abs(g.player.pos[2] - expected[1]) < 1e-9, `move ${move}, yaw ${yaw}: z=${g.player.pos[2]}`);
-        assert.equal(g.tick, 60); assert.equal(snapshot(g).time_left_s, 299);
+        assert.equal(g.tick, 60); assert.equal(snapshot(g).time_left_s, 239);
     }
 });
 
@@ -47,17 +47,17 @@ test('Phase 1 interaction boundaries, partial deposits and rising-edge behavior 
     assert.equal(g.lanterns[0].deposited, 10); assert.equal(g.player.carried, 0); assert.equal(g.lanterns[0].lit, true);
     g.player.carried = 10; step(g, { interact: true }); assert.equal(g.lanterns[1].deposited, 0);
     step(g, { interact: false }); g.lanterns[1].pos = [0, 0, 0]; step(g, { interact: true });
-    assert.equal(g.lanterns[1].deposited, 10); assert.equal(g.score, 360);
+    assert.equal(g.lanterns[1].deposited, 10); assert.equal(g.score, 280);
 });
 
-test('Phase 1 terminal event ordering and score remain correct with Contract 1.1 values', () => {
-    const g = createGame(1, { ...quiet, time_left_s: 10, player: { carried: 9 }, motes: [[0, 0, 0]],
+test('Phase 1 event ordering is preserved while victory waits for dawn under Contract 1.2', () => {
+    const g = createGame(1, { ...quiet, time_left_s: 1 / 60, player: { carried: 9 }, motes: [[0, 0, 0]],
         lanterns: Array.from({ length: 5 }, (_, i) => ({ id: `L${i + 1}`, pos: [0, 0, 0], lit: i > 0 })) });
     step(g, { interact: true });
     assert.deepEqual(g.events.map(e => e.name), ['mote_picked', 'deposit', 'lantern_lit', 'game_over']);
-    assert.equal(g.state, 'won');
-    assert.equal(g.score, T.score.per_mote + T.lantern_cost * T.score.per_mote + T.score.per_lantern +
-        Math.floor(g.timeLeftTicks / T.tick_rate) * T.score.per_second_left + 3 * T.score.per_flame_left);
+    assert.equal(g.state, 'won'); assert.equal(g.events.at(-1).data.reason, 'dawn_survived');
+    const dawn = g.lanterns.filter(l => l.lit).reduce((sum, l) => sum + 50 + Math.floor(l.fuelUnits / T.tick_rate), 0);
+    assert.equal(g.score, 50 + T.score.per_lantern + dawn + 3 * T.score.per_flame_left);
 });
 
 test('Phase 1 hit, invulnerability, drop and pulse regression hold with the new flame/cost rules', () => {
@@ -79,14 +79,11 @@ test('Phase 1 snapshot positions retain three-decimal rounding', () => {
     assert.deepEqual(s.lanterns[0].pos, [1.235, 0, -9.877]);
 });
 
-test('Phase 1 safe-zone soak preserves safety, scheduled spawns and the configured Night 1 cap', () => {
-    const g = createGame(123, { ...quiet, random_shades: true, lanterns: [{ id: 'L1', pos: [0, 0, 0], lit: true }] });
-    let hits = 0;
-    for (let i = 0; i < 18000; i++) hits += step(g).filter(e => e.name === 'player_hit').length;
-    assert.equal(g.tick, 18000); assert.equal(g.state, 'lost'); assert.equal(snapshot(g).time_left_s, 0);
-    assert.equal(hits, 0); assert.equal(g.shades.length, 6);
-    assert.ok(g.shades.every(s => Math.hypot(s.pos[0], s.pos[2]) >= T.safe_radius - 1e-9));
-    assert.equal(g.events.at(-1).data.reason, 'dawn');
+test('Phase 3 supersedes the Phase 1 forever-lit safe-zone soak with finite lantern fuel', () => {
+    const g = createGame(123, { ...quiet, lanterns: [{ id: 'L1', pos: [0, 0, 0], lit: true, fuel: 1 }] });
+    for (let i = 0; i < 60; i++) step(g);
+    assert.equal(g.tick, 60); assert.equal(g.lanterns[0].lit, false); assert.equal(g.lanterns[0].fuelUnits, 0);
+    assert.ok(g.events.some(e => e.name === 'lantern_out'));
 });
 
 test('Phase 1 headless output retains interval snapshots, deterministic bytes and invalid-input exit 2', () => {

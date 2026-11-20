@@ -1,17 +1,7 @@
-name: Verify Phase 2 on Ubuntu
+name: Verify Phase 2 historical tag on Ubuntu
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - .github/workflows/verify-phase-2.yml
-      - game.contract.json
-      - package.json
-      - package-lock.json
-      - src/**
-      - tests/**
-      - scripts/verify-phase2.js
 
 permissions:
   contents: read
@@ -23,9 +13,10 @@ jobs:
     env:
       CI: 'true'
     steps:
-      - name: Checkout current revision
+      - name: Checkout immutable Phase 2 tag
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
+          ref: refs/tags/phase-2
           persist-credentials: false
 
       - name: Record environment
@@ -50,7 +41,7 @@ jobs:
           { node --version; npm --version; } 2>&1 | tee "$RUNNER_TEMP/phase2-ci/runtime.txt"
           npm ci 2>&1 | tee "$RUNNER_TEMP/phase2-ci/install.txt"
 
-      - name: Run tests, build, fixtures and full headless nights
+      - name: Run Phase 2 tests, build, fixtures and full headless nights
         run: node scripts/verify-phase2.js 2>&1 | tee "$RUNNER_TEMP/phase2-ci/verification.txt"
 
       - name: Smoke test production HTTP assets

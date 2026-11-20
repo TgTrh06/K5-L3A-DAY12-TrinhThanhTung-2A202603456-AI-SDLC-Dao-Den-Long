@@ -12,18 +12,27 @@ function validateScenario(s, inputs) {
     if (s.player !== undefined) {
         if (!object(s.player)) fail('player');
         for (const key of ['pos', 'vel', 'facing']) if (key in s.player && !vector(s.player[key], key === 'facing' ? 2 : 3)) fail(`player.${key}`);
-        for (const key of ['carried', 'flames', 'invuln_ticks', 'dash_cd_ticks', 'pulse_cd_ticks', 'charm_ticks']) if (key in s.player && !integer(s.player[key])) fail(`player.${key}`);
+        for (const key of ['carried', 'flames', 'successful_lights', 'invuln_ticks', 'dash_cd_ticks', 'pulse_cd_ticks', 'charm_ticks']) if (key in s.player && !integer(s.player[key])) fail(`player.${key}`);
     }
     if ('time_left_s' in s && (!number(s.time_left_s) || s.time_left_s < 0)) fail('time_left_s');
     if ('motes' in s && (!Array.isArray(s.motes) || !s.motes.every(m => vector(m, 3) || (object(m) && vector(m.pos, 3) && (m.id === undefined || validId(m.id)) && ['random', 'dropped'].includes(m.kind ?? 'random'))))) fail('motes');
-    for (const [key, states] of [['shades', ['spawning', 'wander', 'chase', 'recoil', 'stunned']], ['drifters', ['idle', 'chase', 'flee']]]) {
+    for (const [key, states] of [['shades', ['spawning', 'wander', 'chase', 'recoil', 'stunned', 'drain']], ['drifters', ['idle', 'chase', 'flee']]]) {
         if (key in s && (!Array.isArray(s[key]) || !s[key].every(x => object(x) && vector(x.pos, 3) && (x.id === undefined || validId(x.id)) && (x.state === undefined || states.includes(x.state)) && (x.state_ticks_left === undefined || integer(x.state_ticks_left))))) fail(key);
         if (key in s) { const ids = s[key].map(x => x.id).filter(Boolean); if (new Set(ids).size !== ids.length) fail(`duplicate ${key} id`); }
+        if (key === 'shades' && key in s && !s[key].every(x => x.target_lantern_id === undefined || x.target_lantern_id === null || /^L[1-7]$/.test(x.target_lantern_id))) fail('shades.target_lantern_id');
     }
     if ('charms' in s && (!Array.isArray(s.charms) || !s.charms.every(x => object(x) && (x.pos === undefined || vector(x.pos, 3)) && (x.available === undefined || typeof x.available === 'boolean') && (x.respawn_ticks === undefined || integer(x.respawn_ticks))))) fail('charms');
     if ('lanterns' in s) {
         if (!Array.isArray(s.lanterns)) fail('lanterns'); const ids = new Set();
-        for (const l of s.lanterns) { if (!object(l) || !/^L[1-7]$/.test(l.id) || ids.has(l.id)) fail('lantern id'); ids.add(l.id); if ('pos' in l && !vector(l.pos, 3)) fail('lantern.pos'); if ('deposited' in l && !integer(l.deposited)) fail('deposited'); if ('lit' in l && typeof l.lit !== 'boolean') fail('lit'); }
+        for (const l of s.lanterns) {
+            if (!object(l) || !/^L[1-7]$/.test(l.id) || ids.has(l.id)) fail('lantern id'); ids.add(l.id);
+            if ('pos' in l && !vector(l.pos, 3)) fail('lantern.pos');
+            if ('deposited' in l && !integer(l.deposited)) fail('deposited');
+            if ('lit' in l && typeof l.lit !== 'boolean') fail('lit');
+            if ('fuel' in l && (!number(l.fuel) || l.fuel < 0 || l.fuel > 100)) fail('lantern.fuel');
+            if ('ever_lit' in l && typeof l.ever_lit !== 'boolean') fail('lantern.ever_lit');
+            if ('relit_count' in l && !integer(l.relit_count)) fail('lantern.relit_count');
+        }
     }
     let last = -1;
     for (const f of inputs.frames) {

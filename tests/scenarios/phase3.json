@@ -1,0 +1,113 @@
+{
+  "cases": [
+    {
+      "name": "first-light",
+      "night": 1,
+      "ticks": 1,
+      "scenario": {
+        "random_motes": false,
+        "random_shades": false,
+        "random_drifters": false,
+        "wind_enabled": false,
+        "player": { "carried": 10 },
+        "lanterns": [{ "id": "L1", "pos": [0, 0, 0] }]
+      },
+      "inputs": { "frames": [{ "tick": 0, "interact": true }] },
+      "expect": {
+        "events": ["deposit", "lantern_lit"],
+        "state": "playing",
+        "lit": 1,
+        "fuel": 100,
+        "capacity": 12
+      }
+    },
+    {
+      "name": "refuel-rounding",
+      "night": 1,
+      "ticks": 1,
+      "scenario": {
+        "random_motes": false,
+        "random_shades": false,
+        "random_drifters": false,
+        "wind_enabled": false,
+        "player": { "carried": 3 },
+        "lanterns": [{ "id": "L1", "pos": [0, 0, 0], "lit": true, "fuel": 81.1 }]
+      },
+      "inputs": { "frames": [{ "tick": 0, "interact": true }] },
+      "expect": {
+        "events": ["refuel"],
+        "state": "playing",
+        "fuel": 100,
+        "score": 10,
+        "carried": 1
+      }
+    },
+    {
+      "name": "weak-lantern-drain",
+      "night": 1,
+      "ticks": 60,
+      "scenario": {
+        "random_motes": false,
+        "random_shades": false,
+        "random_drifters": false,
+        "wind_enabled": false,
+        "time_left_s": 3,
+        "player": { "pos": [25, 0, 0], "successful_lights": 3 },
+        "lanterns": [
+          { "id": "L1", "pos": [0, 0, 0], "lit": true, "fuel": 29.1 },
+          { "id": "L2", "pos": [10, 0, 0], "lit": true }
+        ],
+        "shades": [{ "id": "S1", "pos": [1, 0, 0], "state": "wander" }]
+      },
+      "inputs": { "frames": [] },
+      "expect": {
+        "events": ["fuel_drain"],
+        "state": "playing",
+        "target_lantern_id": "L1",
+        "fuel": 23.2,
+        "capacity": 16
+      }
+    },
+    {
+      "name": "dawn-survived",
+      "night": 1,
+      "ticks": 1,
+      "scenario": {
+        "random_motes": false,
+        "random_shades": false,
+        "random_drifters": false,
+        "wind_enabled": false,
+        "time_left_s": 0.016666666666666666,
+        "player": { "flames": 2 },
+        "lanterns": [
+          { "id": "L1", "pos": [20, 0, 0], "lit": true, "fuel": 50 },
+          { "id": "L2", "pos": [21, 0, 0], "lit": true, "fuel": 50 },
+          { "id": "L3", "pos": [22, 0, 0], "lit": true, "fuel": 50 }
+        ]
+      },
+      "inputs": { "frames": [] },
+      "expect": { "events": ["game_over"], "state": "won", "reason": "dawn_survived" }
+    },
+    {
+      "name": "dawn-no-flames-priority",
+      "night": 1,
+      "ticks": 1,
+      "scenario": {
+        "random_motes": false,
+        "random_shades": false,
+        "random_drifters": false,
+        "wind_enabled": false,
+        "time_left_s": 0.016666666666666666,
+        "player": { "flames": 1 },
+        "lanterns": [
+          { "id": "L1", "pos": [20, 0, 0], "lit": true, "fuel": 50 },
+          { "id": "L2", "pos": [21, 0, 0], "lit": true, "fuel": 50 },
+          { "id": "L3", "pos": [22, 0, 0], "lit": true, "fuel": 50 }
+        ],
+        "shades": [{ "id": "S1", "pos": [0, 0, 0], "state": "wander" }]
+      },
+      "inputs": { "frames": [] },
+      "expect": { "events": ["player_hit", "game_over"], "state": "lost", "reason": "no_flames" }
+    }
+  ]
+}

@@ -98,3 +98,20 @@ Do not mark later phases complete until their released tickets are implemented.
 - The browser now shows shades in the production scene and settings survived a
   reload. These checks do not replace a human campaign win or listening to sound.
   The Phase 2 Ubuntu workflow remains prepared but unpushed/unrun.
+
+## Phase 3 — Change request evaluation
+
+- Ticket-03 replaces both victory and lantern state, so the core now owns fuel,
+  ever-lit history, relight count and shade drain targets in integer 1/60 units.
+  Rendering only reads these values; low-fuel blinking derives from `sim_tick`.
+- Test-first work caught stale Phase 1/2 assertions for the 300-second safe-zone
+  soak, old score and immediate all-lit victory. They now assert finite fuel and
+  dawn rules; movement, maps, combat, pause, deterministic CLI and Phase 2 feature
+  tests continue to run.
+- A full lantern set no longer ends the night. Dawn scoring uses active fuel and
+  remaining flames; `no_flames` takes terminal priority. ADR-0003 records tick
+  ordering, scenario defaults and full-lamp selection.
+- Local unit/headless verification passes on Windows. A limited production-preview
+  browser smoke check verified menu, Night 1 HUD and color-palette persistence;
+  fuel-bar/low-fuel visuals and a complete manual campaign remain open. Ubuntu
+  Actions is configured but has not run because the changes have not been pushed.

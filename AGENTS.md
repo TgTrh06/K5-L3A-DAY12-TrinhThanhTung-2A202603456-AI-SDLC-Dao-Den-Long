@@ -26,3 +26,18 @@ Never commit secrets, `.env`, `node_modules` or unlicensed assets.
   DPR and raw samples. Do not claim an unmeasured 30 FPS result.
 - Reuse or dispose renderer resources on entity removal. No new dependencies
   without an approved plan.
+
+## Phase 3 harness
+
+- Contract is v1.2. Read `docs/phases/phase-3-spec.md` and
+  `docs/adr/0003-fuel-and-dawn.md` before changing lantern, shade, score or
+  terminal rules.
+- Run `npm test`, `npm run build`, then `npm run verify:phase3`.
+- The Phase 3 verifier writes only to `docs/evidence/phase-3-final/`. Preserve
+  Phase 1 and Phase 2 tags and evidence unchanged.
+- `tests/scenarios/phase3.json` is the deterministic contract fixture catalog;
+  keep assertions for each new headless feature.
+- The Phase 2 Ubuntu workflow checks out `phase-2` manually. Current branch
+  changes run through the Phase 3 workflow.
+- Dawn priority is `no_flames`, then `dawn_survived` or `dawn`. Do not reintroduce
+  `all_lit` or the old time bonus.

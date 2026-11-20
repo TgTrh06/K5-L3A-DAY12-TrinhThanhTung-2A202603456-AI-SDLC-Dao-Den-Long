@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { createAudio, loadSensitivity, saveSensitivity } from '../src/audio.js';
+import { createAudio, loadSensitivity, saveSensitivity, loadDistinctPalette, saveDistinctPalette } from '../src/audio.js';
 
 test('volume and mouse sensitivity settings survive a new audio/settings instance', () => {
     const values = new Map();
@@ -18,6 +18,10 @@ test('volume and mouse sensitivity settings survive a new audio/settings instanc
         assert.equal(loadSensitivity(), 0.85);
         assert.equal(saveSensitivity(10), 1.2);
         assert.equal(saveSensitivity(0), 0.1);
+        assert.equal(loadDistinctPalette(), false);
+        assert.equal(saveDistinctPalette(true), true);
+        assert.equal(loadDistinctPalette(), true);
+        assert.equal(createAudio().volume, 0.72);
     } finally {
         if (original) Object.defineProperty(globalThis, 'localStorage', original);
         else delete globalThis.localStorage;

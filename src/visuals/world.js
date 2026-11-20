@@ -7,7 +7,7 @@ export function syncEntityPosition(object, entity, verticalOffset = 0) {
 }
 import { paperTexture, cloudTexture, skyTexture, glowTexture, groundTexture, randomSource } from './paint.js';
 
-export function createWorld(renderer, scene, tuning, initialGame) {
+export function createWorld(renderer, scene, tuning, initialGame, getDistinctPalette = () => false) {
     const random = randomSource(99), glow = glowTexture();
     renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.1;
     scene.fog = new THREE.FogExp2('#1B2350', .006);
@@ -153,10 +153,18 @@ export function createWorld(renderer, scene, tuning, initialGame) {
         const light = new THREE.PointLight('#FFB347', 0, 17, 1.5); light.position.set(.9, 2.2, 0); p.add(light);
         const safe = mesh(p, new THREE.RingGeometry(tuning.safe_radius - .04, tuning.safe_radius, 80), new THREE.MeshBasicMaterial({ color: '#d8bc7e', transparent: true, opacity: .16, side: THREE.DoubleSide }), 0, .02);
         safe.rotation.x = -Math.PI / 2;
+        const tear = new THREE.LineSegments(new THREE.BufferGeometry(), new THREE.LineBasicMaterial({ color: '#372b2c', linewidth: 2 }));
+        tear.geometry.setAttribute('position', new THREE.Float32BufferAttribute([.8, 2.38, -.55, 1, 2.23, -.61, 1.08, 2.08, -.56, .96, 1.94, -.52], 3));
+        p.add(tear);
+        const fuelBar = new THREE.Group(); p.add(fuelBar);
+        const barBack = mesh(fuelBar, new THREE.PlaneGeometry(1.45, .14), new THREE.MeshBasicMaterial({ color: '#111827', transparent: true, opacity: .86 }), 0, 0, 0);
+        const barFill = mesh(fuelBar, new THREE.PlaneGeometry(1.37, .07), new THREE.MeshBasicMaterial({ color: '#F2C14E' }), 0, 0, .01);
+        fuelBar.position.set(.9, 3.35, 0); fuelBar.visible = false;
+        fuelBar.userData.parts = { back: barBack, fill: barFill };
         const plaque = document.createElement('canvas'); plaque.width = 128; plaque.height = 128;
         const ctx = plaque.getContext('2d'); ctx.fillStyle = '#FFE9B0'; ctx.font = '48px Georgia'; ctx.textAlign = 'center'; ctx.fillText(l.id.slice(1).padStart(2, '0'), 64, 82);
         const label = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(plaque), transparent: true, depthWrite: false })); label.position.set(0, 3.4, 0); label.scale.set(.75, .75, 1); p.add(label);
-        p.userData.parts = { bulb, aura, light, safe }; p.userData.dispose = () => {
+        p.userData.parts = { bulb, aura, light, safe, tear, fuelBar }; p.userData.dispose = () => {
             p.traverse(o => { o.geometry?.dispose(); if (o.material) { const mats = Array.isArray(o.material) ? o.material : [o.material]; for (const m of mats) { m.map?.dispose(); m.dispose(); } } });
         };
         return p;
@@ -192,10 +200,19 @@ export function createWorld(renderer, scene, tuning, initialGame) {
             playerGlow.material.opacity = .45 + (reduceMotion ? 0 : Math.sin(time * 3) * .06);
             sync(lanterns, g.lanterns, createLantern);
             lanterns.children.forEach((root, i) => {
-                const l = root.userData.parts, lit = g.lanterns[i].lit; root.position.fromArray(g.lanterns[i].pos);
+                const l = root.userData.parts, entity = g.lanterns[i], lit = entity.lit;
+                const lowFuel = lit && entity.fuelUnits < tuning.low_fuel_threshold * tuning.tick_rate;
+                const blink = !lowFuel || Math.floor(g.simTick / 30) % 2 === 0;
+                root.position.fromArray(entity.pos);
                 l.bulb.material.color.set(lit ? '#FFE9B0' : '#5B5F6E');
-                l.bulb.material.emissiveIntensity = lit ? 1.4 : .07; l.aura.material.opacity = lit ? .7 : .08;
-                l.light.intensity = lit ? 22 : 0; l.safe.material.opacity = lit ? .55 : .1;
+                l.bulb.scale.y = lit ? 1.2 : .96; l.bulb.visible = !lit || blink;
+                l.bulb.material.emissiveIntensity = lit && blink ? 1.4 : .07; l.aura.material.opacity = lit && blink ? .7 : .08;
+                l.light.intensity = lit && blink ? 22 : 0; l.safe.material.opacity = entity.fuelUnits >= tuning.low_fuel_threshold * tuning.tick_rate && lit ? .55 : .1;
+                l.tear.visible = !lit; l.fuelBar.visible = lit && blink;
+                const ratio = Math.max(0, Math.min(1, entity.fuelUnits / (tuning.fuel_max * tuning.tick_rate)));
+                l.fuelBar.position.set(.9, 3.35, 0); l.fuelBar.lookAt(player.position);
+                l.fuelBar.userData.parts.fill.scale.x = ratio;
+                l.fuelBar.userData.parts.fill.position.x = -.685 * (1 - ratio);
             });
             sync(motes, g.motes, () => { const p = new THREE.Group(); mesh(p, moteGeo, moteMat); const glow = sprite(p, 1.3, .7); p.userData.dispose = () => glow.material.dispose(); return p; });
             g.motes.forEach((m, i) => { const p = motes.children[i]; p.position.fromArray(m.pos); p.position.y += .65 + (reduceMotion ? 0 : Math.sin(time * 1.7 + i * 3) * .14); });
@@ -210,7 +227,9 @@ export function createWorld(renderer, scene, tuning, initialGame) {
                 const p = shades.children[i]; syncEntityPosition(p, s, .9);
                 p.lookAt(player.position.x, p.position.y, player.position.z); p.rotation.y += Math.PI;
                 const stunned = s.state === 'stunned'; p.children[2].rotation.z = stunned ? Math.PI / 4 : 0;
-                p.children[1].material.color.set(stunned ? '#3A3450' : '#7A3CFF');
+                const shadeColor = getDistinctPalette() ? '#00B3FF' : '#7A3CFF';
+                p.children[0].material.emissive.set(shadeColor); p.children[1].material.color.set(stunned ? '#3A3450' : shadeColor);
+                p.children[2].children.forEach(eye => eye.material.color.set(shadeColor));
             });
             sync(drifters, g.drifters, () => { const ribbon = new THREE.Group(); const cloth = mesh(ribbon, drifterGeometry, drifterMaterial); cloth.rotation.y = Math.PI / 4; cloth.rotation.x = -.3; const halo = sprite(ribbon, 1.8, .18); ribbon.userData.halo = halo; return ribbon; });
             g.drifters.forEach((d, i) => {

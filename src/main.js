@@ -3,19 +3,21 @@ import { createGame, step, T, NIGHT } from './core.js';
 import { createWorld } from './visuals/world.js';
 import { createHUD } from './visuals/hud.js';
 import { readKeyboard } from './input.js';
-import { createAudio, loadSensitivity, saveSensitivity } from './audio.js';
+import { createAudio, loadSensitivity, saveSensitivity, loadDistinctPalette, saveDistinctPalette } from './audio.js';
 import './style.css';
 
 let yaw = 0, accumulator = 0, last = 0, screen = 'menu', previousScreen = 'menu';
 let currentNight = 1, campaignScore = 0, g = createGame(12, {}, 1);
 const keys = new Set(), pending = new Set(), audio = createAudio();
+let distinctPalette = loadDistinctPalette();
+document.documentElement.classList.toggle('distinct-palette', distinctPalette);
 const scene = new THREE.Scene();
 const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
 renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5)); renderer.setSize(innerWidth, innerHeight);
 renderer.domElement.setAttribute('aria-label', 'Đảo Đèn Lồng — cảnh game 3D, điều khiển bằng bàn phím');
 renderer.domElement.tabIndex = 0; document.body.prepend(renderer.domElement);
 const camera = new THREE.PerspectiveCamera(60, 1, .1, 400);
-const world = createWorld(renderer, scene, T, g), hud = createHUD(T);
+const world = createWorld(renderer, scene, T, g, () => distinctPalette), hud = createHUD(T, () => distinctPalette);
 if (new URLSearchParams(location.search).has('metrics')) import('./metrics.js').then(({ attachMetrics }) => attachMetrics(renderer));
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
 let verification;
@@ -31,20 +33,20 @@ function buildNight(night, mode = 'intro') {
     currentNight = night; g = createGame(12, {}, night); g.campaignScore = campaignScore;
     const config = NIGHT[night]; byId('intro-night-label').textContent = `ĐÊM 0${night} · ${config.name.toLocaleUpperCase('vi')}`;
     byId('intro-title').textContent = config.name;
-    byId('intro-copy').textContent = night === 1 ? 'Đêm đầu tiên, Mây rời bến để đánh thức năm ngọn đèn.' : night === 2 ? 'Hai đảo và một cầu tre đang chờ. Dùng bục nhảy để vượt biển mây.' : 'Ba tầng của đảo chuông bị gió lớn bao phủ. Hãy tìm đường lên đỉnh.';
+    byId('intro-copy').textContent = night === 1 ? 'Đêm đầu tiên, Mây rời bến để thắp đèn và giữ đảo sáng tới bình minh.' : night === 2 ? 'Hai đảo và một cầu tre đang chờ. Giữ ít nhất bốn ngọn đèn sáng tới bình minh.' : 'Ba tầng đảo chuông bị gió lớn bao phủ. Giữ ít nhất năm ngọn đèn sáng tới bình minh.';
     hud.update(g); verification?.reset(); setScreen(mode);
 }
 function startNight() { audio.unlock(); audio.startNight(currentNight); setScreen('playing'); }
 function retryNight() { buildNight(currentNight, 'playing'); audio.startNight(currentNight); }
-function openSettings() { previousScreen = screen; byId('volume').value = audio.volume; byId('sensitivity').value = loadSensitivity(); setScreen('settings'); }
+function openSettings() { previousScreen = screen; byId('volume').value = audio.volume; byId('sensitivity').value = loadSensitivity(); byId('distinct-palette').checked = distinctPalette; setScreen('settings'); }
 function showResult() {
     if (g.state === 'won' && currentNight === 3) {
         campaignScore = g.campaignScore; byId('campaign-score').textContent = `${campaignScore} điểm toàn hành trình`; setScreen('dawn'); return;
     }
     if (g.state === 'won') campaignScore = g.campaignScore;
     byId('result-label').textContent = `ĐÊM 0${currentNight} · ${NIGHT[currentNight].name.toLocaleUpperCase('vi')}`;
-    byId('result-title').textContent = g.state === 'won' ? 'Ngọn đèn đã sáng' : 'Đêm nay khép lại';
-    byId('result-copy').textContent = g.state === 'won' ? 'Ánh sáng soi đường tới hòn đảo tiếp theo.' : 'Mây có thể thử lại đêm này khi đã sẵn sàng.';
+    byId('result-title').textContent = g.state === 'won' ? 'Bình minh đã tới' : 'Đêm nay khép lại';
+    byId('result-copy').textContent = g.state === 'won' ? `Mây đã giữ ${g.lanterns.filter(l => l.lit).length} ngọn đèn sáng qua đêm.` : 'Mây có thể thử lại đêm này khi đã sẵn sàng.';
     byId('night-score').textContent = `${g.score} điểm · ${g.lanterns.filter(l => l.lit).length}/${g.lanterns.length} đèn`;
     byId('result-primary').textContent = g.state === 'won' ? 'Tiếp tục hành trình' : 'Thử lại đêm';
     byId('result-primary').onclick = () => g.state === 'won' ? buildNight(currentNight + 1, 'intro') : retryNight();
@@ -61,6 +63,10 @@ byId('open-settings-menu').onclick = openSettings; byId('open-settings-pause').o
 byId('close-settings').onclick = () => setScreen(previousScreen);
 byId('volume').oninput = e => audio.setVolume(e.target.value);
 byId('sensitivity').oninput = e => { saveSensitivity(e.target.value); };
+byId('distinct-palette').onchange = e => {
+    distinctPalette = saveDistinctPalette(e.target.checked);
+    document.documentElement.classList.toggle('distinct-palette', distinctPalette);
+};
 byId('result-menu').onclick = returnToMenu; byId('dawn-menu').onclick = returnToMenu;
 byId('dawn-restart').onclick = () => { campaignScore = 0; buildNight(1, 'intro'); };
 setScreen('menu');
