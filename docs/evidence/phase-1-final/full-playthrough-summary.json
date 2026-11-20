@@ -1,0 +1,12 @@
+{
+  "seed": 12,
+  "initialScenario": "unmodified default game",
+  "driver": "state-observing simulation input controller; NOT browser play",
+  "result": "won",
+  "ticks": 2414,
+  "score": 1429,
+  "lit": 5,
+  "pickups": 57,
+  "hits": 3,
+  "flamesLeft": 2
+}

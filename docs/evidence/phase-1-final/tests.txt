@@ -1,0 +1,427 @@
+TAP version 13
+# Subtest: contract declaration equals actual runtime tuning
+ok 1 - contract declaration equals actual runtime tuning
+  ---
+  duration_ms: 5.0455
+  ...
+# Subtest: zero steps: only tick-zero snapshot and mandatory final end
+ok 2 - zero steps: only tick-zero snapshot and mandatory final end
+  ---
+  duration_ms: 117.8147
+  ...
+# Subtest: snapshots interval, N steps and time agree exactly
+ok 3 - snapshots interval, N steps and time agree exactly
+  ---
+  duration_ms: 125.0507
+  ...
+# Subtest: partial frames preserve movement and yaw; edges trigger only once
+ok 4 - partial frames preserve movement and yaw; edges trigger only once
+  ---
+  duration_ms: 120.8704
+  ...
+# Subtest: setup emits no events/points; pickup-deposit-lit-win events use k+1
+ok 5 - setup emits no events/points; pickup-deposit-lit-win events use k+1
+  ---
+  duration_ms: 158.0864
+  ...
+# Subtest: score independently counts collection, deposit and exact-second victory bonus
+ok 6 - score independently counts collection, deposit and exact-second victory bonus
+  ---
+  duration_ms: 3.87
+  ...
+# Subtest: snapshot rounds every reported position to 3 decimal places
+ok 7 - snapshot rounds every reported position to 3 decimal places
+  ---
+  duration_ms: 1.5169
+  ...
+# Subtest: pickup radius boundary offset -0.00001
+ok 8 - pickup radius boundary offset -0.00001
+  ---
+  duration_ms: 0.7189
+  ...
+# Subtest: interaction radius boundary offset -0.00001
+ok 9 - interaction radius boundary offset -0.00001
+  ---
+  duration_ms: 3.0368
+  ...
+# Subtest: pulse radius boundary offset -0.00001
+ok 10 - pulse radius boundary offset -0.00001
+  ---
+  duration_ms: 1.6371
+  ...
+# Subtest: shade hit radius after chase offset -0.00001
+ok 11 - shade hit radius after chase offset -0.00001
+  ---
+  duration_ms: 0.6774
+  ...
+# Subtest: pickup radius boundary offset 0
+ok 12 - pickup radius boundary offset 0
+  ---
+  duration_ms: 0.5097
+  ...
+# Subtest: interaction radius boundary offset 0
+ok 13 - interaction radius boundary offset 0
+  ---
+  duration_ms: 0.451
+  ...
+# Subtest: pulse radius boundary offset 0
+ok 14 - pulse radius boundary offset 0
+  ---
+  duration_ms: 0.406
+  ...
+# Subtest: shade hit radius after chase offset 0
+ok 15 - shade hit radius after chase offset 0
+  ---
+  duration_ms: 0.3139
+  ...
+# Subtest: pickup radius boundary offset 0.00001
+ok 16 - pickup radius boundary offset 0.00001
+  ---
+  duration_ms: 0.3127
+  ...
+# Subtest: interaction radius boundary offset 0.00001
+ok 17 - interaction radius boundary offset 0.00001
+  ---
+  duration_ms: 0.294
+  ...
+# Subtest: pulse radius boundary offset 0.00001
+ok 18 - pulse radius boundary offset 0.00001
+  ---
+  duration_ms: 0.5424
+  ...
+# Subtest: shade hit radius after chase offset 0.00001
+ok 19 - shade hit radius after chase offset 0.00001
+  ---
+  duration_ms: 0.2516
+  ...
+# Subtest: CLI byte determinism with scenario, held controls and action edges
+ok 20 - CLI byte determinism with scenario, held controls and action edges
+  ---
+  duration_ms: 235.3818
+  ...
+# Subtest: invalid inputs 0: exit 2, stderr, no successful end
+ok 21 - invalid inputs 0: exit 2, stderr, no successful end
+  ---
+  duration_ms: 76.097
+  ...
+# Subtest: invalid inputs 1: exit 2, stderr, no successful end
+ok 22 - invalid inputs 1: exit 2, stderr, no successful end
+  ---
+  duration_ms: 87.0568
+  ...
+# Subtest: invalid inputs 2: exit 2, stderr, no successful end
+ok 23 - invalid inputs 2: exit 2, stderr, no successful end
+  ---
+  duration_ms: 92.675
+  ...
+# Subtest: invalid inputs 3: exit 2, stderr, no successful end
+ok 24 - invalid inputs 3: exit 2, stderr, no successful end
+  ---
+  duration_ms: 82.2675
+  ...
+# Subtest: invalid inputs 4: exit 2, stderr, no successful end
+ok 25 - invalid inputs 4: exit 2, stderr, no successful end
+  ---
+  duration_ms: 105.2325
+  ...
+# Subtest: invalid inputs 5: exit 2, stderr, no successful end
+ok 26 - invalid inputs 5: exit 2, stderr, no successful end
+  ---
+  duration_ms: 95.7351
+  ...
+# Subtest: invalid inputs 6: exit 2, stderr, no successful end
+ok 27 - invalid inputs 6: exit 2, stderr, no successful end
+  ---
+  duration_ms: 104.3268
+  ...
+# Subtest: invalid inputs 7: exit 2, stderr, no successful end
+ok 28 - invalid inputs 7: exit 2, stderr, no successful end
+  ---
+  duration_ms: 90.7859
+  ...
+# Subtest: invalid inputs 8: exit 2, stderr, no successful end
+ok 29 - invalid inputs 8: exit 2, stderr, no successful end
+  ---
+  duration_ms: 91.9429
+  ...
+# Subtest: invalid inputs 9: exit 2, stderr, no successful end
+ok 30 - invalid inputs 9: exit 2, stderr, no successful end
+  ---
+  duration_ms: 93.1965
+  ...
+# Subtest: invalid inputs 10: exit 2, stderr, no successful end
+ok 31 - invalid inputs 10: exit 2, stderr, no successful end
+  ---
+  duration_ms: 99.8321
+  ...
+# Subtest: invalid inputs 11: exit 2, stderr, no successful end
+ok 32 - invalid inputs 11: exit 2, stderr, no successful end
+  ---
+  duration_ms: 84.5824
+  ...
+# Subtest: invalid scenario text "{"
+ok 33 - invalid scenario text "{"
+  ---
+  duration_ms: 84.6899
+  ...
+# Subtest: invalid scenario text "﻿{invalid"
+ok 34 - invalid scenario text "﻿{invalid"
+  ---
+  duration_ms: 89.8172
+  ...
+# Subtest: invalid scenario text "true"
+ok 35 - invalid scenario text "true"
+  ---
+  duration_ms: 90.6509
+  ...
+# Subtest: malformed input JSON exits 2; BOM is accepted for valid JSON
+ok 36 - malformed input JSON exits 2; BOM is accepted for valid JSON
+  ---
+  duration_ms: 223.8944
+  ...
+# Subtest: dawn ends on exact configured tick and end is written once
+ok 37 - dawn ends on exact configured tick and end is written once
+  ---
+  duration_ms: 103.6183
+  ...
+# Subtest: invalid scenario 0: exit 2 and stderr
+ok 38 - invalid scenario 0: exit 2 and stderr
+  ---
+  duration_ms: 87.7961
+  ...
+# Subtest: invalid scenario 1: exit 2 and stderr
+ok 39 - invalid scenario 1: exit 2 and stderr
+  ---
+  duration_ms: 85.7657
+  ...
+# Subtest: invalid scenario 2: exit 2 and stderr
+ok 40 - invalid scenario 2: exit 2 and stderr
+  ---
+  duration_ms: 82.423
+  ...
+# Subtest: invalid scenario 3: exit 2 and stderr
+ok 41 - invalid scenario 3: exit 2 and stderr
+  ---
+  duration_ms: 92.6432
+  ...
+# Subtest: invalid scenario 4: exit 2 and stderr
+ok 42 - invalid scenario 4: exit 2 and stderr
+  ---
+  duration_ms: 102.229
+  ...
+# Subtest: invalid scenario 5: exit 2 and stderr
+ok 43 - invalid scenario 5: exit 2 and stderr
+  ---
+  duration_ms: 100.0781
+  ...
+# Subtest: invalid scenario 6: exit 2 and stderr
+ok 44 - invalid scenario 6: exit 2 and stderr
+  ---
+  duration_ms: 92.6426
+  ...
+# Subtest: invalid scenario 7: exit 2 and stderr
+ok 45 - invalid scenario 7: exit 2 and stderr
+  ---
+  duration_ms: 85.9708
+  ...
+# Subtest: invalid scenario 8: exit 2 and stderr
+ok 46 - invalid scenario 8: exit 2 and stderr
+  ---
+  duration_ms: 126.2417
+  ...
+# Subtest: invalid scenario 9: exit 2 and stderr
+ok 47 - invalid scenario 9: exit 2 and stderr
+  ---
+  duration_ms: 108.4993
+  ...
+# Subtest: invalid scenario 10: exit 2 and stderr
+ok 48 - invalid scenario 10: exit 2 and stderr
+  ---
+  duration_ms: 96.3275
+  ...
+# Subtest: invalid scenario 11: exit 2 and stderr
+ok 49 - invalid scenario 11: exit 2 and stderr
+  ---
+  duration_ms: 86.5181
+  ...
+# Subtest: invalid scenario 12: exit 2 and stderr
+ok 50 - invalid scenario 12: exit 2 and stderr
+  ---
+  duration_ms: 79.9715
+  ...
+# Subtest: invalid scenario 13: exit 2 and stderr
+ok 51 - invalid scenario 13: exit 2 and stderr
+  ---
+  duration_ms: 78.0847
+  ...
+# Subtest: invalid scenario 14: exit 2 and stderr
+ok 52 - invalid scenario 14: exit 2 and stderr
+  ---
+  duration_ms: 82.8929
+  ...
+# Subtest: no input file means stationary player, no scenario uses default game
+ok 53 - no input file means stationary player, no scenario uses default game
+  ---
+  duration_ms: 89.8198
+  ...
+# Subtest: five default lanterns, setup overrides and no setup events
+ok 54 - five default lanterns, setup overrides and no setup events
+  ---
+  duration_ms: 2.8219
+  ...
+# Subtest: shade speed and exact horizontal hit boundary
+ok 55 - shade speed and exact horizontal hit boundary
+  ---
+  duration_ms: 2.8198
+  ...
+# Subtest: interaction range boundary and partial carry remainder
+ok 56 - interaction range boundary and partial carry remainder
+  ---
+  duration_ms: 1.5568
+  ...
+# Subtest: held pulse does not retrigger; cooldown allows a later edge
+ok 57 - held pulse does not retrigger; cooldown allows a later edge
+  ---
+  duration_ms: 0.6179
+  ...
+# Subtest: stun expires and chase resumes
+ok 58 - stun expires and chase resumes
+  ---
+  duration_ms: 0.9647
+  ...
+# Subtest: movement, yaw, normalized diagonal and exact clock
+ok 59 - movement, yaw, normalized diagonal and exact clock
+  ---
+  duration_ms: 1.9926
+  ...
+# Subtest: pickup boundary, capacity and scenario has no score
+ok 60 - pickup boundary, capacity and scenario has no score
+  ---
+  duration_ms: 0.4882
+  ...
+# Subtest: partial deposit and interaction edge
+ok 61 - partial deposit and interaction edge
+  ---
+  duration_ms: 0.4742
+  ...
+# Subtest: win and terminal state
+ok 62 - win and terminal state
+  ---
+  duration_ms: 1.2458
+  ...
+# Subtest: shade hit, drop, invulnerability, no flames loss
+ok 63 - shade hit, drop, invulnerability, no flames loss
+  ---
+  duration_ms: 1.4534
+  ...
+# Subtest: pulse push/stun and cooldown edges
+ok 64 - pulse push/stun and cooldown edges
+  ---
+  duration_ms: 1.6964
+  ...
+# Subtest: safe radius and jump returns to ground
+ok 65 - safe radius and jump returns to ground
+  ---
+  duration_ms: 0.694
+  ...
+# Subtest: dawn, deterministic random generation and rounded snapshot
+ok 66 - dawn, deterministic random generation and rounded snapshot
+  ---
+  duration_ms: 23.0582
+  ...
+# Subtest: CLI snapshots, byte determinism and invalid scenario exit 2
+ok 67 - CLI snapshots, byte determinism and invalid scenario exit 2
+  ---
+  duration_ms: 350.8851
+  ...
+# Subtest: KeyA projects left on actual camera at yaw 0
+ok 68 - KeyA projects left on actual camera at yaw 0
+  ---
+  duration_ms: 7.2761
+  ...
+# Subtest: ArrowLeft projects left on actual camera at yaw 0
+ok 69 - ArrowLeft projects left on actual camera at yaw 0
+  ---
+  duration_ms: 0.675
+  ...
+# Subtest: KeyD projects right on actual camera at yaw 0
+ok 70 - KeyD projects right on actual camera at yaw 0
+  ---
+  duration_ms: 0.642
+  ...
+# Subtest: ArrowRight projects right on actual camera at yaw 0
+ok 71 - ArrowRight projects right on actual camera at yaw 0
+  ---
+  duration_ms: 0.5249
+  ...
+# Subtest: KeyA projects left on actual camera at yaw 90
+ok 72 - KeyA projects left on actual camera at yaw 90
+  ---
+  duration_ms: 0.5849
+  ...
+# Subtest: ArrowLeft projects left on actual camera at yaw 90
+ok 73 - ArrowLeft projects left on actual camera at yaw 90
+  ---
+  duration_ms: 0.4763
+  ...
+# Subtest: KeyD projects right on actual camera at yaw 90
+ok 74 - KeyD projects right on actual camera at yaw 90
+  ---
+  duration_ms: 0.503
+  ...
+# Subtest: ArrowRight projects right on actual camera at yaw 90
+ok 75 - ArrowRight projects right on actual camera at yaw 90
+  ---
+  duration_ms: 0.4968
+  ...
+# Subtest: KeyA projects left on actual camera at yaw 180
+ok 76 - KeyA projects left on actual camera at yaw 180
+  ---
+  duration_ms: 1.5266
+  ...
+# Subtest: ArrowLeft projects left on actual camera at yaw 180
+ok 77 - ArrowLeft projects left on actual camera at yaw 180
+  ---
+  duration_ms: 0.9542
+  ...
+# Subtest: KeyD projects right on actual camera at yaw 180
+ok 78 - KeyD projects right on actual camera at yaw 180
+  ---
+  duration_ms: 0.5223
+  ...
+# Subtest: ArrowRight projects right on actual camera at yaw 180
+ok 79 - ArrowRight projects right on actual camera at yaw 180
+  ---
+  duration_ms: 0.2806
+  ...
+# Subtest: quick movement tap survives keyup before the next tick then clears
+ok 80 - quick movement tap survives keyup before the next tick then clears
+  ---
+  duration_ms: 1.201
+  ...
+# Subtest: diagonal keys normalize in simulation and action taps persist for one tick
+ok 81 - diagonal keys normalize in simulation and action taps persist for one tick
+  ---
+  duration_ms: 0.5372
+  ...
+# Subtest: default seed12: collect from empty inventory, light all five, win with legal inputs
+ok 82 - default seed12: collect from empty inventory, light all five, win with legal inputs
+  ---
+  duration_ms: 126.6553
+  ...
+# Subtest: 300-second safe-zone soak: full duration, spawns continue, no damage in safe zone
+ok 83 - 300-second safe-zone soak: full duration, spawns continue, no damage in safe zone
+  ---
+  duration_ms: 561.2769
+  ...
+1..83
+# tests 83
+# suites 0
+# pass 83
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4150.3038
+
+exit_code=0

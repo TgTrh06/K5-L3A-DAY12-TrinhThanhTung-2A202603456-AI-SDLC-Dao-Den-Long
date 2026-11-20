@@ -1,0 +1,76 @@
+{
+  "generatedAt": "2026-11-20T09:36:41.531Z",
+  "platform": "win32",
+  "arch": "x64",
+  "node": "v22.12.0",
+  "commands": [
+    {
+      "label": "tests",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "--test"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "build",
+      "command": [
+        "npm.cmd",
+        "run",
+        "build"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "full-playthrough",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "scripts/full-playthrough.js"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "headless-a",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "src/headless.js",
+        "--seed",
+        "12",
+        "--night",
+        "1",
+        "--ticks",
+        "18000",
+        "--inputs",
+        "docs/evidence/phase-1-final/full-playthrough-inputs.json",
+        "--snapshot-every",
+        "10",
+        "--out",
+        "docs/evidence/phase-1-final/headless-a.jsonl"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "headless-b",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "src/headless.js",
+        "--seed",
+        "12",
+        "--night",
+        "1",
+        "--ticks",
+        "18000",
+        "--inputs",
+        "docs/evidence/phase-1-final/full-playthrough-inputs.json",
+        "--snapshot-every",
+        "10",
+        "--out",
+        "docs/evidence/phase-1-final/headless-b.jsonl"
+      ],
+      "exitCode": 0
+    }
+  ],
+  "deterministicByteCompare": "pass",
+  "controllerVsCliEventsAndEnd": "pass",
+  "note": "Local verification; no hidden tests, no Linux or manual-browser victory claim."
+}

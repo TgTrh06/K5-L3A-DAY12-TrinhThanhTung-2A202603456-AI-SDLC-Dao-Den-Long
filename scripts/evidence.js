@@ -1,0 +1,15 @@
+import fs from 'node:fs'; import { spawnSync } from 'node:child_process'; import { createGame, step, snapshot, T } from '../src/core.js'; import assert from 'node:assert/strict'; import { createHash } from 'node:crypto';
+const dir = 'docs/evidence/phase-1'; fs.mkdirSync(dir, { recursive: true });
+assert.deepEqual(JSON.parse(fs.readFileSync('game.contract.json')).tuning, T);
+function run(name, args) { const r = spawnSync(process.execPath, args, { encoding: 'utf8' }); fs.writeFileSync(`${dir}/${name}.txt`, r.stdout + r.stderr + `\nexit_code=${r.status}\n`); if (r.status !== 0) throw new Error(name); return r; }
+run('test-results', ['--test']);
+const base = { random_motes: false, random_shades: false };
+const cases = { win: { ...base, player: { carried: 10 }, lanterns: Array.from({ length: 5 }, (_, i) => ({ id: `L${i + 1}`, pos: [0, 0, 0], lit: i > 0 })) }, 'loss-dawn': { ...base, time_left_s: 1 / 60 }, 'loss-hit': { ...base, player: { flames: 1 }, shades: [{ pos: [0, 0, 0] }] } };
+for (const [name, scenario] of Object.entries(cases)) { fs.writeFileSync(`${dir}/${name}-scenario.json`, JSON.stringify(scenario, null, 2)); fs.writeFileSync(`${dir}/${name}-inputs.json`, JSON.stringify({ frames: name === 'win' ? [{ tick: 0, interact: true }] : [] })); run(name, ['src/headless.js', '--seed', '12', '--night', '1', '--ticks', '600', '--scenario', `${dir}/${name}-scenario.json`, '--inputs', `${dir}/${name}-inputs.json`, '--out', `${dir}/${name}-run.jsonl`]); }
+for (const n of ['a', 'b']) run(`deterministic-${n}`, ['src/headless.js', '--seed', '42', '--night', '1', '--ticks', '3600', '--out', `${dir}/deterministic-run-${n}.jsonl`]);
+assert.equal(fs.readFileSync(`${dir}/deterministic-run-a.jsonl`, 'utf8'), fs.readFileSync(`${dir}/deterministic-run-b.jsonl`, 'utf8'));
+const start = performance.now(); const g = createGame(42, base); for (let i = 0; i < 18000; i++)step(g); const ms = performance.now() - start;
+fs.writeFileSync(`${dir}/environment.md`, `# Runtime evidence\n\nGenerated UTC: ${new Date().toISOString()}\nNode: ${process.version}\nHost: ${process.platform}/${process.arch}\nContract tuning equals shared core: PASS\nDeterministic byte comparison: PASS\n18000 simulation steps: ${ms.toFixed(2)} ms\nFinal state: ${snapshot(g).state}\n`);
+console.log('Evidence generated; tuning and deterministic comparisons passed.');
+const build = spawnSync(process.platform === 'win32' ? 'npm.cmd' : 'npm', ['run', 'build'], { encoding: 'utf8', shell: process.platform === 'win32' }); fs.writeFileSync(`${dir}/build-results.txt`, build.stdout + build.stderr + `\nexit_code=${build.status}\n`); if (build.status !== 0) throw new Error('build failed');
+const sources = ['src/core.js', 'src/headless.js', 'src/main.js', 'src/style.css', 'tests/core.test.js', 'game.contract.json', 'package.json', 'package-lock.json']; fs.writeFileSync(`${dir}/source-hashes.json`, JSON.stringify(Object.fromEntries(sources.map(p => [p, createHash('sha256').update(fs.readFileSync(p)).digest('hex')])), null, 2));

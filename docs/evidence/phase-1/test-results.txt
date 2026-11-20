@@ -1,0 +1,82 @@
+TAP version 13
+# Subtest: five default lanterns, setup overrides and no setup events
+ok 1 - five default lanterns, setup overrides and no setup events
+  ---
+  duration_ms: 1.939
+  ...
+# Subtest: shade speed and exact horizontal hit boundary
+ok 2 - shade speed and exact horizontal hit boundary
+  ---
+  duration_ms: 1.4967
+  ...
+# Subtest: interaction range boundary and partial carry remainder
+ok 3 - interaction range boundary and partial carry remainder
+  ---
+  duration_ms: 0.9675
+  ...
+# Subtest: held pulse does not retrigger; cooldown allows a later edge
+ok 4 - held pulse does not retrigger; cooldown allows a later edge
+  ---
+  duration_ms: 0.4455
+  ...
+# Subtest: stun expires and chase resumes
+ok 5 - stun expires and chase resumes
+  ---
+  duration_ms: 0.9659
+  ...
+# Subtest: movement, yaw, normalized diagonal and exact clock
+ok 6 - movement, yaw, normalized diagonal and exact clock
+  ---
+  duration_ms: 1.6078
+  ...
+# Subtest: pickup boundary, capacity and scenario has no score
+ok 7 - pickup boundary, capacity and scenario has no score
+  ---
+  duration_ms: 0.3699
+  ...
+# Subtest: partial deposit and interaction edge
+ok 8 - partial deposit and interaction edge
+  ---
+  duration_ms: 0.2708
+  ...
+# Subtest: win and terminal state
+ok 9 - win and terminal state
+  ---
+  duration_ms: 0.6675
+  ...
+# Subtest: shade hit, drop, invulnerability, no flames loss
+ok 10 - shade hit, drop, invulnerability, no flames loss
+  ---
+  duration_ms: 0.8874
+  ...
+# Subtest: pulse push/stun and cooldown edges
+ok 11 - pulse push/stun and cooldown edges
+  ---
+  duration_ms: 1.1043
+  ...
+# Subtest: safe radius and jump returns to ground
+ok 12 - safe radius and jump returns to ground
+  ---
+  duration_ms: 0.4254
+  ...
+# Subtest: dawn, deterministic random generation and rounded snapshot
+ok 13 - dawn, deterministic random generation and rounded snapshot
+  ---
+  duration_ms: 16.103
+  ...
+# Subtest: CLI snapshots, byte determinism and invalid scenario exit 2
+ok 14 - CLI snapshots, byte determinism and invalid scenario exit 2
+  ---
+  duration_ms: 237.0398
+  ...
+1..14
+# tests 14
+# suites 0
+# pass 14
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 392.5182
+
+exit_code=0

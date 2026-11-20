@@ -1,0 +1,70 @@
+{
+  "mode": "development QA; legal input replay or manual controls; not a production benchmark",
+  "replayFile": "generated seed12 fixture",
+  "state": "won",
+  "tick": 2414,
+  "paused": false,
+  "player": {
+    "pos": [
+      -21.227960084488586,
+      0,
+      6.266097861914065
+    ],
+    "carried": 3,
+    "flames": 2
+  },
+  "carriedPickups": 57,
+  "playerHits": 3,
+  "lanternsLit": 5,
+  "lampEvents": [
+    {
+      "tick": 308,
+      "id": "L1"
+    },
+    {
+      "tick": 690,
+      "id": "L2"
+    },
+    {
+      "tick": 1209,
+      "id": "L3"
+    },
+    {
+      "tick": 1803,
+      "id": "L4"
+    },
+    {
+      "tick": 2414,
+      "id": "L5"
+    }
+  ],
+  "score": 1429,
+  "timeLeft": 259.76666666666665,
+  "wallElapsedMs": 93817.70000000298,
+  "frameIntervals": {
+    "samples": 1398,
+    "meanMs": 67.0961373390558,
+    "p95Ms": 50,
+    "maxMs": 2009.9000000000087
+  },
+  "renderCpu": {
+    "samples": 1399,
+    "meanMs": 7.907433881301212,
+    "p95Ms": 13.199999995529652,
+    "maxMs": 820.7999999970198
+  },
+  "keyToNextRender": null,
+  "renderer": {
+    "geometries": 136,
+    "textures": 25,
+    "calls": 184,
+    "triangles": 25152
+  },
+  "heapBytes": 17937093,
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+  "viewport": {
+    "width": 1864,
+    "height": 943,
+    "pixelRatio": 1
+  }
+}

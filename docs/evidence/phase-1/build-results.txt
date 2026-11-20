@@ -1,0 +1,15 @@
+
+> dao-den-long@0.1.0 build
+> vite build
+
+vite v6.4.6 building for production...
+transforming...
+✓ 7 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.62 kB │ gzip:   0.44 kB
+dist/assets/index-CsKE9Wxr.css    0.86 kB │ gzip:   0.44 kB
+dist/assets/index-ChySeHM9.js   487.24 kB │ gzip: 124.19 kB
+✓ built in 1.84s
+
+exit_code=0

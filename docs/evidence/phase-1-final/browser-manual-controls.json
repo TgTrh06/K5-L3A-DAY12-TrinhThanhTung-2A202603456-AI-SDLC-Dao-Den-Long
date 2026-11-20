@@ -1,0 +1,55 @@
+{
+  "mode": "development QA; legal input replay or manual controls; not a production benchmark",
+  "inputMode": "manual keyboard",
+  "replayFile": null,
+  "state": "playing",
+  "tick": 91,
+  "paused": false,
+  "player": {
+    "pos": [
+      0,
+      0,
+      0.1
+    ],
+    "carried": 0,
+    "flames": 5
+  },
+  "carriedPickups": 0,
+  "playerHits": 0,
+  "lanternsLit": 0,
+  "lampEvents": [],
+  "score": 0,
+  "timeLeft": 298.48333333333335,
+  "wallElapsedMs": 12703.10000000149,
+  "frameIntervals": {
+    "samples": 21,
+    "meanMs": 585.2476190476193,
+    "p95Ms": 1010,
+    "maxMs": 1010.2000000000044
+  },
+  "renderCpu": {
+    "samples": 22,
+    "meanMs": 8.89545454423536,
+    "p95Ms": 13.100000001490116,
+    "maxMs": 55.099999994039536
+  },
+  "keyToNextRender": {
+    "samples": 1,
+    "meanMs": 379.90000000596046,
+    "p95Ms": 379.90000000596046,
+    "maxMs": 379.90000000596046
+  },
+  "renderer": {
+    "geometries": 61,
+    "textures": 16,
+    "calls": 219,
+    "triangles": 23140
+  },
+  "heapBytes": 16229404,
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+  "viewport": {
+    "width": 1864,
+    "height": 943,
+    "pixelRatio": 1
+  }
+}

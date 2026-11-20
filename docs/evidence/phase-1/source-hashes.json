@@ -1,0 +1,10 @@
+{
+  "src/core.js": "17b5d267a3bdaebff09b1483547e4ecae8bc89c5182211c269567402e90f5fd4",
+  "src/headless.js": "14111e76aa6128c2d7183190a98d979a24474771fdae10985e0cf684776b9ed6",
+  "src/main.js": "8c4d6e25e8dac9f4d51d87516fd996d7b86186cd6b528d6c35fd21a51c8711ca",
+  "src/style.css": "f48f429a7e068c6ee25d3d3a100a0c24fcc821f8b88d7199f096e9d3d24a353d",
+  "tests/core.test.js": "d0cf6f1234575ec67bc6e4de835baed3a963f2637ce41c4fcb02741f1a1c8b30",
+  "game.contract.json": "1179de5daeed0b0bf2221351126f75aa77bf5ee8d9d22601705de48278aee71c",
+  "package.json": "56e2d349977b499cfb1f9d19e71651bbf056dd696daef4acfb936e428289a8dc",
+  "package-lock.json": "2f95274c5635c0a735578779b2999e1d53b7550fcb05f9750c09b652f3f17851"
+}

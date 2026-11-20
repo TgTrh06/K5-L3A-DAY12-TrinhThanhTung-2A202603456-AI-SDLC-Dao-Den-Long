@@ -1,0 +1,37 @@
+TAP version 13
+# Subtest: score independently counts collection, deposit and exact-second victory bonus
+not ok 1 - score independently counts collection, deposit and exact-second victory bonus
+  ---
+  duration_ms: 6.5168
+  location: 'D:\\docs\\doc.academic\\vinuni\\K5-L3A-DAY12-TrinhThanhTung-2A202603456-AI-SDLC-Dao-Den-Long\\tests\\contract.test.js:54:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 8.99999999999995
+    - 9
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 9
+  actual: 8.99999999999995
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///D:/docs/doc.academic/vinuni/K5-L3A-DAY12-TrinhThanhTung-2A202603456-AI-SDLC-Dao-Den-Long/tests/contract.test.js:58:38)
+    Test.runInAsyncScope (node:async_hooks:211:14)
+    Test.run (node:internal/test_runner/test:934:25)
+    Test.start (node:internal/test_runner/test:833:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 170.6165
+
+exit_code=1

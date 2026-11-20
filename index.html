@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="vi">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101d35"><title>Đảo Đèn Lồng · Đêm trăng trên Đảo Bến</title></head>
+<body>
+<div class="paper-grain" aria-hidden="true"></div>
+<header id="hud" aria-label="Thông tin trò chơi">
+ <section class="vitals ink-panel"><div class="eyebrow">NGƯỜI GIỮ ĐÈN</div><div class="vitals-row"><strong class="player-name">Mây</strong><div id="flames" role="img" aria-label="Sinh lực"></div></div><div class="mote-line"><span class="mote-symbol" aria-hidden="true">✧</span><span>Đom đóm</span><strong id="carried">0 / 20</strong></div></section>
+ <section class="quest"><div class="eyebrow">ĐÊM 01 · ĐẢO BẾN</div><h1>Đảo Đèn Lồng</h1><div class="quest-progress"><span class="rule"></span><div id="lantern-progress" aria-hidden="true"><span>♧</span><span>♧</span><span>♧</span><span>♧</span><span>♧</span></div><span class="rule"></span></div><p><span id="lit-count">0 / 5</span> ngọn đèn đã thắp</p></section>
+ <section class="time-score ink-panel"><div class="eyebrow">TRƯỚC BÌNH MINH</div><strong id="clock">05:00</strong><div class="score-line">ĐIỂM <span id="score">0000</span></div></section>
+</header>
+<div class="bottom-ui"><p id="prompt">Gom đom đóm · Mang ánh sáng về năm ngọn đèn</p><footer id="help"><span><kbd>W A S D</kbd> Di chuyển</span><span><kbd>Space</kbd> Nhảy</span><span><kbd>E</kbd> Nạp đèn</span><span><kbd>Q</kbd> Tỏa sáng · 1 lửa</span><span class="camera-help">Kéo chuột: xoay góc nhìn</span><span><kbd>Esc</kbd> Dừng</span><span><kbd>R</kbd> Chơi lại</span></footer></div>
+<section id="pause" class="pause-note" hidden><span class="eyebrow">MỘT KHOẢNG LẶNG</span><p>Đêm trăng đang chờ Mây</p><button id="resume">Tiếp tục <span>Esc</span></button></section>
+<section id="ending" class="ending" role="dialog" aria-modal="true" aria-labelledby="ending-title" hidden><div class="ending-sheet"><div class="moon-seal" aria-hidden="true">☾</div><span class="eyebrow">CHUYỆN KỂ TRÊN BIỂN MÂY</span><h2 id="ending-title"></h2><p id="ending-copy"></p><strong id="final-score"></strong><button id="restart">Thắp một đêm mới <span>↗</span></button><small>Hoặc nhấn R để chơi lại</small></div></section>
+<div id="status" class="sr-only" role="status" aria-live="polite"></div>
+<script type="module" src="/src/main.js"></script>
+</body></html>
