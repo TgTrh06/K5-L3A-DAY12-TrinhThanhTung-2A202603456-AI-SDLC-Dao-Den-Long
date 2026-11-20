@@ -7,7 +7,8 @@ Trịnh Thanh Tùng · MSSV **2A202603456** · K5-L3A · Day 12.
 Game 3D góc nhìn thứ ba: Mây thu thập đom đóm để thắp năm Đèn Lồng Lớn trên Đảo Bến,
 tránh Bóng Mực và mang ánh sáng trở về trước bình minh.
 
-Hiện có bản triển khai **Phase 1 đang kiểm chứng**, chưa có tag nghiệm thu.
+Đã công bố tag **`phase-1`** tại commit `a53d13a`, kèm các giới hạn đã ghi trong bằng chứng.
+Kiểm chứng bổ sung sau tag đang tiếp tục; việc có tag không đồng nghĩa mọi mục đã đạt.
 Phase 2–4, Release `v1.0.0`, video và giấy phép dự án còn thiếu.
 
 ## Cài đặt và chạy — tối đa 3 lệnh
@@ -73,8 +74,26 @@ trong production build; không dùng số đo của nó như benchmark bản ph�
 
 Đo quan sát production: mở URL preview kèm `?metrics=1`, bấm **Bắt đầu đo**.
 Module chỉ quan sát frame/tài nguyên, không replay hoặc sửa game. Mẫu ngắn 5 giây
-không thay thế kiểm tra ổn định dài hạn. Phiên đo hiện có khoảng 0,99 FPS trong
-trình duyệt tích hợp; nguyên nhân chưa xác định, chưa kết luận hiệu năng đạt.
+không thay thế kiểm tra ổn định dài hạn. Mẫu cũ trong trình duyệt tích hợp khoảng
+0,99 FPS; ba mẫu Chrome riêng sau khôi phục cửa sổ đạt 75,40–83,84 FPS tại
+902×934, DPR 1. Hai điều kiện đo khác nhau; xem [báo cáo sau tag](docs/evidence/phase-1-post-tag/README.md).
+
+## Kiểm chứng Ubuntu bằng GitHub Actions
+
+Workflow [Verify Phase 1 on Ubuntu](.github/workflows/verify-phase-1.yml) được chuẩn
+bị để checkout chính tag `phase-1` và từ chối chạy nếu tag không còn trỏ vào commit
+`a53d13ad186ce31936594ea2a8b25dea2a38c8d5`. Workflow nằm ở commit bổ sung trên
+`main`; không thay tag hoặc ghi ngược output CI vào repo.
+
+Sau khi workflow được duyệt và push: vào **Actions → Verify Phase 1 on Ubuntu →
+Run workflow → main**. Nó cũng tự chạy khi file workflow được cập nhật trên `main`.
+Các bước: cài sạch `npm ci`, chạy test/build/headless bằng script hiện có, mở
+preview rồi kiểm tra HTTP của HTML và asset JS/CSS. Token chỉ có `contents: read`.
+
+Mở run, xem **Summary** và tải artifact `phase-1-ubuntu-<run_id>-<attempt>` (giữ 30
+ngày). Chỉ xác nhận Linux đạt sau khi run thực tế thành công; workflow chuẩn bị ở
+local chưa phải bằng chứng Linux. CI không kiểm tra đồ họa bằng GPU, FPS hoặc chơi
+tay. [Chi tiết cách đọc kết quả và giới hạn](docs/evidence/phase-1-post-tag/README.md).
 
 ## Sáng tạo của tôi
 

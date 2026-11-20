@@ -1,0 +1,24 @@
+{
+  "mode": "production observation, no replay; 5-second smoke sample, not long-run benchmark",
+  "complete": true,
+  "visible": true,
+  "focused": true,
+  "activeSampleMs": 5009.800000000001,
+  "excludedHiddenOrUnfocusedFrames": 0,
+  "sampleCount": 420,
+  "meanFrameMs": 11.92809523809524,
+  "meanFps": 83.8356820631562,
+  "p95FrameMs": 20.100000000000364,
+  "maxFrameMs": 50.100000000000364,
+  "geometryCount": 61,
+  "textureCount": 17,
+  "drawCalls": 170,
+  "heapBytes": 26904100,
+  "viewport": {
+    "width": 902,
+    "height": 934,
+    "pixelRatio": 1
+  },
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+  "hud": "NGƯỜI GIỮ ĐÈN\nMây\n✧\nĐom đóm\n0 / 20\nĐÊM 01 · ĐẢO BẾN\nĐảo Đèn Lồng\n♧\n♧\n♧\n♧\n♧\n\n0 / 5 ngọn đèn đã thắp\n\nTRƯỚC BÌNH MINH\n04:49\nĐIỂM\n0000"
+}

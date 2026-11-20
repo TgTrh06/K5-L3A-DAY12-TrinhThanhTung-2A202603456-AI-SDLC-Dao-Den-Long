@@ -1,0 +1,130 @@
+name: Verify Phase 1 on Ubuntu
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/verify-phase-1.yml
+
+permissions:
+  contents: read
+
+jobs:
+  phase-1:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    defaults:
+      run:
+        shell: bash
+        working-directory: game
+    env:
+      EXPECTED_PHASE1_SHA: a53d13ad186ce31936594ea2a8b25dea2a38c8d5
+      CI: 'true'
+    steps:
+      - name: Checkout published Phase 1 tag
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: refs/tags/phase-1
+          path: game
+          persist-credentials: false
+
+      - name: Check identity and isolate fresh evidence
+        id: prepare
+        run: |
+          mkdir -p "$RUNNER_TEMP/phase1-ci"
+          {
+            printf 'workflow_commit=%s\n' "$GITHUB_SHA"
+            printf 'tested_commit=%s\n' "$(git rev-parse HEAD)"
+            printf 'expected_commit=%s\n' "$EXPECTED_PHASE1_SHA"
+            printf 'run_url=https://github.com/%s/actions/runs/%s\n' "$GITHUB_REPOSITORY" "$GITHUB_RUN_ID"
+            date -u +'%Y-%m-%dT%H:%M:%SZ'
+            uname -a
+            cat /etc/os-release
+            test "$(git rev-parse HEAD)" = "$EXPECTED_PHASE1_SHA"
+            test ! -d node_modules
+            test ! -d dist
+          } 2>&1 | tee "$RUNNER_TEMP/phase1-ci/identity.txt"
+          # Keep historical Windows reports out of the fresh Linux artifact.
+          mv docs/evidence/phase-1-final "$RUNNER_TEMP/phase1-historical-evidence"
+          mkdir -p docs/evidence/phase-1-final
+
+      - name: Set up Node 22
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: game/package-lock.json
+
+      - name: Record runtime
+        run: |
+          { node --version; npm --version; } 2>&1 | tee "$RUNNER_TEMP/phase1-ci/runtime.txt"
+
+      - name: Clean install from lockfile
+        run: npm ci 2>&1 | tee "$RUNNER_TEMP/phase1-ci/install.txt"
+
+      - name: Tests, production build and deterministic full headless playthrough
+        run: node scripts/verify-phase1.js 2>&1 | tee "$RUNNER_TEMP/phase1-ci/verification.txt"
+
+      - name: Smoke test production HTTP and local assets
+        run: |
+          npm run preview -- --port 4181 --strictPort > "$RUNNER_TEMP/phase1-ci/preview.txt" 2>&1 &
+          preview_pid=$!
+          trap 'kill "$preview_pid" 2>/dev/null || true' EXIT
+          node --input-type=module <<'NODE' 2>&1 | tee "$RUNNER_TEMP/phase1-ci/http.txt"
+          import assert from 'node:assert/strict';
+          const origin = 'http://127.0.0.1:4181';
+          let response;
+          for (let attempt = 0; attempt < 40; attempt++) {
+            try {
+              response = await fetch(origin, { signal: AbortSignal.timeout(2000) });
+              if (response.ok) break;
+            } catch { /* bounded retry while Vite starts */ }
+            await new Promise(resolve => setTimeout(resolve, 250));
+          }
+          assert.equal(response?.status, 200, 'Preview must serve HTTP 200');
+          const html = await response.text();
+          assert.match(html, /Đảo Đèn Lồng/);
+          const assets = [...html.matchAll(/(?:src|href)="([^"#]+\.(?:js|css))"/g)].map(match => new URL(match[1], origin));
+          assert.ok(assets.some(asset => asset.pathname.endsWith('.js')), 'Built JS required');
+          assert.ok(assets.some(asset => asset.pathname.endsWith('.css')), 'Built CSS required');
+          for (const asset of assets) {
+            assert.equal(asset.origin, origin, 'Assets must be local');
+            const result = await fetch(asset, { signal: AbortSignal.timeout(5000) });
+            assert.equal(result.status, 200, `Asset ${asset.pathname}`);
+            assert.match(result.headers.get('content-type') ?? '', asset.pathname.endsWith('.js') ? /javascript/ : /text\/css/);
+            assert.ok((await result.text()).length > 0, 'Non-empty asset');
+            console.log(`PASS HTTP 200 ${asset.pathname}`);
+          }
+          console.log('PASS production HTML + JS/CSS HTTP smoke; no browser/GPU gameplay claim.');
+          NODE
+
+      - name: Summarize job outcome
+        if: always()
+        working-directory: ${{ github.workspace }}
+        env:
+          CURRENT_STATUS: ${{ job.status }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/phase1-ci"
+          {
+            printf '## Phase 1 Ubuntu verification\n\n'
+            printf -- '- Published tag: `phase-1`\n'
+            printf -- '- Required game commit: `%s`\n' "$EXPECTED_PHASE1_SHA"
+            printf -- '- Job status before artifact upload: `%s`\n' "$CURRENT_STATUS"
+            printf -- '- Linux test/build/headless/HTTP checks only; not visual gameplay or FPS.\n'
+            printf -- '- Evidence is generated after submission; tag is unchanged.\n'
+          } | tee "$RUNNER_TEMP/phase1-ci/summary.md" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Collect only freshly generated verification output
+        if: ${{ always() && steps.prepare.outcome == 'success' }}
+        run: |
+          cp -R docs/evidence/phase-1-final "$RUNNER_TEMP/phase1-ci/verification-output"
+
+      - name: Upload fresh evidence even on failure
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: phase-1-ubuntu-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/phase1-ci/
+          if-no-files-found: warn
+          retention-days: 30
