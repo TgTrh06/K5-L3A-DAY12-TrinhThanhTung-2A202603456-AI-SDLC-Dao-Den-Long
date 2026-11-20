@@ -56,13 +56,37 @@ Hai lần headless đều kết thúc `{"type":"end","ticks":2414,"state":"won",
 cùng SHA-256 `3CDA84AC7310A244FA7F3E919B8540AF5B8C5B6EC0E230E6DC7C7CB25E8DAC07`.
 Kết quả này là quan sát được ghi lại, không phải raw CI log; không chứng minh Linux.
 
-## Workflow Ubuntu — chuẩn bị, chưa chạy
+## Workflow Ubuntu — đã chạy thành công
 
 File: [verify-phase-1.yml](../../../.github/workflows/verify-phase-1.yml).
-Chưa commit/push/dispatch trong bước chuẩn bị local này. Không có run URL hay kết
-quả Ubuntu được khai đạt. WSL trên máy vẫn lỗi `Wsl/Service/E_UNEXPECTED`.
+Workflow được thêm bằng commit `9d646cb5943c849f347165e2b9daf7fc2ab6258c` và tự chạy
+khi push. [Run 44718587705](https://github.com/TgTrh06/K5-L3A-DAY12-TrinhThanhTung-2A202603456-AI-SDLC-Dao-Den-Long/actions/runs/44718587705)
+kết thúc success lúc 17:22 ngày 20/11/2026 (ICT). Bước identity trong artifact xác
+nhận `tested_commit=a53d13ad186ce31936594ea2a8b25dea2a38c8d5`, khác workflow commit
+như thiết kế. Tag không được di chuyển. WSL local vẫn lỗi nhưng CI cung cấp Linux
+host độc lập; không có sửa cấu hình WSL.
 
-Sau khi workflow đã được duyệt và có trên nhánh mặc định:
+Đã tải artifact `phase-1-ubuntu-44718587705-1` (ID `14620527575`) và đối chiếu digest
+ZIP với API: `9620ee97d9627d62b96ede452145919f2602464f3f09f2c809cea1f4863cc9d4`.
+Đã đọc identity, runtime, cài đặt, test/build, HTTP và JSONL trong artifact:
+
+- Ubuntu 24.04.5 LTS x64, Node v22.23.4, npm 10.9.9.
+- `npm ci`: thành công, thêm 15 packages; npm audit báo 0 vulnerabilities tại lần chạy.
+- Test: 83 pass, 0 fail; build thành công, vẫn có cảnh báo chunk JS >500kB.
+- Headless: won, tick 2414, 1429 điểm, 5 đèn, 57 pickup, 3 hit, 2 lửa còn lại.
+- Hai JSONL cùng SHA-256
+  `3CDA84AC7310A244FA7F3E919B8540AF5B8C5B6EC0E230E6DC7C7CB25E8DAC07`,
+  cũng khớp lần clean-run Windows; controller events/end bằng CLI.
+- Production HTML/JS/CSS trả HTTP 200; mọi bước bắt buộc và upload artifact success.
+
+Artifact lưu trên GitHub, hết hạn dự kiến 20/12/2026; tải từ trang run khi cần giữ lâu.
+Raw `run-summary.json` của script trong tag có một câu note cố định nói không đưa
+ra Linux claim. Đó là text cũ trong tag, không phải kết quả phát hiện OS: cùng file
+ghi `platform=linux`, identity ghi Ubuntu và các exit code đều 0. Giữ nguyên raw
+output; kết luận Linux ở đây dựa trên identity/runtime và log thực tế, không sửa tag
+hoặc sửa tay output để thay câu note đó.
+
+Để chạy lại và đọc bằng chứng:
 
 1. Vào Actions → **Verify Phase 1 on Ubuntu** → Run workflow → chọn `main`.
 2. Kiểm tra bước identity: `tested_commit` đúng SHA tag phía trên. `workflow_commit`

@@ -21,8 +21,9 @@ npm run build
 npm run preview
 ```
 
-Mở URL local được in ra. Các lệnh dùng được theo thiết kế trên macOS/Linux;
-bằng chứng đã thu hiện là Windows, chưa xác nhận clean-run trên macOS/Linux.
+Mở URL local được in ra. Cài sạch, test/build/headless và HTTP preview trên Ubuntu
+đã đạt trong [run CI kiểm chứng tag Phase 1](https://github.com/TgTrh06/K5-L3A-DAY12-TrinhThanhTung-2A202603456-AI-SDLC-Dao-Den-Long/actions/runs/44718587705).
+Đồ họa được quan sát trên Windows Chrome; CI Ubuntu chưa kiểm tra WebGL bằng mắt.
 Khi phát triển: `npm run dev`.
 
 ## Điều khiển và luật chơi
@@ -80,8 +81,8 @@ không thay thế kiểm tra ổn định dài hạn. Mẫu cũ trong trình duy
 
 ## Kiểm chứng Ubuntu bằng GitHub Actions
 
-Workflow [Verify Phase 1 on Ubuntu](.github/workflows/verify-phase-1.yml) được chuẩn
-bị để checkout chính tag `phase-1` và từ chối chạy nếu tag không còn trỏ vào commit
+Workflow [Verify Phase 1 on Ubuntu](.github/workflows/verify-phase-1.yml) checkout
+chính tag `phase-1` và từ chối chạy nếu tag không còn trỏ vào commit
 `a53d13ad186ce31936594ea2a8b25dea2a38c8d5`. Workflow nằm ở commit bổ sung trên
 `main`; không thay tag hoặc ghi ngược output CI vào repo.
 
@@ -90,10 +91,11 @@ Run workflow → main**. Nó cũng tự chạy khi file workflow được cập 
 Các bước: cài sạch `npm ci`, chạy test/build/headless bằng script hiện có, mở
 preview rồi kiểm tra HTTP của HTML và asset JS/CSS. Token chỉ có `contents: read`.
 
-Mở run, xem **Summary** và tải artifact `phase-1-ubuntu-<run_id>-<attempt>` (giữ 30
-ngày). Chỉ xác nhận Linux đạt sau khi run thực tế thành công; workflow chuẩn bị ở
-local chưa phải bằng chứng Linux. CI không kiểm tra đồ họa bằng GPU, FPS hoặc chơi
-tay. [Chi tiết cách đọc kết quả và giới hạn](docs/evidence/phase-1-post-tag/README.md).
+Run [44718587705](https://github.com/TgTrh06/K5-L3A-DAY12-TrinhThanhTung-2A202603456-AI-SDLC-Dao-Den-Long/actions/runs/44718587705)
+đã thành công: Ubuntu 24.04, Node 22.23.4, 83/83 test, build/headless/HTTP đạt.
+Mở run, xem **Summary** và tải artifact `phase-1-ubuntu-44718587705-1` (giữ 30 ngày,
+hết hạn dự kiến 20/12/2026). CI không kiểm tra đồ họa bằng GPU, FPS hoặc chơi tay.
+[Chi tiết kết quả, cách đọc bằng chứng và giới hạn](docs/evidence/phase-1-post-tag/README.md).
 
 ## Sáng tạo của tôi
 
@@ -123,7 +125,8 @@ chiếu vào bản game. Có hỗ trợ giảm chuyển động trang trí theo 
 
 ## Các mục còn thiếu trước khi nộp cuối cùng
 
-- Kiểm chứng thắng trọn lượt trên UI, hiệu năng và clean-run trên macOS/Linux.
+- Lượt thắng hoàn toàn bằng bàn phím/chuột và kiểm tra hiệu năng/ổn định dài hạn.
+  Ubuntu clean install/build/headless/HTTP đã đạt; WebGL trên Linux/macOS chưa quan sát.
 - Hoàn thiện và nghiệm thu từng phase; tags `phase-1` … `phase-4` đúng commit.
 - Release `v1.0.0` có bản chạy được; video `.mp4` dưới 5 phút, link ở đầu README.
 - Chọn và bổ sung `LICENSE`; CREDITS hiện có nhưng chưa thay thế giấy phép dự án.
