@@ -1,0 +1,116 @@
+{
+  "cases": [
+    {
+      "name": "dash",
+      "night": 1,
+      "ticks": 15,
+      "scenario": { "random_motes": false, "random_shades": false, "random_drifters": false, "wind_enabled": false },
+      "inputs": { "frames": [{ "tick": 0, "move": [0, 1], "dash": true }, { "tick": 1, "dash": false }] },
+      "expect": { "events": ["dash"], "snapshot_tick": 15 }
+    },
+    {
+      "name": "pulse-and-shade",
+      "night": 1,
+      "ticks": 2,
+      "scenario": { "random_motes": false, "random_shades": false, "player": { "carried": 10 }, "shades": [{ "id": "S1", "pos": [4, 0, 0] }] },
+      "inputs": { "frames": [{ "tick": 0, "pulse": true }, { "tick": 1, "pulse": false }] },
+      "expect": { "events": ["pulse"], "snapshot_tick": 2 }
+    },
+    {
+      "name": "fall-and-respawn",
+      "night": 1,
+      "ticks": 180,
+      "scenario": { "random_motes": false, "random_shades": false, "random_drifters": false, "player": { "pos": [39.9, 0, 0], "vel": [6, 0, 0], "carried": 5 } },
+      "inputs": { "frames": [] },
+      "expect": { "events": ["player_hit", "player_respawn"], "snapshot_tick": 180 }
+    },
+    {
+      "name": "night1-shade-schedule",
+      "night": 1,
+      "ticks": 300,
+      "scenario": { "random_motes": false, "random_shades": true, "random_drifters": false, "wind_enabled": false },
+      "inputs": { "frames": [] },
+      "expect": { "events": ["shade_spawned"], "counts": { "shade_spawned": 2 }, "snapshot_tick": 300 }
+    },
+    {
+      "name": "night2-shade-schedule",
+      "night": 2,
+      "ticks": 420,
+      "scenario": { "random_motes": false, "random_shades": true, "random_drifters": false, "wind_enabled": false },
+      "inputs": { "frames": [] },
+      "expect": { "events": ["shade_spawned"], "counts": { "shade_spawned": 1 }, "snapshot_tick": 420 }
+    },
+    {
+      "name": "night3-shade-schedule",
+      "night": 3,
+      "ticks": 360,
+      "scenario": { "random_motes": false, "random_shades": true, "random_drifters": false, "wind_enabled": false },
+      "inputs": { "frames": [] },
+      "expect": { "events": ["shade_spawned"], "counts": { "shade_spawned": 1 }, "snapshot_tick": 360 }
+    },
+    {
+      "name": "shade-wander-motion",
+      "night": 1,
+      "ticks": 30,
+      "scenario": { "random_motes": false, "random_shades": false, "random_drifters": false, "wind_enabled": false, "shades": [{ "id": "S1", "pos": [37, 0, 0], "state": "wander" }] },
+      "inputs": { "frames": [] },
+      "expect": { "events": [], "snapshot_tick": 30 }
+    },
+    {
+      "name": "night2-jump-pad",
+      "night": 2,
+      "ticks": 90,
+      "scenario": { "random_motes": false, "random_shades": false, "random_drifters": false, "player": { "pos": [20, 0, 18] } },
+      "inputs": { "frames": [] },
+      "expect": { "events": [], "snapshot_tick": 90 }
+    },
+    {
+      "name": "night2-drifter",
+      "night": 2,
+      "ticks": 2,
+      "scenario": { "random_motes": false, "random_shades": false, "random_drifters": false, "player": { "carried": 8 }, "drifters": [{ "id": "D1", "pos": [1, 0, 0], "state": "chase" }] },
+      "inputs": { "frames": [] },
+      "expect": { "events": ["drifter_steal"], "snapshot_tick": 2 }
+    },
+    {
+      "name": "night2-drifter-spawn",
+      "night": 2,
+      "ticks": 1200,
+      "scenario": { "random_motes": false, "random_shades": false, "random_drifters": true, "wind_enabled": false },
+      "inputs": { "frames": [] },
+      "expect": { "events": ["drifter_spawned"], "counts": { "drifter_spawned": 1 }, "snapshot_tick": 1200 }
+    },
+    {
+      "name": "night2-drifter-pulse-delay",
+      "night": 2,
+      "ticks": 120,
+      "scenario": { "random_motes": false, "random_shades": false, "random_drifters": false, "wind_enabled": false, "player": { "pos": [1, 0, 0], "carried": 3 }, "drifters": [{ "id": "D1", "pos": [1, 0, 0], "state": "flee", "state_ticks_left": 240, "stolen": 3 }] },
+      "inputs": { "frames": [{ "tick": 0, "pulse": true }] },
+      "expect": { "events": ["drifter_drop", "pulse"], "snapshot_tick": 120 }
+    },
+    {
+      "name": "night2-charm",
+      "night": 2,
+      "ticks": 2,
+      "scenario": { "random_motes": false, "random_shades": false, "random_drifters": false, "player": { "pos": [35, 0, 0] } },
+      "inputs": { "frames": [] },
+      "expect": { "events": ["charm_picked"], "snapshot_tick": 2 }
+    },
+    {
+      "name": "night3-wind",
+      "night": 3,
+      "ticks": 1800,
+      "scenario": { "random_motes": false, "random_shades": false, "random_drifters": false, "wind_enabled": true },
+      "inputs": { "frames": [] },
+      "expect": { "events": ["wind_warning", "wind_start"], "snapshot_tick": 1800 }
+    },
+    {
+      "name": "pause-resume",
+      "night": 1,
+      "ticks": 4,
+      "scenario": { "random_motes": false, "random_shades": false, "random_drifters": false, "wind_enabled": false },
+      "inputs": { "frames": [{ "tick": 0, "pause": true }, { "tick": 1, "pause": false }, { "tick": 2, "pause": true }, { "tick": 3, "pause": false }] },
+      "expect": { "events": ["paused", "resumed"], "snapshot_tick": 4 }
+    }
+  ]
+}

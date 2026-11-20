@@ -1,0 +1,68 @@
+{
+  "seed": 12,
+  "evidenceType": "deterministic, state-observing simulation input drivers; not browser or human play",
+  "nearestOnly": {
+    "state": "lost",
+    "ticks": 3083,
+    "score": 490,
+    "lit": 1,
+    "pickups": 25,
+    "shadeHits": 3,
+    "falls": 0,
+    "pulses": 0,
+    "dashes": 0,
+    "hits": [
+      {
+        "tick": 2839,
+        "by": "shade",
+        "shade_id": "S3",
+        "flames": 2,
+        "dropped": 1
+      },
+      {
+        "tick": 2965,
+        "by": "shade",
+        "shade_id": "S2",
+        "flames": 1,
+        "dropped": 2
+      },
+      {
+        "tick": 3083,
+        "by": "shade",
+        "shade_id": "S1",
+        "flames": 0,
+        "dropped": 2
+      }
+    ]
+  },
+  "evasiveNightOne": {
+    "state": "won",
+    "ticks": 14544,
+    "score": 1969,
+    "lit": 5,
+    "pickups": 75,
+    "shadeHits": 2,
+    "falls": 0,
+    "pulses": 8,
+    "dashes": 11,
+    "hits": [
+      {
+        "tick": 2843,
+        "by": "shade",
+        "shade_id": "S2",
+        "flames": 2,
+        "dropped": 0
+      },
+      {
+        "tick": 4027,
+        "by": "shade",
+        "shade_id": "S6",
+        "flames": 1,
+        "dropped": 1
+      }
+    ]
+  },
+  "interpretation": "The nearest-only driver did not use pulse or dash and lost to shade contacts. The evasive driver won Night 1 on the same seed. This diagnoses controller strategy only; it does not establish a full-campaign human victory or prove balance."
+}
+
+exit_code=0

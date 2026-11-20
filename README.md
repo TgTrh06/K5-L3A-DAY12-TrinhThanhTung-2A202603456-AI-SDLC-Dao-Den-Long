@@ -4,8 +4,11 @@
 
 Trịnh Thanh Tùng · MSSV **2A202603456** · K5-L3A · Day 12.
 
-Game 3D góc nhìn thứ ba: Mây thu thập đom đóm để thắp năm Đèn Lồng Lớn trên Đảo Bến,
-tránh Bóng Mực và mang ánh sáng trở về trước bình minh.
+Game 3D góc nhìn thứ ba: Mây thu thập đom đóm, thắp đèn và tránh Bóng Mực trên ba
+hòn đảo. Phase 2 Ticket-02 đã được triển khai trong working tree. Local tests,
+headless verifier và phép đo hiệu năng trên browser production đã chạy; campaign
+do người chơi hoàn thành, âm thanh nghe được và Ubuntu CI vẫn còn mở. Phase 1 đã
+được phát hành.
 
 Đã công bố tag **`phase-1`** tại commit `a53d13a`, kèm các giới hạn đã ghi trong bằng chứng.
 Kiểm chứng bổ sung sau tag đang tiếp tục; việc có tag không đồng nghĩa mọi mục đã đạt.
@@ -33,19 +36,20 @@ Khi phát triển: `npm run dev`.
 | WASD / mũi tên | Di chuyển theo góc camera |
 | Kéo chuột | Xoay camera |
 | Space | Nhảy |
+| Shift | Lướt |
 | E | Nạp đom đóm vào đèn ở gần |
-| Q | Tỏa sáng, tiêu hao 1 lửa |
-| Esc / nút Tiếp tục | Tạm dừng / tiếp tục |
-| R / nút chơi lại | Bắt đầu lại |
+| Q | Tỏa sáng, tiêu hao 3 đom đóm |
+| Esc / P | Tạm dừng / tiếp tục |
+| R | Chơi lại đêm hiện tại |
 
-Thắp đủ **5 đèn**, mỗi đèn **10 đom đóm**, trong **300 giây**. Mang tối đa 20 đom đóm.
-Mây có 5 lửa; va chạm Bóng Mực làm mất lửa. Pulse dùng lửa cuối cùng cũng gây thua.
-Đèn sáng bảo vệ vùng bán kính 5m. Không có hình phạt rơi; nhân vật bị chặn ở rìa đảo.
-Yêu cầu bàn phím/chuột; bố cục hẹp không đồng nghĩa có điều khiển cảm ứng.
+Thời lượng chuẩn lần lượt **300 / 330 / 360 giây**. Mang tối đa **10 đom đóm**;
+Mây có **3 Ngọn Lửa**; vùng an toàn đèn bán kính **6 m**. Ra khỏi đảo sẽ mất
+đom đóm và hồi sinh nếu còn lửa. Cấu hình chính xác theo Ticket-02 ở
+[spec Phase 2](docs/phases/phase-2-spec.md). Hành trình đi qua Đảo Bến, Đảo Cau,
+rồi Đảo Chuông; tổng điểm chỉ cộng điểm các đêm đã thắng.
 
-Điểm: 10/đom đóm nhặt, 100/đèn thắp, 20/Bóng Mực bị pulse làm choáng.
-Khi thắng cộng `floor(số giây còn lại)` và 50/lửa còn lại.
-Scenario khởi tạo không cộng điểm. Các giả định còn lại ở [spec Phase 1](docs/phases/phase-1-spec.md).
+Điều khiển bằng bàn phím/chuột. Cài đặt âm lượng và độ nhạy được lưu trong trình
+duyệt; bố cục hẹp không đồng nghĩa có điều khiển cảm ứng.
 
 ## Kiểm thử và headless
 
@@ -54,17 +58,24 @@ npm test
 node src/headless.js --seed 12 --night 1 --ticks 600 --out result.jsonl
 ```
 
-Contract: [game.contract.json](game.contract.json), phiên bản 1.0.
+Contract: [game.contract.json](game.contract.json), phiên bản 1.1.
 Tùy chọn: `--scenario file.json --inputs file.json --snapshot-every 10`.
 Simulation cố định 60 tick/giây, không cửa sổ/GPU. Snapshot tick 0 trước input;
 input tick k tạo event tick k+1. Hành động dùng cạnh false→true.
 Tọa độ làm tròn 3 chữ số thập phân, output JSONL tất định cho cùng seed và input.
 Scenario/input sai trả mã 2; lỗi CLI/runtime khác trả mã 1.
 
-Kiểm chứng hiện tại bằng một lệnh: `node scripts/verify-phase1.js`.
-Lệnh chạy test/build, sinh một lượt thắng từ game mặc định bằng input hợp lệ,
-phát lại qua CLI hai lần và so output. Đây là test simulation, không phải chơi tay.
-Xem [bảng yêu cầu → bằng chứng và kết luận](docs/evidence/phase-1-final/README.md).
+Kiểm chứng Phase 2 bằng một lệnh: `node scripts/verify-phase2.js`.
+Lệnh chạy test/build, chẩn đoán controller, các fixture headless từng tính năng,
+ba lượt simulation đầy đủ theo thời lượng chuẩn và so determinism. Đây là kiểm tra
+CLI, không phải chơi tay.
+Xem [bảng yêu cầu → kiểm tra](docs/phases/phase-2-spec.md) và bằng chứng mới tại
+[`docs/evidence/phase-2-final`](docs/evidence/phase-2-final/). Verifier Phase 2
+trên Windows đạt 47 test, build, 14 fixture headless, chẩn đoán controller và ba
+lượt headless chạy đủ thời lượng rồi thua do hết giờ bình minh. Đây chưa phải bằng
+chứng thắng campaign ba đêm hay đo FPS.
+Phase 1 có bằng chứng độc lập và không bị ghi đè bởi script Phase 2: xem
+[`docs/evidence/phase-1-final/README.md`](docs/evidence/phase-1-final/README.md).
 Các [log ban đầu](docs/evidence/phase-1/verification-summary.md) và
 [review mỹ thuật](docs/evidence/watercolor/verification.md) vẫn được giữ để tra cứu.
 
@@ -74,9 +85,12 @@ gửi input, không đặt state/teleport. Harness này chỉ bật ở developm
 trong production build; không dùng số đo của nó như benchmark bản phát hành.
 
 Đo quan sát production: mở URL preview kèm `?metrics=1`, bấm **Bắt đầu đo**.
-Module chỉ quan sát frame/tài nguyên, không replay hoặc sửa game. Mẫu ngắn 5 giây
-không thay thế kiểm tra ổn định dài hạn. Mẫu cũ trong trình duyệt tích hợp khoảng
-0,99 FPS; ba mẫu Chrome riêng sau khôi phục cửa sổ đạt 75,40–83,84 FPS tại
+Module chỉ quan sát frame/tài nguyên, không replay hoặc sửa game. Bộ đo hiện warm-up
+10 giây rồi lấy mẫu 60 giây; chỉ frame khi trang hiển thị và có focus mới được tính.
+Đo tại viewport 1280×720 để đối chiếu yêu cầu Phase 2. Phase 2 production sample
+đạt 78,97 FPS trung bình trong 60 giây, p95 20,30 ms, tối đa 240 ms; xem
+[browser report Phase 2](docs/evidence/phase-2-final/browser-report.md). Mẫu cũ
+trong trình duyệt tích hợp khoảng 0,99 FPS; ba mẫu Chrome riêng sau khôi phục cửa sổ đạt 75,40–83,84 FPS tại
 902×934, DPR 1. Hai điều kiện đo khác nhau; xem [báo cáo sau tag](docs/evidence/phase-1-post-tag/README.md).
 
 ## Kiểm chứng Ubuntu bằng GitHub Actions
@@ -96,6 +110,12 @@ Run [44718587705](https://github.com/TgTrh06/K5-L3A-DAY12-TrinhThanhTung-2A20260
 Mở run, xem **Summary** và tải artifact `phase-1-ubuntu-44718587705-1` (giữ 30 ngày,
 hết hạn dự kiến 20/12/2026). CI không kiểm tra đồ họa bằng GPU, FPS hoặc chơi tay.
 [Chi tiết kết quả, cách đọc bằng chứng và giới hạn](docs/evidence/phase-1-post-tag/README.md).
+
+Workflow [Verify Phase 2 on Ubuntu](.github/workflows/verify-phase-2.yml) đã được
+chuẩn bị trong working tree. Sau khi được review và push lên `main`, có thể chạy
+qua **Actions → Verify Phase 2 on Ubuntu → Run workflow**. Nó cài sạch bằng
+`npm ci`, chạy verifier Phase 2 và smoke test HTTP của bản build. Chưa có run
+Ubuntu Phase 2 nào; workflow này không sửa tag Phase 1.
 
 ## Sáng tạo của tôi
 
@@ -125,8 +145,12 @@ chiếu vào bản game. Có hỗ trợ giảm chuyển động trang trí theo 
 
 ## Các mục còn thiếu trước khi nộp cuối cùng
 
-- Lượt thắng hoàn toàn bằng bàn phím/chuột và kiểm tra hiệu năng/ổn định dài hạn.
-  Ubuntu clean install/build/headless/HTTP đã đạt; WebGL trên Linux/macOS chưa quan sát.
+- Chơi campaign bằng người từ đêm 1 tới chiến thắng đêm 3, nghe âm thanh sự kiện
+  và lưu video/ảnh demo. Cài đặt đã được kiểm tra sau tải lại; báo cáo browser
+  ghi lại Bóng Mực xuất hiện và kết quả FPS. Chưa có bằng chứng thắng campaign
+  hoặc xác nhận nghe được âm thanh.
+- Chạy CI Ubuntu cho Phase 2; workflow đã có trong working tree nhưng chưa push
+  hoặc chạy. WebGL trên Linux/macOS chưa được kiểm tra bằng mắt.
 - Hoàn thiện và nghiệm thu từng phase; tags `phase-1` … `phase-4` đúng commit.
 - Release `v1.0.0` có bản chạy được; video `.mp4` dưới 5 phút, link ở đầu README.
 - Chọn và bổ sung `LICENSE`; CREDITS hiện có nhưng chưa thay thế giấy phép dự án.

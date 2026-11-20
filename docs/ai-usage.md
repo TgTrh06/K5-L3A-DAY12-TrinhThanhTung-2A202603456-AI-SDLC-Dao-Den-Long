@@ -30,3 +30,20 @@ tokens, not a billing measurement. Focused cases, one seeded fixture and reusing
 the shared core reduced repeated context and implementation. Main mistakes caught:
 clock accumulation, lost quick movement taps, stale QA counters after restart,
 and missing disposal of entity-specific visual resources.
+
+Phase 2 (2026-11-20): Codex planned and implemented the v1.1 deterministic core,
+headless CLI, feature scenarios, three map scenes, HUD, browser campaign flow,
+procedural Web Audio, harness documentation and verification script. One primary
+agent; no delegation, new dependencies, image generation or external inference API.
+The user supplied Ticket-02. Test and CLI failures exposed input-edge handling,
+pause/fall counters and pulse-push order; fixes were made against assertions and
+the complete verifier was rerun. Usage cannot be read as authoritative session
+telemetry; rough estimate 25k–45k tokens, not a billing statement. Cost is unknown
+under the app subscription. Browser manual play and 1280×720 performance are still
+pending and are not claimed by the generated CLI evidence.
+
+Phase 2 follow-up: corrected the drifter's 120-tick pulse-removal delay, derived
+Night 2 pad direction from the destination island, and applied the ticket's 20
+initial motes consistently across all nights. Added deterministic shade wandering
+and expanded spawn/motion/render-adapter scenarios. Estimated additional usage:
+5k–10k tokens, not billing telemetry; exact cost unavailable.

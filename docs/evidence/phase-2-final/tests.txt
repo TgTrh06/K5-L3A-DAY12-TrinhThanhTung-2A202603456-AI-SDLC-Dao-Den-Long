@@ -1,0 +1,247 @@
+TAP version 13
+# Subtest: volume and mouse sensitivity settings survive a new audio/settings instance
+ok 1 - volume and mouse sensitivity settings survive a new audio/settings instance
+  ---
+  duration_ms: 3.9649
+  ...
+# Subtest: legal evasive input driver can win Night 1 on diagnostic seed 12
+ok 2 - legal evasive input driver can win Night 1 on diagnostic seed 12
+  ---
+  duration_ms: 799.633
+  ...
+# Subtest: KeyA projects to screen left at camera yaw 0
+ok 3 - KeyA projects to screen left at camera yaw 0
+  ---
+  duration_ms: 16.6393
+  ...
+# Subtest: KeyD projects to screen right at camera yaw 0
+ok 4 - KeyD projects to screen right at camera yaw 0
+  ---
+  duration_ms: 1.9376
+  ...
+# Subtest: KeyA projects to screen left at camera yaw 90
+ok 5 - KeyA projects to screen left at camera yaw 90
+  ---
+  duration_ms: 3.0294
+  ...
+# Subtest: KeyD projects to screen right at camera yaw 90
+ok 6 - KeyD projects to screen right at camera yaw 90
+  ---
+  duration_ms: 3.8834
+  ...
+# Subtest: KeyA projects to screen left at camera yaw 180
+ok 7 - KeyA projects to screen left at camera yaw 180
+  ---
+  duration_ms: 9.5354
+  ...
+# Subtest: KeyD projects to screen right at camera yaw 180
+ok 8 - KeyD projects to screen right at camera yaw 180
+  ---
+  duration_ms: 2.5907
+  ...
+# Subtest: keyboard adapter exposes jump, interaction, pulse, dash and both pause keys
+ok 9 - keyboard adapter exposes jump, interaction, pulse, dash and both pause keys
+  ---
+  duration_ms: 3.9101
+  ...
+# Subtest: air dash keeps altitude fixed through all 12 dash ticks
+ok 10 - air dash keeps altitude fixed through all 12 dash ticks
+  ---
+  duration_ms: 11.1975
+  ...
+# Subtest: Phase 1 setup and public defaults remain compatible with Phase 2 standard tuning
+ok 11 - Phase 1 setup and public defaults remain compatible with Phase 2 standard tuning
+  ---
+  duration_ms: 13.2044
+  ...
+# Subtest: Phase 1 movement/yaw behavior and fixed-tick clock remain deterministic
+ok 12 - Phase 1 movement/yaw behavior and fixed-tick clock remain deterministic
+  ---
+  duration_ms: 26.4119
+  ...
+# Subtest: Phase 1 interaction boundaries, partial deposits and rising-edge behavior remain valid
+ok 13 - Phase 1 interaction boundaries, partial deposits and rising-edge behavior remain valid
+  ---
+  duration_ms: 2.5504
+  ...
+# Subtest: Phase 1 terminal event ordering and score remain correct with Contract 1.1 values
+ok 14 - Phase 1 terminal event ordering and score remain correct with Contract 1.1 values
+  ---
+  duration_ms: 5.2593
+  ...
+# Subtest: Phase 1 hit, invulnerability, drop and pulse regression hold with the new flame/cost rules
+ok 15 - Phase 1 hit, invulnerability, drop and pulse regression hold with the new flame/cost rules
+  ---
+  duration_ms: 3.4819
+  ...
+# Subtest: Phase 1 snapshot positions retain three-decimal rounding
+ok 16 - Phase 1 snapshot positions retain three-decimal rounding
+  ---
+  duration_ms: 1.3947
+  ...
+# Subtest: Phase 1 safe-zone soak preserves safety, scheduled spawns and the configured Night 1 cap
+ok 17 - Phase 1 safe-zone soak preserves safety, scheduled spawns and the configured Night 1 cap
+  ---
+  duration_ms: 647.0278
+  ...
+# Subtest: Phase 1 headless output retains interval snapshots, deterministic bytes and invalid-input exit 2
+ok 18 - Phase 1 headless output retains interval snapshots, deterministic bytes and invalid-input exit 2
+  ---
+  duration_ms: 689.4984
+  ...
+# Subtest: contract tuning matches the runtime and exposes v1.1 fields
+ok 19 - contract tuning matches the runtime and exposes v1.1 fields
+  ---
+  duration_ms: 18.0405
+  ...
+# Subtest: standard maps use the specified lanterns, firefly counts and night durations
+ok 20 - standard maps use the specified lanterns, firefly counts and night durations
+  ---
+  duration_ms: 68.5276
+  ...
+# Subtest: movement reaches 6 m/s in six ticks and has full air control
+ok 21 - movement reaches 6 m/s in six ticks and has full air control
+  ---
+  duration_ms: 18.6169
+  ...
+# Subtest: jump follows 7 m/s and −20 m/s²; jump input only acts on a press edge
+ok 22 - jump follows 7 m/s and −20 m/s²; jump input only acts on a press edge
+  ---
+  duration_ms: 1.6659
+  ...
+# Subtest: dash travels 14 m/s for 12 ticks and starts a 90-tick cooldown
+ok 23 - dash travels 14 m/s for 12 ticks and starts a 90-tick cooldown
+  ---
+  duration_ms: 2.2399
+  ...
+# Subtest: dash uses facing when stationary and does not make the player invulnerable
+ok 24 - dash uses facing when stationary and does not make the player invulnerable
+  ---
+  duration_ms: 2.6685
+  ...
+# Subtest: pickup uses inclusive XZ and vertical limits and respects 10-mote capacity
+ok 25 - pickup uses inclusive XZ and vertical limits and respects 10-mote capacity
+  ---
+  duration_ms: 1.2798
+  ...
+# Subtest: nearest lantern and ID tie-break deposit up to the remaining 10-mote cost
+ok 26 - nearest lantern and ID tie-break deposit up to the remaining 10-mote cost
+  ---
+  duration_ms: 1.2689
+  ...
+# Subtest: pulse costs three motes, targets 3D radius, stuns for 120 ticks and pushes 4 m
+ok 27 - pulse costs three motes, targets 3D radius, stuns for 120 ticks and pushes 4 m
+  ---
+  duration_ms: 4.9775
+  ...
+# Subtest: pulse requires three motes and can refresh an already stunned target
+ok 28 - pulse requires three motes and can refresh an already stunned target
+  ---
+  duration_ms: 2.7543
+  ...
+# Subtest: hit drops floor(half), limits loss to one flame per tick and grants 90 tick immunity
+ok 29 - hit drops floor(half), limits loss to one flame per tick and grants 90 tick immunity
+  ---
+  duration_ms: 2.0672
+  ...
+# Subtest: a newly lit safe radius pushes an inside shade out gradually over at most 30 ticks
+ok 30 - a newly lit safe radius pushes an inside shade out gradually over at most 30 ticks
+  ---
+  duration_ms: 7.0955
+  ...
+# Subtest: a fall costs one flame once, waits 60 ticks and respawns with 90 immunity
+ok 31 - a fall costs one flame once, waits 60 ticks and respawns with 90 immunity
+  ---
+  duration_ms: 6.2363
+  ...
+# Subtest: night 2 jump pad launches toward the other island and bridge stays grounded
+ok 32 - night 2 jump pad launches toward the other island and bridge stays grounded
+  ---
+  duration_ms: 1.825
+  ...
+# Subtest: night 3 has upper tiers, ramps and seeded wind forecast
+ok 33 - night 3 has upper tiers, ramps and seeded wind forecast
+  ---
+  duration_ms: 106.9533
+  ...
+# Subtest: mote respawn chooses an unoccupied point at the scheduled tick
+ok 34 - mote respawn chooses an unoccupied point at the scheduled tick
+  ---
+  duration_ms: 11.6978
+  ...
+# Subtest: shade wander moves deterministically, then chase uses each night speed
+ok 35 - shade wander moves deterministically, then chase uses each night speed
+  ---
+  duration_ms: 1.6604
+  ...
+# Subtest: scheduled shade spawns use seeded legal points on all nights
+ok 36 - scheduled shade spawns use seeded legal points on all nights
+  ---
+  duration_ms: 56.3966
+  ...
+# Subtest: scheduled drifters spawn at 1200-tick intervals and stay under the two-creature cap
+ok 37 - scheduled drifters spawn at 1200-tick intervals and stay under the two-creature cap
+  ---
+  duration_ms: 66.317
+  ...
+# Subtest: drifter idle and chase states move at their specified speeds
+ok 38 - drifter idle and chase states move at their specified speeds
+  ---
+  duration_ms: 2.369
+  ...
+# Subtest: renderer adapter tracks entity positions and keeps a pulse-dismissed drifter visible through its delay
+ok 39 - renderer adapter tracks entity positions and keeps a pulse-dismissed drifter visible through its delay
+  ---
+  duration_ms: 1.0902
+  ...
+# Subtest: drifter steals up to three, flees, and pulse returns stolen motes
+ok 40 - drifter steals up to three, flees, and pulse returns stolen motes
+  ---
+  duration_ms: 5.3201
+  ...
+# Subtest: charm pickup lasts 600 ticks and allows repeated dash activations
+ok 41 - charm pickup lasts 600 ticks and allows repeated dash activations
+  ---
+  duration_ms: 5.7622
+  ...
+# Subtest: pause advances wall tick only; resume restarts deterministic simulation tick
+ok 42 - pause advances wall tick only; resume restarts deterministic simulation tick
+  ---
+  duration_ms: 1.4687
+  ...
+# Subtest: victory precedence, integer-tick clock and score use standardized formula
+ok 43 - victory precedence, integer-tick clock and score use standardized formula
+  ---
+  duration_ms: 2.4189
+  ...
+# Subtest: snapshot contains required v1.1 state and rounds positions to three decimals
+ok 44 - snapshot contains required v1.1 state and rounds positions to three decimals
+  ---
+  duration_ms: 1.2264
+  ...
+# Subtest: CLI accepts all nights, emits v1.1 and is byte deterministic with action inputs
+ok 45 - CLI accepts all nights, emits v1.1 and is byte deterministic with action inputs
+  ---
+  duration_ms: 1374.2942
+  ...
+# Subtest: CLI rejects malformed scenario/input and invalid night with clear exit codes
+ok 46 - CLI rejects malformed scenario/input and invalid night with clear exit codes
+  ---
+  duration_ms: 710.7744
+  ...
+# Subtest: full headless night stays deterministic under the 30-second limit target
+ok 47 - full headless night stays deterministic under the 30-second limit target
+  ---
+  duration_ms: 913.1385
+  ...
+1..47
+# tests 47
+# suites 0
+# pass 47
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4264.8108
+
+exit_code=0
