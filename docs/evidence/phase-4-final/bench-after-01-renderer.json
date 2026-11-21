@@ -1,0 +1,19 @@
+{
+  "contract_version": "1.3",
+  "seed": 42,
+  "duration_s": 30,
+  "viewport": {
+    "width": 1264,
+    "height": 681,
+    "device_pixel_ratio": 1
+  },
+  "renderer": "Three.js 180 · WebGLRenderer · Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+  "debug_renderer": {
+    "calls": 225,
+    "triangles": 135818,
+    "points": 100,
+    "lines": 1832,
+    "textures": 25,
+    "geometries": 149
+  }
+}

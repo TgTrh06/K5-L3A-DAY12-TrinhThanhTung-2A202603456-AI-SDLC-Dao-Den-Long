@@ -1,0 +1,124 @@
+{
+  "contract_version": "1.3",
+  "seed": 42,
+  "duration_s": 30,
+  "viewport": {
+    "width": 1264,
+    "height": 681,
+    "device_pixel_ratio": 1
+  },
+  "renderer": "Three.js 180 · WebGLRenderer · Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+  "debug_frame_times": {
+    "max_ms": 458.3,
+    "over_33ms": 41,
+    "over_50ms": 19,
+    "slowest_frames": [
+      {
+        "at_s": 12.6,
+        "duration_ms": 458.3
+      },
+      {
+        "at_s": 2.9,
+        "duration_ms": 370.6
+      },
+      {
+        "at_s": 0.6,
+        "duration_ms": 226.9
+      },
+      {
+        "at_s": 26.9,
+        "duration_ms": 218.8
+      },
+      {
+        "at_s": 25.5,
+        "duration_ms": 194.5
+      },
+      {
+        "at_s": 13,
+        "duration_ms": 139.9
+      },
+      {
+        "at_s": 26.7,
+        "duration_ms": 95.9
+      },
+      {
+        "at_s": 27.3,
+        "duration_ms": 93.5
+      }
+    ],
+    "long_tasks": [
+      {
+        "at_s": 0.3,
+        "duration_ms": 234
+      },
+      {
+        "at_s": 2.6,
+        "duration_ms": 369
+      },
+      {
+        "at_s": 12.2,
+        "duration_ms": 444
+      },
+      {
+        "at_s": 12.8,
+        "duration_ms": 154
+      },
+      {
+        "at_s": 21.4,
+        "duration_ms": 50
+      },
+      {
+        "at_s": 25.3,
+        "duration_ms": 189
+      },
+      {
+        "at_s": 25.5,
+        "duration_ms": 67
+      },
+      {
+        "at_s": 25.6,
+        "duration_ms": 94
+      },
+      {
+        "at_s": 25.9,
+        "duration_ms": 51
+      },
+      {
+        "at_s": 26.1,
+        "duration_ms": 59
+      },
+      {
+        "at_s": 26.6,
+        "duration_ms": 66
+      },
+      {
+        "at_s": 26.8,
+        "duration_ms": 152
+      },
+      {
+        "at_s": 27.3,
+        "duration_ms": 95
+      },
+      {
+        "at_s": 27.9,
+        "duration_ms": 84
+      },
+      {
+        "at_s": 28.4,
+        "duration_ms": 50
+      },
+      {
+        "at_s": 30,
+        "duration_ms": 58
+      }
+    ]
+  },
+  "debug_renderer": {
+    "calls": 208,
+    "triangles": 133640,
+    "points": 100,
+    "lines": 1832,
+    "textures": 25,
+    "geometries": 149
+  }
+}

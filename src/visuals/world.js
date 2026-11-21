@@ -6,6 +6,7 @@ export function syncEntityPosition(object, entity, verticalOffset = 0) {
     object.visible = entity.state !== 'removed' || entity.stateTicksLeft > 0;
 }
 import { paperTexture, cloudTexture, skyTexture, glowTexture, groundTexture, randomSource } from './paint.js';
+import { createBenchmarkActors } from './benchmark-actors.js';
 
 export function createWorld(renderer, scene, tuning, initialGame, getDistinctPalette = () => false) {
     const random = randomSource(99), glow = glowTexture();
@@ -177,6 +178,7 @@ export function createWorld(renderer, scene, tuning, initialGame, getDistinctPal
     const drifterGeometry = new THREE.PlaneGeometry(1.2, .45);
     const charmMaterial = new THREE.MeshStandardMaterial({ color: '#C8102E', emissive: '#C8102E', emissiveIntensity: .25, roughness: 1 });
     const charmGeometry = new THREE.SphereGeometry(.25, 12, 8), charmSeal = new THREE.TorusGeometry(.38, .035, 6, 24);
+    const benchmarkActors = initialGame.benchmark ? createBenchmarkActors({ scene, moteGeo, moteMat, shadeGeo, shadeMat, eyeGeo, eyeMat, glowTexture: glow }) : null;
     const windRibbon = new THREE.Group(); scene.add(windRibbon);
     for (let i = 0; i < 10; i++) {
         const leaf = mesh(windRibbon, new THREE.PlaneGeometry(.75, .12), new THREE.MeshBasicMaterial({ color: '#C9B48A', transparent: true, opacity: .72, side: THREE.DoubleSide }), i * 2.2 - 10, 1.3 + (i % 3) * .25, (i % 2 ? 1 : -1) * (3 + i % 4));
@@ -214,23 +216,27 @@ export function createWorld(renderer, scene, tuning, initialGame, getDistinctPal
                 l.fuelBar.userData.parts.fill.scale.x = ratio;
                 l.fuelBar.userData.parts.fill.position.x = -.685 * (1 - ratio);
             });
-            sync(motes, g.motes, () => { const p = new THREE.Group(); mesh(p, moteGeo, moteMat); const glow = sprite(p, 1.3, .7); p.userData.dispose = () => glow.material.dispose(); return p; });
-            g.motes.forEach((m, i) => { const p = motes.children[i]; p.position.fromArray(m.pos); p.position.y += .65 + (reduceMotion ? 0 : Math.sin(time * 1.7 + i * 3) * .14); });
-            sync(shades, g.shades, () => {
-                const p = new THREE.Group(); const head = mesh(p, shadeGeo, shadeMat); head.scale.set(.85, 1.25, .85);
-                const haze = mesh(p, shadeGeo, new THREE.MeshBasicMaterial({ color: '#7A3CFF', transparent: true, opacity: .12, depthWrite: false })); haze.scale.set(1.3, 1.4, 1.3);
-                const eyes = new THREE.Group(); p.add(eyes); for (const x of [-.18, .18]) mesh(eyes, eyeGeo, eyeMat, x, .12, -.48);
-                p.userData.dispose = () => haze.material.dispose();
-                return p;
-            });
-            g.shades.forEach((s, i) => {
-                const p = shades.children[i]; syncEntityPosition(p, s, .9);
-                p.lookAt(player.position.x, p.position.y, player.position.z); p.rotation.y += Math.PI;
-                const stunned = s.state === 'stunned'; p.children[2].rotation.z = stunned ? Math.PI / 4 : 0;
-                const shadeColor = getDistinctPalette() ? '#00B3FF' : '#7A3CFF';
-                p.children[0].material.emissive.set(shadeColor); p.children[1].material.color.set(stunned ? '#3A3450' : shadeColor);
-                p.children[2].children.forEach(eye => eye.material.color.set(shadeColor));
-            });
+            if (g.benchmark && benchmarkActors) {
+                benchmarkActors.update(g, time, player.position, getDistinctPalette());
+            } else {
+                sync(motes, g.motes, () => { const p = new THREE.Group(); mesh(p, moteGeo, moteMat); const glow = sprite(p, 1.3, .7); p.userData.dispose = () => glow.material.dispose(); return p; });
+                g.motes.forEach((m, i) => { const p = motes.children[i]; p.position.fromArray(m.pos); p.position.y += .65 + (reduceMotion ? 0 : Math.sin(time * 1.7 + i * 3) * .14); });
+                sync(shades, g.shades, () => {
+                    const p = new THREE.Group(); const head = mesh(p, shadeGeo, shadeMat); head.scale.set(.85, 1.25, .85);
+                    const haze = mesh(p, shadeGeo, new THREE.MeshBasicMaterial({ color: '#7A3CFF', transparent: true, opacity: .12, depthWrite: false })); haze.scale.set(1.3, 1.4, 1.3);
+                    const eyes = new THREE.Group(); p.add(eyes); for (const x of [-.18, .18]) mesh(eyes, eyeGeo, eyeMat, x, .12, -.48);
+                    p.userData.dispose = () => haze.material.dispose();
+                    return p;
+                });
+                g.shades.forEach((s, i) => {
+                    const p = shades.children[i]; syncEntityPosition(p, s, .9);
+                    p.lookAt(player.position.x, p.position.y, player.position.z); p.rotation.y += Math.PI;
+                    const stunned = s.state === 'stunned'; p.children[2].rotation.z = stunned ? Math.PI / 4 : 0;
+                    const shadeColor = getDistinctPalette() ? '#00B3FF' : '#7A3CFF';
+                    p.children[0].material.emissive.set(shadeColor); p.children[1].material.color.set(stunned ? '#3A3450' : shadeColor);
+                    p.children[2].children.forEach(eye => eye.material.color.set(shadeColor));
+                });
+            }
             sync(drifters, g.drifters, () => { const ribbon = new THREE.Group(); const cloth = mesh(ribbon, drifterGeometry, drifterMaterial); cloth.rotation.y = Math.PI / 4; cloth.rotation.x = -.3; const halo = sprite(ribbon, 1.8, .18); ribbon.userData.halo = halo; return ribbon; });
             g.drifters.forEach((d, i) => {
                 const obj = drifters.children[i]; syncEntityPosition(obj, d, 1.25);

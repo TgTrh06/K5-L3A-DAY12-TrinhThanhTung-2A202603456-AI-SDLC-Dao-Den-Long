@@ -1,0 +1,34 @@
+{
+  "contract_version": "1.3",
+  "seed": 42,
+  "duration_s": 30,
+  "viewport": {
+    "width": 1264,
+    "height": 681,
+    "device_pixel_ratio": 1
+  },
+  "renderer": "Three.js 180 · WebGLRenderer · Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+  "debug_frame_times": {
+    "max_ms": 495.5,
+    "over_33ms": 54,
+    "over_50ms": 22,
+    "slowest_ms": [
+      495.5,
+      114.5,
+      107.2,
+      96.2,
+      96.1,
+      95.9,
+      89.8,
+      78.6
+    ]
+  },
+  "debug_renderer": {
+    "calls": 143,
+    "triangles": 127492,
+    "points": 100,
+    "lines": 1828,
+    "textures": 25,
+    "geometries": 149
+  }
+}

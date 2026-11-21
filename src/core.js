@@ -367,6 +367,53 @@ function applyPulse(g, input) {
     }
     emit(g, 'pulse', { hit_ids: hits.map(x => x.id) });
 }
+// The fixed benchmark scene has no weak or unlit lamps, no player chase, and
+// no combat.  Keep its 200 wanderers on the same speed/terrain/safe-zone rules
+// without building transient filter/sort arrays for every shade every tick.
+// This path is deliberately isolated from ordinary Contract simulation.
+function moveBenchmarkShades(g) {
+    const speed = T.shade_speed;
+    const isSafe = (x, z) => {
+        for (const lamp of g.lanterns) {
+            if (!safeLamp(lamp)) continue;
+            const dx = x - lamp.pos[0], dz = z - lamp.pos[2];
+            if (Math.hypot(dx, dz) < T.safe_radius) return true;
+        }
+        return false;
+    };
+    const nextTarget = shade => {
+        let candidate = null, candidateDistance = Infinity;
+        for (let index = 0; index < g.map.shadePoints.length; index++) {
+            const point = g.map.shadePoints[index];
+            if (isSafe(point[0], point[2])) continue;
+            const distance = distXZ(shade.pos, point);
+            if (distance > 1 && (distance < candidateDistance || (distance === candidateDistance && index < candidate.index))) {
+                candidate = { point, index }; candidateDistance = distance;
+            }
+        }
+        return candidate ? [...candidate.point] : null;
+    };
+    for (const shade of g.shades) {
+        if (shade.safePushTicks > 0 && shade.safePushTarget) {
+            const dx = shade.safePushTarget[0] - shade.pos[0], dz = shade.safePushTarget[2] - shade.pos[2];
+            const remaining = Math.hypot(dx, dz), amount = remaining / shade.safePushTicks;
+            shade.pos[0] += dx / (remaining || 1) * amount;
+            shade.pos[2] += dz / (remaining || 1) * amount;
+            shade.safePushTicks--; if (shade.safePushTicks === 0) shade.safePushTarget = null;
+            continue;
+        }
+        if (!shade.wanderTarget || distXZ(shade.pos, shade.wanderTarget) <= .1 || isSafe(shade.wanderTarget[0], shade.wanderTarget[2])) {
+            shade.wanderTarget = nextTarget(shade);
+        }
+        if (!shade.wanderTarget) continue;
+        const dx = shade.wanderTarget[0] - shade.pos[0], dz = shade.wanderTarget[2] - shade.pos[2];
+        const distance = Math.hypot(dx, dz), travel = Math.min(distance, speed * DT);
+        const nextX = shade.pos[0] + dx / distance * travel, nextZ = shade.pos[2] + dz / distance * travel;
+        if (groundAt(g, nextX, nextZ, shade.pos[1] + .1) && !isSafe(nextX, nextZ)) {
+            shade.pos[0] = nextX; shade.pos[2] = nextZ;
+        } else shade.wanderTarget = null;
+    }
+}
 function moveShades(g) {
     const p = g.player, speed = g.night === 3 ? T.night3_shade_speed : T.shade_speed;
     const safe = item => g.lanterns.some(l => safeLamp(l) && distXZ(item, l.pos) < T.safe_radius);
@@ -541,7 +588,7 @@ export function step(g, frame = {}) {
         if (g.state === 'paused') { g.state = 'playing'; emit(g, 'resumed'); return g.events; }
     }
     if (g.state === 'paused') return g.events;
-    if (g.benchmark) { g.simTick++; updateSafeZones(g); moveShades(g); return g.events; }
+    if (g.benchmark) { g.simTick++; updateSafeZones(g); moveBenchmarkShades(g); return g.events; }
     const previousWind = g.wind, fullAtStart = new Set(g.lanterns.filter(l => l.lit && l.fuelUnits >= T.fuel_max * FUEL_UNITS_PER_FUEL).map(l => l.id));
     g.simTick++; decrementTimers(g); g.timeLeftTicks = Math.max(0, g.initialTimeTicks - g.simTick); g.wind = wind(g);
     processFuel(g);

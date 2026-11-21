@@ -11,11 +11,11 @@ import { handleLeaderboardApi } from '../src/leaderboard-api.js';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const psMonitor = path.join(root, 'scripts/rss-monitor.ps1');
 function options(args) {
-    const result = { seed: 42, duration: 30, out: 'bench.json' };
+    const result = { seed: 42, duration: 30, out: 'bench.json', debugOut: null };
     for (let i = 0; i < args.length; i += 2) {
         const key = args[i], value = args[i + 1];
-        if (!['--seed', '--duration', '--out'].includes(key) || value === undefined) throw new Error('Usage: npm run bench -- --seed 42 --duration 30 --out bench.json');
-        result[{ '--seed': 'seed', '--duration': 'duration', '--out': 'out' }[key]] = key === '--out' ? value : Number(value);
+        if (!['--seed', '--duration', '--out', '--debug-out'].includes(key) || value === undefined) throw new Error('Usage: node scripts/bench.js --seed 42 --duration 30 --out bench.json [--debug-out bench-profile.json]');
+        result[{ '--seed': 'seed', '--duration': 'duration', '--out': 'out', '--debug-out': 'debugOut' }[key]] = ['--out', '--debug-out'].includes(key) ? value : Number(value);
     }
     if (!Number.isInteger(result.seed) || result.seed < 0 || result.seed > 0xffffffff || !Number.isFinite(result.duration) || result.duration <= 0) throw new RangeError('seed and duration are out of range');
     return result;
@@ -79,7 +79,7 @@ async function main() {
         await serveStatic(request, response);
     });
     await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
-    const url = `http://127.0.0.1:${server.address().port}/?bench=1&seed=${config.seed}&duration=${config.duration}&startedAt=${processStartedAt}`;
+    const url = `http://127.0.0.1:${server.address().port}/?bench=1&seed=${config.seed}&duration=${config.duration}&startedAt=${processStartedAt}${config.debugOut ? '&profile=1' : ''}`;
     try {
         const response = await fetch(url, { signal: AbortSignal.timeout(2000) });
         if (!response.ok) throw new Error(`benchmark server returned HTTP ${response.status}`);
@@ -89,7 +89,7 @@ async function main() {
         throw new Error(`Benchmark loopback preflight failed: ${error.cause?.code ?? error.message}. The local browser runner needs TCP access to 127.0.0.1.`);
     }
     const args = ['--no-first-run', '--no-default-browser-check', '--disable-background-timer-throttling', '--disable-renderer-backgrounding',
-        '--disable-backgrounding-occluded-windows', '--disable-frame-rate-limit', '--disable-gpu-vsync', '--force-device-scale-factor=1',
+        '--disable-backgrounding-occluded-windows', '--disable-features=CalculateNativeWinOcclusion', '--disable-frame-rate-limit', '--disable-gpu-vsync', '--force-device-scale-factor=1',
         '--window-size=1280,720', `--user-data-dir=${profile}`, `--app=${url}`];
     if (process.platform !== 'win32' && process.getuid?.() === 0) args.unshift('--no-sandbox');
     const child = spawn(chrome, args, { stdio: 'ignore', windowsHide: true });
@@ -114,13 +114,22 @@ async function main() {
         };
         await fs.mkdir(path.dirname(path.resolve(config.out)), { recursive: true });
         await fs.writeFile(path.resolve(config.out), `${JSON.stringify(output, null, 2)}\n`, 'utf8');
+        if (config.debugOut) {
+            const debugTarget = path.resolve(config.debugOut);
+            await fs.mkdir(path.dirname(debugTarget), { recursive: true });
+            await fs.writeFile(debugTarget, `${JSON.stringify({ contract_version: '1.3', seed: config.seed, duration_s: config.duration,
+                viewport: result.viewport, renderer: result.renderer, debug_frame_times: result.debug_frame_times,
+                debug_renderer: result.debug_renderer }, null, 2)}\n`, 'utf8');
+        }
         console.log(JSON.stringify(output, null, 2));
     } finally {
         clearInterval(rssTimer); clearTimeout(timeout);
         if (monitor && !monitor.killed) monitor.kill();
         if (!child.killed) child.kill();
+        if (process.platform === 'win32' && child.pid) spawnSync('taskkill.exe', ['/PID', String(child.pid), '/T', '/F'], { stdio: 'ignore', windowsHide: true });
         await new Promise(resolve => server.close(resolve));
-        await fs.rm(profile, { recursive: true, force: true });
+        try { await fs.rm(profile, { recursive: true, force: true, maxRetries: 5, retryDelay: 250 }); }
+        catch (error) { console.error(`Benchmark completed, but its temporary Chrome profile was retained: ${error.code ?? error.message}`); }
     }
 }
 

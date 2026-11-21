@@ -32,7 +32,7 @@ const camera = new THREE.PerspectiveCamera(60, 1, .1, 400);
 const world = createWorld(renderer, scene, T, g, () => distinctPalette), hud = createHUD(T, () => distinctPalette);
 if (new URLSearchParams(location.search).has('metrics')) import('./metrics.js').then(({ attachMetrics }) => attachMetrics(renderer));
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
-const benchmarkRunner = isBenchmark ? createBenchmarkRunner({ seed: benchSeed, durationSeconds: benchDuration, startedAt }) : null;
+const benchmarkRunner = isBenchmark ? createBenchmarkRunner({ seed: benchSeed, durationSeconds: benchDuration, startedAt, renderer }) : null;
 let verification;
 const byId = id => document.getElementById(id);
 const setScreen = next => {
@@ -182,6 +182,8 @@ if (import.meta.env.DEV && qaParams.has('verify')) {
 }
 function animate(ms) {
     requestAnimationFrame(animate);
+    const benchmarkProfiling = Boolean(benchmarkRunner?.profiling);
+    const simulationStartedAt = benchmarkProfiling ? performance.now() : 0;
     const elapsed = Math.min((ms - last) / 1000, .1); last = ms;
     const frameEvents = [];
     if (screen === 'playing' || g.state === 'paused') {
@@ -194,7 +196,9 @@ function animate(ms) {
             if (g.state === 'won' || g.state === 'lost') { showResult(); break; }
         }
     } else { accumulator = 0; }
+    const worldStartedAt = benchmarkProfiling ? performance.now() : 0;
     world.update(g, ms / 1000, reduceMotion.matches || reducedMotionEnabled, frameEvents);
+    const worldMs = benchmarkProfiling ? performance.now() - worldStartedAt : 0;
     const p = world.player.position, a = yaw * Math.PI / 180;
     if (isBenchmark) {
         if (benchOrbitStartedAt === null) benchOrbitStartedAt = ms;
@@ -203,7 +207,7 @@ function animate(ms) {
     } else { camera.position.set(p.x - Math.sin(a) * 11, p.y + 5.2, p.z - Math.cos(a) * 11); camera.lookAt(p.x, p.y + 1.8, p.z); }
     if (!isBenchmark) hud.update(g, frameEvents);
     const renderStart = performance.now(); renderer.render(scene, camera);
-    benchmarkRunner?.afterFrame(ms);
+    benchmarkRunner?.afterFrame(ms, benchmarkProfiling ? worldStartedAt - simulationStartedAt : 0, worldMs, benchmarkProfiling ? performance.now() - renderStart : 0);
     verification?.observe(g, ms, frameEvents, performance.now() - renderStart, g.state === 'paused');
     audioEvents(frameEvents);
 }

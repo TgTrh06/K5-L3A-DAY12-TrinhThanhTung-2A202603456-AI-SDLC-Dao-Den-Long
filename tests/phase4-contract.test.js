@@ -6,6 +6,7 @@ import { addLeaderboardEntry, rankLeaderboard, validateLeaderboardEntry } from '
 import { createSoakController } from '../src/soak-input.js';
 import { createGame, step, T } from '../src/core.js';
 import { DEFAULT_BINDINGS, readKeyboard, saveBindings, validateBindings } from '../src/input.js';
+import { BENCHMARK_DRAW_BATCHES, benchmarkRenderPlan } from '../src/visuals/benchmark-actors.js';
 
 test('benchmark scene has the contract counts and is seed deterministic', () => {
     const first = createBenchmarkScenario(42), second = createBenchmarkScenario(42);
@@ -23,6 +24,11 @@ test('benchmark summary follows contract FPS and percentile formulas', () => {
     assert.throws(() => summarizeFrameTimes([]), /at least one/);
 });
 
+test('benchmark output profiling is optional and does not change contract metrics', () => {
+    const report = summarizeFrameTimes([16, 17, 18]);
+    assert.deepEqual(Object.keys(report).sort(), ['avg_fps', 'frame_ms_p95', 'frames', 'p1_low_fps']);
+});
+
 test('benchmark simulation moves wander shades without gameplay side effects', () => {
     const scenario = createBenchmarkScenario(42), game = createGame(42, scenario, 1);
     const before = game.shades[0].pos.slice(), time = game.timeLeftTicks, fuel = game.lanterns[0].fuelUnits;
@@ -33,6 +39,8 @@ test('benchmark simulation moves wander shades without gameplay side effects', (
     assert.equal(game.lanterns[0].fuelUnits, fuel);
     assert.equal(game.motes.length, 100);
     assert.equal(game.shades.length, 200);
+    assert.deepEqual(benchmarkRenderPlan(game), { shades: 200, motes: 100, shade_draw_batches: 4, mote_draw_batches: 2 });
+    assert.deepEqual(BENCHMARK_DRAW_BATCHES, { shade: 4, mote: 2 });
 });
 
 test('leaderboard validates entries, sorts by score and chronological tie, keeps top ten', () => {

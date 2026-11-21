@@ -1,0 +1,12 @@
+{
+  "contract_version": "1.3",
+  "avg_fps": 102,
+  "p1_low_fps": 10.3,
+  "frame_ms_p95": 18.4,
+  "frames": 3060,
+  "load_ms": 6902,
+  "peak_mem_mb": 955,
+  "vsync_off": true,
+  "renderer": "Three.js 180 · WebGLRenderer · Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+  "os": "Windows_NT 10.0.26300 (x64)"
+}
