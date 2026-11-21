@@ -12,10 +12,10 @@ runtime UI and evidence honesty. A draft test incorrectly expected no retained f
 event after termination; corrected before running to assert the actual loss reason.
 
 Watercolor update: user approved a procedural Three.js/Canvas art direction from
-two supplied images. One Codex agent authored textures, scene and HUD; no Komorebi
-skill used. Browser QA found overly bright ground and a Vietnamese font rendering
-problem; palette/exposure and title font were adjusted. Actual pause, pulse,
-loss/restart and narrow layout were observed. Screenshots are saved under
+two supplied images. One Codex agent authored textures, scene and HUD. Browser QA
+found overly bright ground and a Vietnamese font rendering problem; palette,
+exposure and title font were adjusted. Actual pause, pulse, loss/restart and narrow
+layout were observed. Screenshots are saved under
 docs/evidence/watercolor. Additional usage estimate: 10k–20k tokens, not billing
 telemetry; exact charge unavailable. No image-generation or external art API used.
 

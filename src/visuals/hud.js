@@ -10,8 +10,8 @@ export function createHUD(tuning, getDistinctPalette = () => false) {
         const slot = document.createElement('i'); slot.className = 'mote-slot'; slot.dataset.index = i; slot.setAttribute('aria-hidden', 'true'); return slot;
     }));
     let previousFlames = -1, lanternCount = 0, night = 0;
-    return {
-        update(g) {
+    const lowFuelIds = new Set(); let alertTicks = 0;
+    const update = (g, events = []) => {
             const p = g.player, lit = g.lanterns.filter(l => l.lit).length;
             if (previousFlames !== p.flames) {
                 flames.replaceChildren(...Array.from({ length: tuning.flames }, (_, i) => {
@@ -33,6 +33,7 @@ export function createHUD(tuning, getDistinctPalette = () => false) {
                 const lamp = g.lanterns[i], low = lamp.lit && lamp.fuelUnits < tuning.low_fuel_threshold * tuning.tick_rate;
                 item.classList.toggle('lit', lamp.lit); item.classList.toggle('low-fuel', low);
                 item.title = `${lamp.id}: ${lamp.lit ? `còn dầu ${(lamp.fuelUnits / tuning.tick_rate).toFixed(1)}` : `${lamp.deposited}/${lamp.everLit ? tuning.relight_cost : tuning.lantern_cost}`}`;
+                item.setAttribute('aria-label', item.title);
             });
             moteSlots.querySelectorAll('.mote-slot').forEach((slot, i) => {
                 slot.hidden = i >= capacity; slot.classList.toggle('filled', i < p.carried);
@@ -53,10 +54,40 @@ export function createHUD(tuning, getDistinctPalette = () => false) {
                 let relative = ((bearing - (g.input.cam_yaw_deg ?? 0) + 540) % 360) - 180;
                 arrow.hidden = Math.abs(relative) <= 50; arrow.style.transform = `translateX(-50%) rotate(${relative}deg)`; arrow.title = `${target.lit ? 'Đèn cần châm dầu' : 'Đèn cần thắp'}: ${target.id}`;
             } else arrow.hidden = true;
+            const shadeArrow = $('shade-arrow'), nearestShade = [...g.shades]
+                .filter(shade => !['stunned', 'removed'].includes(shade.state))
+                .sort((a, b) => Math.hypot(a.pos[0] - p.pos[0], a.pos[2] - p.pos[2]) - Math.hypot(b.pos[0] - p.pos[0], b.pos[2] - p.pos[2]) || a.id.localeCompare(b.id))[0];
+            if (nearestShade) {
+                const bearing = Math.atan2(nearestShade.pos[0] - p.pos[0], nearestShade.pos[2] - p.pos[2]) * 180 / Math.PI;
+                const relative = ((bearing - (g.input.cam_yaw_deg ?? 0) + 540) % 360) - 180;
+                const radians = relative * Math.PI / 180, halfWidth = innerWidth / 2 - 34, halfHeight = innerHeight / 2 - 34;
+                const scale = Math.min(halfWidth / Math.max(.001, Math.abs(Math.sin(radians))), halfHeight / Math.max(.001, Math.abs(Math.cos(radians))));
+                shadeArrow.hidden = false; shadeArrow.style.left = `${innerWidth / 2 + Math.sin(radians) * scale}px`;
+                shadeArrow.style.top = `${innerHeight / 2 - Math.cos(radians) * scale}px`; shadeArrow.style.transform = `translate(-50%,-50%) rotate(${relative}deg)`;
+                shadeArrow.title = `Bóng Mực ${nearestShade.id} đang ở ${Math.round(Math.hypot(nearestShade.pos[0] - p.pos[0], nearestShade.pos[2] - p.pos[2]))} m`;
+                shadeArrow.setAttribute('aria-label', shadeArrow.title);
+            } else shadeArrow.hidden = true;
+            const announcements = [];
+            for (const event of events) {
+                if (event.name === 'shade_spawned') announcements.push('Có Bóng Mực xuất hiện');
+                if (event.name === 'wind_warning') announcements.push('Gió sắp thổi mạnh');
+                if (event.name === 'countdown_10') announcements.push('Còn 10 giây tới bình minh');
+                if (event.name === 'lantern_out') announcements.push(`Đèn ${event.data.lantern_id} đã tắt`);
+            }
+            const low = g.lanterns.filter(lamp => lamp.lit && lamp.fuelUnits < tuning.low_fuel_threshold * tuning.tick_rate).map(lamp => lamp.id);
+            const newlyLow = low.filter(id => !lowFuelIds.has(id));
+            if (newlyLow.length) announcements.push(`Dầu đèn yếu: ${newlyLow.join(', ')}`);
+            lowFuelIds.clear(); low.forEach(id => lowFuelIds.add(id));
+            if (announcements.length) {
+                $('accessibility-alert').textContent = announcements.at(-1); $('accessibility-alert').hidden = false;
+                $('status').textContent = announcements.join('. ');
+                alertTicks = g.tick + tuning.tick_rate * 4;
+            }
+            if (g.tick >= alertTicks) $('accessibility-alert').hidden = true;
             const dashReady = p.charm > 0 || p.dashCd === 0;
             text($('dash-status'), dashReady ? 'Lướt · Sẵn sàng' : `Lướt · ${(p.dashCd / 60).toFixed(1)}s`);
             text($('pulse-status'), p.pulseCd ? `Tỏa sáng · ${(p.pulseCd / 60).toFixed(1)}s` : `Tỏa sáng · ${p.carried >= tuning.pulse_cost ? 'Sẵn sàng' : '3 ✧'}`);
             const charm = $('charm-status'); charm.hidden = p.charm <= 0; text(charm, `Bùa Gió · ${(p.charm / 60).toFixed(0)}s`);
-        },
     };
+    return { update };
 }

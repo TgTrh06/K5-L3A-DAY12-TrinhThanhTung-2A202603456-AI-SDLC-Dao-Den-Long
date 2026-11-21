@@ -1,6 +1,5 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
@@ -9,7 +8,7 @@ import { createGame, step, snapshot, T, NIGHT } from '../src/core.js';
 const quiet = { random_motes: false, random_shades: false, random_drifters: false, wind_enabled: false };
 const lamp = (id, pos, extra = {}) => ({ id, pos, ...extra });
 function runCli(scenario, ticks = 60) {
-    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'phase3-contract-'));
+    const dir = fs.mkdtempSync(path.join(process.cwd(), '.tmp-phase3-'));
     try {
         const scenarioFile = path.join(dir, 'scenario.json'), out = path.join(dir, 'out.jsonl');
         fs.writeFileSync(scenarioFile, JSON.stringify(scenario));
@@ -19,9 +18,10 @@ function runCli(scenario, ticks = 60) {
     } finally { fs.rmSync(dir, { recursive: true, force: true }); }
 }
 
-test('Contract 1.2 tuning and night durations match the simulation', () => {
+test('Contract 1.3 preserves v1.2 tuning and night durations', () => {
     const contract = JSON.parse(fs.readFileSync('game.contract.json', 'utf8'));
-    assert.equal(contract.contract_version, '1.2');
+    assert.equal(contract.contract_version, '1.3');
+    assert.equal(typeof contract.bench_cmd, 'string'); assert.equal(typeof contract.soak_cmd, 'string');
     assert.deepEqual(contract.tuning, T);
     assert.deepEqual([1, 2, 3].map(night => NIGHT[night].seconds), [240, 270, 300]);
 });

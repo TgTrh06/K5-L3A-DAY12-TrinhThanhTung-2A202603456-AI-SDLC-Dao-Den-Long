@@ -118,6 +118,7 @@ export function createGame(seed = 1, scenario = {}, night = 1) {
         nextDrifter: 1, randomMotes: scenario.random_motes !== false,
         randomShades: scenario.random_shades !== false,
         randomDrifters: scenario.random_drifters !== false,
+        benchmark: scenario.benchmark === true,
         windEnabled: scenario.wind_enabled !== false && Boolean(map.wind),
         rng, droppedSerial: 1, spawnPos: [...(scenario.spawn_pos ?? [0, 0, 0])],
     };
@@ -403,8 +404,8 @@ function moveShades(g) {
                 s.state = 'wander'; s.targetLanternId = null;
             } else continue;
         }
-        if (d <= T.shade_detect_radius) { s.state = 'chase'; s.wanderTarget = null; }
-        else if (d > T.shade_forget_radius) s.state = 'wander';
+        if (!g.benchmark && d <= T.shade_detect_radius) { s.state = 'chase'; s.wanderTarget = null; }
+        else if (!g.benchmark && d > T.shade_forget_radius) s.state = 'wander';
         if (s.state === 'chase' && d > 1e-9) {
             let nx = s.pos[0] + (p.pos[0] - s.pos[0]) / d * speed * DT;
             let nz = s.pos[2] + (p.pos[2] - s.pos[2]) / d * speed * DT;
@@ -540,6 +541,7 @@ export function step(g, frame = {}) {
         if (g.state === 'paused') { g.state = 'playing'; emit(g, 'resumed'); return g.events; }
     }
     if (g.state === 'paused') return g.events;
+    if (g.benchmark) { g.simTick++; updateSafeZones(g); moveShades(g); return g.events; }
     const previousWind = g.wind, fullAtStart = new Set(g.lanterns.filter(l => l.lit && l.fuelUnits >= T.fuel_max * FUEL_UNITS_PER_FUEL).map(l => l.id));
     g.simTick++; decrementTimers(g); g.timeLeftTicks = Math.max(0, g.initialTimeTicks - g.simTick); g.wind = wind(g);
     processFuel(g);

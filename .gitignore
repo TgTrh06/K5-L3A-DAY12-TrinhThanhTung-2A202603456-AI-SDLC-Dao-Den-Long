@@ -1,5 +1,11 @@
 node_modules/
 dist/
+/release/
 .env*
 !.env.example
 result.jsonl
+.tmp-phase1-*
+.tmp-phase2-*
+.tmp-phase3-*
+.tmp-phase4-*
+.bench-profile-*

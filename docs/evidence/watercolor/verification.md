@@ -5,7 +5,7 @@
 
 User approved `accept plan art màu nước`. References inform palette, paper washes,
 cloud scrolls, ivory moon and warm light. Original reference pixels are not bundled.
-No Komorebi skill, new dependency or gameplay tuning was used in this update.
+No extra skill, dependency or gameplay tuning was used in this update.
 
 Changed: src/main.js (scene adapter), src/visuals/paint.js (Canvas textures),
 src/visuals/world.js (Three.js scene), src/visuals/hud.js (HUD adapter),

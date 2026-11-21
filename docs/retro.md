@@ -116,3 +116,38 @@ Do not mark later phases complete until their released tickets are implemented.
   fuel-bar/low-fuel visuals and a complete manual campaign remain open. Ubuntu
   Actions passed for both the Phase 2 tag commit and Phase 3 commit; the run warning
   about action Node.js 20 deprecation is non-blocking and documented in the evidence.
+
+## Phase 4 — Release engineering and accessibility
+
+The work split cleanly around boundaries: the shared core stayed deterministic;
+benchmark and soak tooling were opt-in; a loopback Node runtime owns the local
+leaderboard file; UI preferences remain in browser storage. This let the export
+CLI and browser use the same score data without a cloud account or new package.
+The most useful harness additions were fixed seed scenarios, derived benchmark
+formulas, process RSS sampling, the local API's temp-directory override, and the
+Phase 1–3 regression suite. No new runtime dependency was needed.
+
+One early soak assertion assumed that a direction selected every 30 ticks must
+change from the previous direction. That is not in the contract; a seeded stream
+can legitimately select the same direction twice. The failing assertion exposed
+my test assumption, which I changed to check determinism and 30-tick hold windows.
+Another release design issue was discovered before implementation: browser
+`localStorage` alone cannot satisfy a CLI export of the same leaderboard, so ADR
+0004 records the loopback file-backed runtime. These decisions came from the
+contract and integration boundary, not an AI completion claim.
+
+Soak inputs, benchmark scene, score ranking/API, key conflicts, compatibility,
+and static serving have focused automated checks. Results are recorded under
+`docs/evidence/phase-4-final/`; they are host evidence, not the instructor's final
+FPS result. The manual browser review, clean Ubuntu run, and truthful short
+gameplay recording remain separate evidence gates until recorded. No hidden-test
+pass is inferred from public regression.
+
+The rough combined estimate across the earlier entries plus this phase is
+**115k–220k tokens**. This is a broad reconstruction from per-phase estimates,
+not telemetry or a billing statement; exact cost is unavailable under the app
+subscription. Context was saved by reusing the phase contracts, writing small
+focused assertions before integration, retaining one core and avoiding new
+dependencies. If starting again, I would define the local release runtime and
+browser evidence flow during Phase 1, rather than first confronting the CLI and
+browser persistence mismatch at release time.

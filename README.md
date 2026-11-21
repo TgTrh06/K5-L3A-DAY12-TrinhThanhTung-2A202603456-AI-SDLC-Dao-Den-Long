@@ -1,161 +1,121 @@
 # Đảo Đèn Lồng — AI SDLC
 
-**Video demo:** chưa có. Sẽ bổ sung video `.mp4` dưới 5 phút và link tại đây khi hoàn tất Phase 4.
+**Video demo dưới 5 phút:** chưa ghi hình; cần thêm tại `docs/demo/demo.mp4` trước khi phát hành.
 
-Trịnh Thanh Tùng · MSSV **2A202603456** · K5-L3A · Day 12.
+Game 3D góc nhìn thứ ba: Mây thu thập đom đóm, thắp và châm dầu cho đèn, giữ
+đảo sáng qua ba đêm và né Bóng Mực. Trịnh Thanh Tùng · MSSV **2A202603456** ·
+K5-L3A · Day 12.
 
-Game 3D góc nhìn thứ ba: Mây thu thập đom đóm, thắp đèn và tránh Bóng Mực trên ba
-hòn đảo. Phase 3 Ticket-03 / Contract 1.2 đang được triển khai trong working
-tree. Phase 1 đã phát hành; Phase 2 có tag lịch sử. Phase 3 local verification
-và browser smoke check được ghi trong `docs/evidence/phase-3-final/`; Ubuntu CI
-đã đạt trên commit `1d314d3`. Fuel-bar gameplay review vẫn cần hoàn tất trước tag.
+![Cảnh game](docs/evidence/watercolor/desktop.jpg)
 
-Đã công bố tag **`phase-1`** tại commit `a53d13a`, kèm các giới hạn đã ghi trong bằng chứng.
-Kiểm chứng bổ sung sau tag đang tiếp tục; việc có tag không đồng nghĩa mọi mục đã đạt.
-Phase 3–4, Release `v1.0.0`, video và giấy phép dự án còn thiếu.
+## Chạy từ clone sạch — 3 lệnh
 
-## Cài đặt và chạy — tối đa 3 lệnh
-
-Yêu cầu Node.js **20.19+ hoặc 22.12+**, npm và trình duyệt hỗ trợ WebGL.
+Yêu cầu: Node.js **20.19+ hoặc 22.12+**, npm, Chrome/Chromium (chỉ cần cho
+benchmark) và trình duyệt hỗ trợ WebGL.
 
 ```sh
 npm ci
-npm run build
+node node_modules/vite/bin/vite.js build
 npm run preview
 ```
 
-Mở URL local được in ra. Cài sạch, test/build/headless và HTTP preview trên Ubuntu
-đã đạt trong [run CI kiểm chứng tag Phase 1](https://github.com/TgTrh06/K5-L3A-DAY12-TrinhThanhTung-2A202603456-AI-SDLC-Dao-Den-Long/actions/runs/44718587705).
-Đồ họa được quan sát trên Windows Chrome; CI Ubuntu chưa kiểm tra WebGL bằng mắt.
-Khi phát triển: `npm run dev`.
+Mở URL `http://127.0.0.1:4173` được in trong terminal. Preview chạy máy chủ
+cục bộ cho web tĩnh và bảng xếp hạng. `npm run dev` chạy chế độ phát triển.
+Không cần API key, tài khoản hay dịch vụ đám mây. Trên macOS/Linux, ba lệnh trên
+giống nhau.
 
-## Điều khiển và luật chơi
+## Chơi và trợ năng
 
-| Phím/thao tác | Hành động |
+| Hành động | Mặc định |
 |---|---|
-| WASD / mũi tên | Di chuyển theo góc camera |
-| Kéo chuột | Xoay camera |
-| Space | Nhảy |
-| Shift | Lướt |
-| E | Nạp đom đóm vào đèn ở gần |
-| Q | Tỏa sáng, tiêu hao 3 đom đóm |
-| Esc / P | Tạm dừng / tiếp tục |
-| R | Chơi lại đêm hiện tại |
+| Di chuyển theo góc camera | W/A/S/D; mũi tên vẫn là bí danh mặc định |
+| Xoay camera | Kéo chuột |
+| Nhảy / lướt | Space / Shift |
+| Tương tác với đèn gần | E |
+| Tỏa sáng | Q |
+| Tạm dừng / tiếp tục | Esc / P |
 
-Thời lượng chuẩn Phase 3 là **240 / 270 / 300 giây**. Đèn đang sáng hao dầu;
-Mây phải châm dầu hoặc thắp lại đèn tắt và giữ ít nhất **3/5, 4/6, 5/7** đèn
-sáng tới bình minh. Sức chứa bắt đầu ở **10**, tăng 2 sau mỗi lần thắp thành công,
-tối đa **20**. Mây có **3 Ngọn Lửa**; đèn còn dầu từ 30 trở lên giữ vùng an toàn
-bán kính **6 m**. Cấu hình chính xác theo [spec Phase 3](docs/phases/phase-3-spec.md)
-và [ADR-0003](docs/adr/0003-fuel-and-dawn.md). Hành trình đi qua Đảo Bến, Đảo Cau,
-rồi Đảo Chuông; tổng điểm cộng điểm các đêm đã thắng.
+Menu **Cài đặt** cho phép đổi từng phím, phát hiện xung đột và khôi phục mặc
+định; cài đặt được lưu trên thiết bị. Cũng có **Giảm chuyển động**, **Chữ lớn
+(×1,25)** và **Bảng màu dễ phân biệt**. Mục tiêu trợ năng giữ cỡ chữ UI tối thiểu
+18 px tại 1280×720. Bóng Mực, gió, 10 giây cuối và dầu yếu có thông báo hình ảnh
+và vùng đọc màn hình; mũi tên ở cạnh màn hình chỉ hướng Bóng Mực gần nhất.
 
-Điều khiển bằng bàn phím/chuột. Cài đặt âm lượng và độ nhạy được lưu trong trình
-duyệt; bố cục hẹp không đồng nghĩa có điều khiển cảm ứng.
+## Kiểm thử và lệnh hợp đồng
 
-## Kiểm thử và headless
+Contract đầy đủ: [game.contract.json](game.contract.json), phiên bản **1.3**.
+Simulation dùng tick cố định 60 Hz; cùng core chạy trong trình duyệt và CLI.
+Các lệnh trả mã 2 cho đối số sai, mã 1 cho lỗi runtime.
 
 ```sh
 npm test
 node src/headless.js --seed 12 --night 1 --ticks 600 --out result.jsonl
+npm run verify:phase3
 ```
 
-Contract: [game.contract.json](game.contract.json), phiên bản 1.2.
-Tùy chọn: `--scenario file.json --inputs file.json --snapshot-every 10`.
-Simulation cố định 60 tick/giây, không cửa sổ/GPU. Snapshot tick 0 trước input;
-input tick k tạo event tick k+1. Hành động dùng cạnh false→true.
-Tọa độ làm tròn 3 chữ số thập phân, output JSONL tất định cho cùng seed và input.
-Scenario/input sai trả mã 2; lỗi CLI/runtime khác trả mã 1.
+JSONL giữ định dạng v1.2. Có thể đặt scenario/input và snapshot interval:
+`--scenario file.json --inputs file.json --snapshot-every 10`.
 
-Kiểm chứng Phase 3 bằng `npm run verify:phase3`. Lệnh chạy toàn bộ test/build,
-fixtures headless v1.2 hai lần để so determinism, và ba lượt simulation đủ thời
-lượng. Đây là kiểm tra CLI, không phải chơi tay. Xem
-[bảng yêu cầu → kiểm tra](docs/phases/phase-3-spec.md) và bằng chứng tại
-[`docs/evidence/phase-3-final`](docs/evidence/phase-3-final/). Kết quả local sẽ
-được ghi sau khi verifier chạy trên bản cuối.
-Phase 1 có bằng chứng độc lập và không bị ghi đè bởi script Phase 2: xem
-[`docs/evidence/phase-1-final/README.md`](docs/evidence/phase-1-final/README.md).
-Các [log ban đầu](docs/evidence/phase-1/verification-summary.md) và
-[review mỹ thuật](docs/evidence/watercolor/verification.md) vẫn được giữ để tra cứu.
+### Benchmark Contract 1.3
 
-QA trình duyệt: `npm run dev`, mở URL kèm `?verify=1`, chọn **Nạp fixture seed 12**
-rồi **Chạy replay từ đầu**. Panel hiển thị rõ chế độ kiểm thử và số đo. Replay chỉ
-gửi input, không đặt state/teleport. Harness này chỉ bật ở development, không nằm
-trong production build; không dùng số đo của nó như benchmark bản phát hành.
+Cài Chrome/Chromium và chạy:
 
-Đo quan sát production: mở URL preview kèm `?metrics=1`, bấm **Bắt đầu đo**.
-Module chỉ quan sát frame/tài nguyên, không replay hoặc sửa game. Bộ đo hiện warm-up
-10 giây rồi lấy mẫu 60 giây; chỉ frame khi trang hiển thị và có focus mới được tính.
-Đo tại viewport 1280×720 để đối chiếu yêu cầu Phase 2. Phase 2 production sample
-đạt 78,97 FPS trung bình trong 60 giây, p95 20,30 ms, tối đa 240 ms; xem
-[browser report Phase 2](docs/evidence/phase-2-final/browser-report.md). Mẫu cũ
-trong trình duyệt tích hợp khoảng 0,99 FPS; ba mẫu Chrome riêng sau khôi phục cửa sổ đạt 75,40–83,84 FPS tại
-902×934, DPR 1. Hai điều kiện đo khác nhau; xem [báo cáo sau tag](docs/evidence/phase-1-post-tag/README.md).
+```sh
+node scripts/bench.js --seed 42 --duration 30 --out docs/evidence/phase-4-final/bench.json
+```
 
-## Kiểm chứng Ubuntu bằng GitHub Actions
+Lệnh mở cửa sổ Chrome riêng 1280×720 với cảnh Night 1, 200 Bóng Mực wander,
+100 đom đóm, 3 đèn đầy dầu, rồi tự thoát sau 3 giây khởi động và đúng 30 giây
+lấy mẫu. GPU VSync được yêu cầu tắt qua cờ Chrome; `requestAnimationFrame` vẫn
+phụ thuộc lịch dựng hình của trình duyệt. `peak_mem_mb` đo RSS tiến trình Chrome
+và các tiến trình con; nếu hệ điều hành không hỗ trợ bộ đếm sẽ là `null`.
+Kết quả trên máy cá nhân chỉ để tham khảo. Máy chấm của giảng viên mới quyết
+định ngưỡng 60 FPS trung bình, 30 FPS p1-low và tải ≤10 giây.
 
-Workflow [Verify Phase 1 on Ubuntu](.github/workflows/verify-phase-1.yml) checkout
-chính tag `phase-1` và từ chối chạy nếu tag không còn trỏ vào commit
-`a53d13ad186ce31936594ea2a8b25dea2a38c8d5`. Workflow nằm ở commit bổ sung trên
-`main`; không thay tag hoặc ghi ngược output CI vào repo.
+### Soak test Contract 1.3
 
-Sau khi workflow được duyệt và push: vào **Actions → Verify Phase 1 on Ubuntu →
-Run workflow → main**. Nó cũng tự chạy khi file workflow được cập nhật trên `main`.
-Các bước: cài sạch `npm ci`, chạy test/build/headless bằng script hiện có, mở
-preview rồi kiểm tra HTTP của HTML và asset JS/CSS. Token chỉ có `contents: read`.
+```sh
+node --jitless --expose-gc --max-old-space-size=16 --max-semi-space-size=1 scripts/soak.js --seed 7 --nights 10 --out docs/evidence/phase-4-final/soak.json
+```
 
-Run [44718587705](https://github.com/TgTrh06/K5-L3A-DAY12-TrinhThanhTung-2A202603456-AI-SDLC-Dao-Den-Long/actions/runs/44718587705)
-đã thành công: Ubuntu 24.04, Node 22.23.4, 83/83 test, build/headless/HTTP đạt.
-Mở run, xem **Summary** và tải artifact `phase-1-ubuntu-44718587705-1` (giữ 30 ngày,
-hết hạn dự kiến 20/12/2026). CI không kiểm tra đồ họa bằng GPU, FPS hoặc chơi tay.
-[Chi tiết kết quả, cách đọc bằng chứng và giới hạn](docs/evidence/phase-1-post-tag/README.md).
+Chạy 10 đêm trong một tiến trình Node, luân phiên Đêm 1/2/3, khởi tạo seed
+`7 + số_đêm` (đêm đầu dùng seed 8), điều khiển giả lập theo seed, rồi reset state.
+V8 JIT được tắt và semi-space giới hạn để giảm nhiễu RSS của code cache/heap
+khởi động trong phép đo; mô phỏng, xác suất input và seed không thay đổi. Kết quả
+gồm crashes, won/lost, RSS đầu/cuối và thời lượng.
 
-Workflow [Verify Phase 2 historical tag](.github/workflows/verify-phase-2.yml)
-chỉ chạy thủ công và checkout tag `phase-2`, giữ nguyên xác minh phiên bản đó.
-Workflow [Verify Phase 3 on Ubuntu](.github/workflows/verify-phase-3.yml) kiểm tra
-branch hiện tại bằng `npm ci`, test/build/fixtures và smoke test HTTP. Chưa có
-run Ubuntu Phase 3 nào cho tới khi workflow được push và chạy.
+### Bảng xếp hạng
 
-## Sáng tạo của tôi
+Sau khi thua hoặc thắng chiến dịch, có thể nhập tên 3–12 ký tự `[A-Za-z0-9_]`.
+Top 10 lưu trên đĩa cục bộ và mở từ menu chính; cùng dữ liệu được xuất bằng:
 
-Hướng mỹ thuật Việt Nam đêm trăng: mây cuộn viền vàng, trăng ngà, nón lá có nan tre,
-đèn giấy có gân, màu chàm và texture giấy loang. Geometry/texture được tạo bằng
-Three.js và Canvas trong `src/visuals/`, tách khỏi simulation. Không đưa ảnh tham
-chiếu vào bản game. Có hỗ trợ giảm chuyển động trang trí theo cài đặt hệ thống.
+```sh
+node src/local-server.js --export-leaderboard leaderboard.json
+```
 
-![Cảnh game](docs/evidence/watercolor/desktop.jpg)
+Trên Windows dữ liệu ở `%APPDATA%/DaoDenLong/leaderboard.json`; macOS dùng
+`~/Library/Application Support/DaoDenLong/leaderboard.json`; Linux dùng
+`$XDG_DATA_HOME/dao-den-long/leaderboard.json` hoặc `~/.local/share/dao-den-long`.
+`DAO_DEN_LONG_DATA_DIR` cho phép chọn thư mục khác.
 
-[Ảnh cửa sổ hẹp](docs/evidence/watercolor/narrow.jpg) ·
-[Màn thua thực tế](docs/evidence/watercolor/loss.jpg) ·
-[CREDITS](CREDITS.md).
+## Phase 4 evidence và phát hành
 
-## SDLC và hướng dẫn submission
+- Soak JSON và log xác minh: [`docs/evidence/phase-4-final/`](docs/evidence/phase-4-final/); bench JSON đang chờ lần chạy từ browser/host có quyền loopback.
+- Yêu cầu, ma trận kiểm tra và giả định: [`docs/phases/phase-4-spec.md`](docs/phases/phase-4-spec.md).
+- Quyết định kho điểm và benchmark: [`ADR-0004`](docs/adr/0004-local-runtime-and-phase4-metrics.md).
+- Gói chạy được: `release/dao-den-long-v1.0.0.tar.gz` (sau build và `node scripts/package-release.js`; gồm web tĩnh, máy chủ cục bộ, README, MIT và credits).
+- Video `.mp4` phải được quay từ game thật và ngắn hơn 5 phút trước khi phát hành.
+- Retro bốn phase: [`docs/retro.md`](docs/retro.md); asset và công cụ: [`CREDITS.md`](CREDITS.md); giấy phép: [`LICENSE`](LICENSE).
+
+Tag `phase-4` và GitHub Release `v1.0.0` là bước phát hành remote riêng; repo
+phải public để hoàn tất yêu cầu bàn giao.
+
+## Lịch sử và harness
 
 | Tài liệu | Nội dung |
 |---|---|
-| [SUBMISSION.md](SUBMISSION.md) | Tên repo, deadline, tags, Release, video và checklist |
-| [RULES.md](RULES.md) | Trung thực, bản quyền, harness và bảo mật |
-| [RUBRIC.md](RUBRIC.md) | Tiêu chí chấm điểm |
-| [GUIDE.md](GUIDE.md) | Quy trình SDLC |
-| [CHECKPOINTS.md](CHECKPOINTS.md) | Mốc nghiệm thu |
-| [README-LAB.md](README-LAB.md) | README lab gốc được giữ nguyên nội dung |
-| [AGENTS.md](AGENTS.md) | Harness agent đã sử dụng |
-| [AI usage](docs/ai-usage.md) / [Retro](docs/retro.md) | Token ước tính, lỗi AI và bài học |
-
-## Các mục còn thiếu trước khi nộp cuối cùng
-
-- Chơi campaign bằng người từ đêm 1 tới chiến thắng đêm 3, nghe âm thanh sự kiện
-  và lưu video/ảnh demo. Browser smoke check Phase 3 chỉ kiểm tra menu, HUD đêm 1
-  và persistence của cài đặt; thanh dầu, cảnh báo dầu yếu và thắng campaign chưa
-  được nhìn thấy trong lượt này. Âm thanh vẫn chưa được xác nhận bằng nghe.
-- Kiểm tra bằng mắt thanh dầu/nhấp nháy và WebGL trên Linux/macOS. Workflow
-  Phase 3 đã xanh trên commit `1d314d3`; workflow lịch sử Phase 2 cũng đã xanh
-  trên commit `5ba809b` ([run Phase 2](https://github.com/TgTrh06/K5-L3A-DAY12-TrinhThanhTung-2A202603456-AI-SDLC-Dao-Den-Long/actions/runs/44788725148),
-  [run Phase 3](https://github.com/TgTrh06/K5-L3A-DAY12-TrinhThanhTung-2A202603456-AI-SDLC-Dao-Den-Long/actions/runs/44802419364)).
-- Hoàn thiện và nghiệm thu từng phase; tags `phase-1` … `phase-4` đúng commit.
-- Release `v1.0.0` có bản chạy được; video `.mp4` dưới 5 phút, link ở đầu README.
-- Chọn và bổ sung `LICENSE`; CREDITS hiện có nhưng chưa thay thế giấy phép dự án.
-- Xác nhận repo/Release/video public và hạn nộp thực tế theo Coach.
-
-Không khai hoàn thành thay cho các mục chưa đạt; không commit `.env`, API key,
-token, `node_modules`, `dist` hoặc output headless local `result.jsonl`.
+| [CHANGELOG.md](CHANGELOG.md) | Breaking changes và tính năng của cả bốn phase |
+| [AGENTS.md](AGENTS.md) | Harness AI và quy tắc làm việc |
+| [SUBMISSION.md](SUBMISSION.md) / [RULES.md](RULES.md) | Quy định lab và submission |
+| [GUIDE.md](GUIDE.md) / [CHECKPOINTS.md](CHECKPOINTS.md) | Quy trình SDLC và mốc nghiệm thu |
+| [AI usage](docs/ai-usage.md) / [Retro](docs/retro.md) | Nhật ký AI và đánh giá |

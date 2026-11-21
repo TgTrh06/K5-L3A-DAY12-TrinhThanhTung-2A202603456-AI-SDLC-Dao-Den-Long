@@ -1,14 +1,13 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { createGame, step, snapshot, T } from '../src/core.js';
 
 const quiet = { random_motes: false, random_shades: false, random_drifters: false, wind_enabled: false };
 function runCli({ scenario = quiet, inputs = { frames: [] }, ticks = 10, every = 1 } = {}) {
-    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'phase1-regression-'));
+    const dir = fs.mkdtempSync(path.join(process.cwd(), '.tmp-phase1-'));
     try {
         const scenarioFile = path.join(dir, 'scenario.json'), inputFile = path.join(dir, 'inputs.json'), out = path.join(dir, 'out.jsonl');
         fs.writeFileSync(scenarioFile, JSON.stringify(scenario)); fs.writeFileSync(inputFile, JSON.stringify(inputs));

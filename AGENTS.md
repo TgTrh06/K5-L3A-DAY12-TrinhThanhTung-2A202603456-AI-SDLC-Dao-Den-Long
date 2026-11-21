@@ -41,3 +41,34 @@ Never commit secrets, `.env`, `node_modules` or unlicensed assets.
   changes run through the Phase 3 workflow.
 - Dawn priority is `no_flames`, then `dawn_survived` or `dawn`. Do not reintroduce
   `all_lit` or the old time bonus.
+
+## Phase 4 harness
+
+- Contract is v1.3. Read `docs/phases/phase-4-spec.md` and
+  `docs/adr/0004-local-runtime-and-phase4-metrics.md` before changing release,
+  benchmark, soak, leaderboard or accessibility behavior.
+- Ordinary simulation and headless JSONL must remain byte-compatible with the
+  still-active v1.2 rules and fixtures. Benchmark behavior is opt-in only.
+- Run `npm test`, `node node_modules/vite/bin/vite.js build`, then
+  `npm run verify:phase4` on a host that permits the Chrome benchmark. The full
+  public suite includes current Phase 1–3 regression cases; avoid rerunning the
+  historical phase verifiers here because they refresh their old evidence.
+- The Phase 4 verifier writes generated measurements only to
+  `docs/evidence/phase-4-final/`; do not overwrite historical Phase 1/2 data or
+  published tags. Never edit or fabricate benchmark/soak numbers by hand.
+- Benchmark requires a visible Chrome/Chromium renderer at a 1280×720 window;
+  preserve raw duration, host, renderer, VSync setting and RSS limitation. The
+  instructor's machine decides the final threshold result.
+- Soak uses one Node process, deterministic seeded inputs and fresh game state
+  per night. The contract command disables V8 JIT and bounds the young
+  generation to reduce first-run RSS noise. Keep the generated raw JSON and the
+  command output, including any diagnostic run that misses the memory limit.
+- The Ubuntu workflow checks tests, production build, soak, package layout,
+  leaderboard API/export and production HTTP assets. It does not run or certify
+  the host-specific Chrome FPS benchmark.
+- Leaderboard browser/API/export must read and write the same per-user file and
+  bind only to loopback. Use a temporary data directory in tests.
+- Project license is MIT, selected by the user. Keep dependency licenses in
+  `CREDITS.md`; do not add dependencies without another approved plan.
+- A local Phase 4 tag or GitHub Release is outside the implementation approval;
+  ask for explicit release authorization after review.

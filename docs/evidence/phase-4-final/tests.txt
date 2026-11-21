@@ -1,0 +1,394 @@
+
+> dao-den-long@1.0.0 test
+> node --test
+
+TAP version 13
+# Subtest: volume and mouse sensitivity settings survive a new audio/settings instance
+ok 1 - volume and mouse sensitivity settings survive a new audio/settings instance
+  ---
+  duration_ms: 2.7211
+  ...
+# Subtest: campaign victory is resolved at dawn after the required lantern threshold is met
+ok 2 - campaign victory is resolved at dawn after the required lantern threshold is met
+  ---
+  duration_ms: 7.3834
+  ...
+# Subtest: KeyA projects to screen left at camera yaw 0
+ok 3 - KeyA projects to screen left at camera yaw 0
+  ---
+  duration_ms: 11.585
+  ...
+# Subtest: KeyD projects to screen right at camera yaw 0
+ok 4 - KeyD projects to screen right at camera yaw 0
+  ---
+  duration_ms: 0.9287
+  ...
+# Subtest: KeyA projects to screen left at camera yaw 90
+ok 5 - KeyA projects to screen left at camera yaw 90
+  ---
+  duration_ms: 1.1142
+  ...
+# Subtest: KeyD projects to screen right at camera yaw 90
+ok 6 - KeyD projects to screen right at camera yaw 90
+  ---
+  duration_ms: 0.9453
+  ...
+# Subtest: KeyA projects to screen left at camera yaw 180
+ok 7 - KeyA projects to screen left at camera yaw 180
+  ---
+  duration_ms: 0.9335
+  ...
+# Subtest: KeyD projects to screen right at camera yaw 180
+ok 8 - KeyD projects to screen right at camera yaw 180
+  ---
+  duration_ms: 0.781
+  ...
+# Subtest: keyboard adapter exposes jump, interaction, pulse, dash and both pause keys
+ok 9 - keyboard adapter exposes jump, interaction, pulse, dash and both pause keys
+  ---
+  duration_ms: 1.6407
+  ...
+# Subtest: air dash keeps altitude fixed through all 12 dash ticks
+ok 10 - air dash keeps altitude fixed through all 12 dash ticks
+  ---
+  duration_ms: 1.8892
+  ...
+# Subtest: Phase 1 setup and public defaults remain compatible with Phase 2 standard tuning
+ok 11 - Phase 1 setup and public defaults remain compatible with Phase 2 standard tuning
+  ---
+  duration_ms: 4.8047
+  ...
+# Subtest: Phase 1 movement/yaw behavior and fixed-tick clock remain deterministic
+ok 12 - Phase 1 movement/yaw behavior and fixed-tick clock remain deterministic
+  ---
+  duration_ms: 15.9817
+  ...
+# Subtest: Phase 1 interaction boundaries, partial deposits and rising-edge behavior remain valid
+ok 13 - Phase 1 interaction boundaries, partial deposits and rising-edge behavior remain valid
+  ---
+  duration_ms: 1.4509
+  ...
+# Subtest: Phase 1 event ordering is preserved while victory waits for dawn under Contract 1.2
+ok 14 - Phase 1 event ordering is preserved while victory waits for dawn under Contract 1.2
+  ---
+  duration_ms: 2.6892
+  ...
+# Subtest: Phase 1 hit, invulnerability, drop and pulse regression hold with the new flame/cost rules
+ok 15 - Phase 1 hit, invulnerability, drop and pulse regression hold with the new flame/cost rules
+  ---
+  duration_ms: 1.8389
+  ...
+# Subtest: Phase 1 snapshot positions retain three-decimal rounding
+ok 16 - Phase 1 snapshot positions retain three-decimal rounding
+  ---
+  duration_ms: 0.9686
+  ...
+# Subtest: Phase 3 supersedes the Phase 1 forever-lit safe-zone soak with finite lantern fuel
+ok 17 - Phase 3 supersedes the Phase 1 forever-lit safe-zone soak with finite lantern fuel
+  ---
+  duration_ms: 3.0059
+  ...
+# Subtest: Phase 1 headless output retains interval snapshots, deterministic bytes and invalid-input exit 2
+ok 18 - Phase 1 headless output retains interval snapshots, deterministic bytes and invalid-input exit 2
+  ---
+  duration_ms: 449.2683
+  ...
+# Subtest: contract tuning matches the runtime and exposes v1.3 commands
+ok 19 - contract tuning matches the runtime and exposes v1.3 commands
+  ---
+  duration_ms: 7.2091
+  ...
+# Subtest: standard maps use the specified lanterns, firefly counts and night durations
+ok 20 - standard maps use the specified lanterns, firefly counts and night durations
+  ---
+  duration_ms: 30.3016
+  ...
+# Subtest: movement reaches 6 m/s in six ticks and has full air control
+ok 21 - movement reaches 6 m/s in six ticks and has full air control
+  ---
+  duration_ms: 9.9977
+  ...
+# Subtest: jump follows 7 m/s and −20 m/s²; jump input only acts on a press edge
+ok 22 - jump follows 7 m/s and −20 m/s²; jump input only acts on a press edge
+  ---
+  duration_ms: 1.8411
+  ...
+# Subtest: dash travels 14 m/s for 12 ticks and starts a 90-tick cooldown
+ok 23 - dash travels 14 m/s for 12 ticks and starts a 90-tick cooldown
+  ---
+  duration_ms: 1.6516
+  ...
+# Subtest: dash uses facing when stationary and does not make the player invulnerable
+ok 24 - dash uses facing when stationary and does not make the player invulnerable
+  ---
+  duration_ms: 1.3872
+  ...
+# Subtest: pickup uses inclusive XZ and vertical limits and respects 10-mote capacity
+ok 25 - pickup uses inclusive XZ and vertical limits and respects 10-mote capacity
+  ---
+  duration_ms: 1.5084
+  ...
+# Subtest: nearest lantern and ID tie-break deposit up to the remaining 10-mote cost
+ok 26 - nearest lantern and ID tie-break deposit up to the remaining 10-mote cost
+  ---
+  duration_ms: 1.1001
+  ...
+# Subtest: pulse costs three motes, targets 3D radius, stuns for 120 ticks and pushes 4 m
+ok 27 - pulse costs three motes, targets 3D radius, stuns for 120 ticks and pushes 4 m
+  ---
+  duration_ms: 4.823
+  ...
+# Subtest: pulse requires three motes and can refresh an already stunned target
+ok 28 - pulse requires three motes and can refresh an already stunned target
+  ---
+  duration_ms: 1.8588
+  ...
+# Subtest: hit drops floor(half), limits loss to one flame per tick and grants 90 tick immunity
+ok 29 - hit drops floor(half), limits loss to one flame per tick and grants 90 tick immunity
+  ---
+  duration_ms: 1.2491
+  ...
+# Subtest: a newly lit safe radius pushes an inside shade out gradually over at most 30 ticks
+ok 30 - a newly lit safe radius pushes an inside shade out gradually over at most 30 ticks
+  ---
+  duration_ms: 4.5906
+  ...
+# Subtest: a fall costs one flame once, waits 60 ticks and respawns with 90 immunity
+ok 31 - a fall costs one flame once, waits 60 ticks and respawns with 90 immunity
+  ---
+  duration_ms: 4.8948
+  ...
+# Subtest: night 2 jump pad launches toward the other island and bridge stays grounded
+ok 32 - night 2 jump pad launches toward the other island and bridge stays grounded
+  ---
+  duration_ms: 0.8749
+  ...
+# Subtest: night 3 has upper tiers, ramps and seeded wind forecast
+ok 33 - night 3 has upper tiers, ramps and seeded wind forecast
+  ---
+  duration_ms: 75.3505
+  ...
+# Subtest: mote respawn chooses an unoccupied point at the scheduled tick
+ok 34 - mote respawn chooses an unoccupied point at the scheduled tick
+  ---
+  duration_ms: 4.2688
+  ...
+# Subtest: shade wander moves deterministically, then chase uses each night speed
+ok 35 - shade wander moves deterministically, then chase uses each night speed
+  ---
+  duration_ms: 1.172
+  ...
+# Subtest: scheduled shade spawns use seeded legal points on all nights
+ok 36 - scheduled shade spawns use seeded legal points on all nights
+  ---
+  duration_ms: 46.2629
+  ...
+# Subtest: scheduled drifters spawn at 1200-tick intervals and stay under the two-creature cap
+ok 37 - scheduled drifters spawn at 1200-tick intervals and stay under the two-creature cap
+  ---
+  duration_ms: 43.9315
+  ...
+# Subtest: drifter idle and chase states move at their specified speeds
+ok 38 - drifter idle and chase states move at their specified speeds
+  ---
+  duration_ms: 0.891
+  ...
+# Subtest: renderer adapter tracks entity positions and keeps a pulse-dismissed drifter visible through its delay
+ok 39 - renderer adapter tracks entity positions and keeps a pulse-dismissed drifter visible through its delay
+  ---
+  duration_ms: 0.5677
+  ...
+# Subtest: drifter steals up to three, flees, and pulse returns stolen motes
+ok 40 - drifter steals up to three, flees, and pulse returns stolen motes
+  ---
+  duration_ms: 3.5444
+  ...
+# Subtest: charm pickup lasts 600 ticks and allows repeated dash activations
+ok 41 - charm pickup lasts 600 ticks and allows repeated dash activations
+  ---
+  duration_ms: 1.0336
+  ...
+# Subtest: pause advances wall tick only; resume restarts deterministic simulation tick
+ok 42 - pause advances wall tick only; resume restarts deterministic simulation tick
+  ---
+  duration_ms: 0.495
+  ...
+# Subtest: winning is evaluated at dawn under the six-tenths threshold
+ok 43 - winning is evaluated at dawn under the six-tenths threshold
+  ---
+  duration_ms: 1.0611
+  ...
+# Subtest: snapshot contains required v1.2 state and rounds positions to three decimals
+ok 44 - snapshot contains required v1.2 state and rounds positions to three decimals
+  ---
+  duration_ms: 0.5369
+  ...
+# Subtest: CLI accepts all nights, emits v1.2 and is byte deterministic with action inputs
+ok 45 - CLI accepts all nights, emits v1.2 and is byte deterministic with action inputs
+  ---
+  duration_ms: 547.2357
+  ...
+# Subtest: CLI rejects malformed scenario/input and invalid night with clear exit codes
+ok 46 - CLI rejects malformed scenario/input and invalid night with clear exit codes
+  ---
+  duration_ms: 236.8407
+  ...
+# Subtest: full headless night stays deterministic under the 30-second limit target
+ok 47 - full headless night stays deterministic under the 30-second limit target
+  ---
+  duration_ms: 323.9206
+  ...
+# Subtest: Contract 1.3 preserves v1.2 tuning and night durations
+ok 48 - Contract 1.3 preserves v1.2 tuning and night durations
+  ---
+  duration_ms: 6.6748
+  ...
+# Subtest: lantern state initializes fuel units, ever-lit history and dynamic player capacity
+ok 49 - lantern state initializes fuel units, ever-lit history and dynamic player capacity
+  ---
+  duration_ms: 3.4363
+  ...
+# Subtest: new light consumes ten motes, awards v1.2 score and grows capacity
+ok 50 - new light consumes ten motes, awards v1.2 score and grows capacity
+  ---
+  duration_ms: 4.7909
+  ...
+# Subtest: all lanterns lit early do not end the night before dawn
+ok 51 - all lanterns lit early do not end the night before dawn
+  ---
+  duration_ms: 2.673
+  ...
+# Subtest: dynamic carry capacity changes collection limit and resets on a new night
+ok 52 - dynamic carry capacity changes collection limit and resets on a new night
+  ---
+  duration_ms: 1.169
+  ...
+# Subtest: picking up motes does not score before they are loaded into a lantern
+ok 53 - picking up motes does not score before they are loaded into a lantern
+  ---
+  duration_ms: 0.4761
+  ...
+# Subtest: refueling rounds up required motes, caps fuel and scores only loaded motes
+ok 54 - refueling rounds up required motes, caps fuel and scores only loaded motes
+  ---
+  duration_ms: 0.6127
+  ...
+# Subtest: full lamp is not selected and does not emit a refuel or score event
+ok 55 - full lamp is not selected and does not emit a refuel or score event
+  ---
+  duration_ms: 0.4793
+  ...
+# Subtest: ever-lit lamp relights with five motes for forty bonus points
+ok 56 - ever-lit lamp relights with five motes for forty bonus points
+  ---
+  duration_ms: 0.7378
+  ...
+# Subtest: fuel decays exactly 1/60 per tick and extinguishes at zero
+ok 57 - fuel decays exactly 1/60 per tick and extinguishes at zero
+  ---
+  duration_ms: 4.1011
+  ...
+# Subtest: wander shades target the nearest weak lamp, drain while stationary and report every 60 ticks
+ok 58 - wander shades target the nearest weak lamp, drain while stationary and report every 60 ticks
+  ---
+  duration_ms: 3.3116
+  ...
+# Subtest: drain pursuit breaks into chase when Mây comes within six metres
+ok 59 - drain pursuit breaks into chase when Mây comes within six metres
+  ---
+  duration_ms: 0.4874
+  ...
+# Subtest: a shade returns to wander when its stun expires
+ok 60 - a shade returns to wander when its stun expires
+  ---
+  duration_ms: 0.4084
+  ...
+# Subtest: refueling a weak lamp above thirty pushes a nearby draining shade without damage
+ok 61 - refueling a weak lamp above thirty pushes a nearby draining shade without damage
+  ---
+  duration_ms: 0.6022
+  ...
+# Subtest: headless v1.2 accepts fuel/drain scenarios and serializes their state and event fields
+ok 62 - headless v1.2 accepts fuel/drain scenarios and serializes their state and event fields
+  ---
+  duration_ms: 176.7003
+  ...
+# Subtest: weak-lamp safety boundary is inclusive at 30 and expires below 30
+ok 63 - weak-lamp safety boundary is inclusive at 30 and expires below 30
+  ---
+  duration_ms: 0.8352
+  ...
+# Subtest: drain shades aggregate fuel loss and pulse awards fifteen for a draining target
+ok 64 - drain shades aggregate fuel loss and pulse awards fifteen for a draining target
+  ---
+  duration_ms: 30.5709
+  ...
+# Subtest: dawn victory requires the 60 percent threshold and awards fuel/flame score only
+ok 65 - dawn victory requires the 60 percent threshold and awards fuel/flame score only
+  ---
+  duration_ms: 1.0187
+  ...
+# Subtest: dawn below threshold loses and no_flames has priority on the dawn tick
+ok 66 - dawn below threshold loses and no_flames has priority on the dawn tick
+  ---
+  duration_ms: 0.6166
+  ...
+# Subtest: benchmark scene has the contract counts and is seed deterministic
+ok 67 - benchmark scene has the contract counts and is seed deterministic
+  ---
+  duration_ms: 9.0374
+  ...
+# Subtest: benchmark summary follows contract FPS and percentile formulas
+ok 68 - benchmark summary follows contract FPS and percentile formulas
+  ---
+  duration_ms: 1.3367
+  ...
+# Subtest: benchmark simulation moves wander shades without gameplay side effects
+ok 69 - benchmark simulation moves wander shades without gameplay side effects
+  ---
+  duration_ms: 87.8782
+  ...
+# Subtest: leaderboard validates entries, sorts by score and chronological tie, keeps top ten
+ok 70 - leaderboard validates entries, sorts by score and chronological tie, keeps top ten
+  ---
+  duration_ms: 1.8868
+  ...
+# Subtest: soak input stream is repeatable and follows movement/action schedule
+ok 71 - soak input stream is repeatable and follows movement/action schedule
+  ---
+  duration_ms: 2.185
+  ...
+# Subtest: benchmark contract settings do not affect ordinary v1.2 simulation
+ok 72 - benchmark contract settings do not affect ordinary v1.2 simulation
+  ---
+  duration_ms: 3.6706
+  ...
+# Subtest: key remapping rejects duplicate bindings and feeds every action to the keyboard adapter
+ok 73 - key remapping rejects duplicate bindings and feeds every action to the keyboard adapter
+  ---
+  duration_ms: 2.9673
+  ...
+# Subtest: leaderboard is persisted under OS data dir and exports in ranked order
+ok 74 - leaderboard is persisted under OS data dir and exports in ranked order
+  ---
+  duration_ms: 237.0173
+  ...
+# Subtest: loopback API validates writes and serves leaderboard over GET
+ok 75 - loopback API validates writes and serves leaderboard over GET
+  ---
+  duration_ms: 17.3022
+  ...
+# Subtest: local static server serves built files and rejects traversal
+ok 76 - local static server serves built files and rejects traversal
+  ---
+  duration_ms: 10.2143
+  ...
+1..76
+# tests 76
+# suites 0
+# pass 76
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1770.2699

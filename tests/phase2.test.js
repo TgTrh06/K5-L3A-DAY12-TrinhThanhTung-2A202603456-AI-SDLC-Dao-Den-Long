@@ -1,7 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { createGame, step, snapshot, T, NIGHT } from '../src/core.js';
@@ -9,7 +8,7 @@ import { syncEntityPosition } from '../src/visuals/world.js';
 
 const quiet = { random_motes: false, random_shades: false, random_drifters: false, wind_enabled: false };
 function cli({ night = 1, scenario = quiet, inputs = { frames: [] }, ticks = 60, every = 10, seed = 12 } = {}) {
-    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'lantern-phase2-'));
+    const dir = fs.mkdtempSync(path.join(process.cwd(), '.tmp-phase2-'));
     try {
         const s = path.join(dir, 'scenario.json'), i = path.join(dir, 'inputs.json'), out = path.join(dir, 'out.jsonl');
         fs.writeFileSync(s, JSON.stringify(scenario)); fs.writeFileSync(i, JSON.stringify(inputs));
@@ -19,9 +18,9 @@ function cli({ night = 1, scenario = quiet, inputs = { frames: [] }, ticks = 60,
     } finally { fs.rmSync(dir, { recursive: true, force: true }); }
 }
 
-test('contract tuning matches the runtime and exposes v1.2 fields', () => {
+test('contract tuning matches the runtime and exposes v1.3 commands', () => {
     const contract = JSON.parse(fs.readFileSync('game.contract.json', 'utf8'));
-    assert.equal(contract.contract_version, '1.2'); assert.deepEqual(contract.tuning, T);
+    assert.equal(contract.contract_version, '1.3'); assert.equal(typeof contract.bench_cmd, 'string'); assert.equal(typeof contract.soak_cmd, 'string'); assert.deepEqual(contract.tuning, T);
     for (const key of ['dash_speed', 'dash_duration_s', 'dash_cooldown_s', 'night2_duration_s', 'night3_duration_s', 'fuel_max', 'fuel_decay_per_s', 'fuel_per_mote', 'relight_cost', 'win_ratio', 'drain_per_s', 'low_fuel_threshold', 'capacity_max']) assert.ok(key in contract.tuning);
 });
 test('standard maps use the specified lanterns, firefly counts and night durations', () => {
@@ -246,7 +245,7 @@ test('CLI accepts all nights, emits v1.2 and is byte deterministic with action i
     for (const n of [1, 2, 3]) assert.equal(cli({ night: n, ticks: 0 }).status, 0);
 });
 test('CLI rejects malformed scenario/input and invalid night with clear exit codes', () => {
-    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'lantern-invalid-'));
+    const dir = fs.mkdtempSync(path.join(process.cwd(), '.tmp-phase2-invalid-'));
     try {
         const s = path.join(dir, 's.json'), i = path.join(dir, 'i.json'), out = path.join(dir, 'o');
         fs.writeFileSync(s, '{'); fs.writeFileSync(i, '{"frames":[]}');

@@ -1,0 +1,123 @@
+name: Verify Phase 4 on Ubuntu
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/verify-phase-4.yml
+      - game.contract.json
+      - package.json
+      - package-lock.json
+      - index.html
+      - src/**
+      - tests/**
+      - scripts/**
+      - docs/adr/**
+      - docs/phases/phase-4-spec.md
+      - CHANGELOG.md
+
+permissions:
+  contents: read
+
+jobs:
+  phase-4:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      CI: 'true'
+    steps:
+      - name: Checkout current revision
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Node 22
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Record environment and install dependencies
+        run: |
+          mkdir -p "$RUNNER_TEMP/phase4-ci"
+          {
+            printf 'tested_commit=%s\n' "$(git rev-parse HEAD)"
+            printf 'run_url=https://github.com/%s/actions/runs/%s\n' "$GITHUB_REPOSITORY" "$GITHUB_RUN_ID"
+            date -u +'%Y-%m-%dT%H:%M:%SZ'
+            uname -a
+            cat /etc/os-release
+            node --version
+            npm --version
+          } 2>&1 | tee "$RUNNER_TEMP/phase4-ci/identity.txt"
+          npm ci 2>&1 | tee "$RUNNER_TEMP/phase4-ci/install.txt"
+
+      - name: Run all public regression tests
+        run: npm test 2>&1 | tee "$RUNNER_TEMP/phase4-ci/tests.txt"
+
+      - name: Build production web files
+        run: node node_modules/vite/bin/vite.js build 2>&1 | tee "$RUNNER_TEMP/phase4-ci/build.txt"
+
+      - name: Run ten-night memory soak
+        run: |
+          node --jitless --expose-gc --max-old-space-size=16 --max-semi-space-size=1 scripts/soak.js \
+            --seed 7 --nights 10 --out "$RUNNER_TEMP/phase4-ci/soak.json" \
+            2>&1 | tee "$RUNNER_TEMP/phase4-ci/soak.txt"
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import { readFile } from 'node:fs/promises';
+          const result = JSON.parse(await readFile(process.env.RUNNER_TEMP + '/phase4-ci/soak.json', 'utf8'));
+          assert.equal(result.nights, 10);
+          assert.equal(result.results.length, 10);
+          assert.equal(result.crashes, 0);
+          assert.ok(result.mem_end_mb <= result.mem_start_mb * 1.2);
+          console.log('PASS: ten nights, no crashes, RSS within 1.2×');
+          NODE
+
+      - name: Package and smoke-test local production server
+        run: |
+          node scripts/package-release.js 2>&1 | tee "$RUNNER_TEMP/phase4-ci/package.txt"
+          export DAO_DEN_LONG_DATA_DIR="$RUNNER_TEMP/phase4-ci/leaderboard"
+          node src/local-server.js --port 4184 > "$RUNNER_TEMP/phase4-ci/server.txt" 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          node --input-type=module <<'NODE' 2>&1 | tee "$RUNNER_TEMP/phase4-ci/http.txt"
+          import assert from 'node:assert/strict';
+          const origin = 'http://127.0.0.1:4184';
+          let response;
+          for (let attempt = 0; attempt < 40; attempt++) {
+            try { response = await fetch(origin, { signal: AbortSignal.timeout(2000) }); if (response.ok) break; }
+            catch { /* retry during server startup */ }
+            await new Promise(resolve => setTimeout(resolve, 250));
+          }
+          assert.equal(response?.status, 200);
+          const html = await response.text();
+          const assets = [...html.matchAll(/(?:src|href)="([^"#]+\.(?:js|css))"/g)].map(match => new URL(match[1], origin));
+          assert.ok(assets.some(asset => asset.pathname.endsWith('.js')));
+          assert.ok(assets.some(asset => asset.pathname.endsWith('.css')));
+          for (const asset of assets) {
+            const result = await fetch(asset, { signal: AbortSignal.timeout(5000) });
+            assert.equal(result.status, 200, asset.pathname);
+            console.log(`PASS HTTP 200 ${asset.pathname}`);
+          }
+          const entry = { name: 'CI_Bot', score: 10, nights_won: 1, achieved_at: new Date().toISOString(), seed: 7 };
+          const saved = await fetch(`${origin}/api/leaderboard`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(entry) });
+          assert.equal(saved.status, 201);
+          const board = await fetch(`${origin}/api/leaderboard`);
+          assert.deepEqual((await board.json()).entries.map(item => item.name), ['CI_Bot']);
+          console.log('PASS leaderboard persistence API');
+          NODE
+          node src/local-server.js --export-leaderboard "$RUNNER_TEMP/phase4-ci/leaderboard-export.json" \
+            2>&1 | tee "$RUNNER_TEMP/phase4-ci/export.txt"
+          node --input-type=module -e "import assert from 'node:assert/strict'; import { readFile } from 'node:fs/promises'; const data=JSON.parse(await readFile(process.env.RUNNER_TEMP + '/phase4-ci/leaderboard-export.json','utf8')); assert.equal(data.entries[0].name,'CI_Bot'); console.log('PASS leaderboard export');"
+
+      - name: Upload Ubuntu run logs and release archive
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: phase-4-ubuntu-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/phase4-ci/
+            release/dao-den-long-v1.0.0.tar.gz
+          if-no-files-found: warn
+          retention-days: 30

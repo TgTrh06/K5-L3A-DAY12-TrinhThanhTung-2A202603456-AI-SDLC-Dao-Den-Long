@@ -1,6 +1,5 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import os from 'node:os';
 import { createHash } from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 import assert from 'node:assert/strict';
@@ -9,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const out = path.join(root, 'docs/evidence/phase-3-final');
 const fixtureFile = path.join(root, 'tests/scenarios/phase3.json');
-const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'dao-den-long-phase3-'));
+const temp = fs.mkdtempSync(path.join(root, '.tmp-phase3-verify-'));
 fs.mkdirSync(path.join(out, 'fixtures'), { recursive: true });
 const commands = [], fixtureSummary = [];
 function run(label, exe, args, options = {}) {
@@ -32,7 +31,7 @@ function runHeadless(label, item, target) {
 
 try {
     run('tests', process.execPath, ['--test']);
-    run('build', process.platform === 'win32' ? 'npm.cmd' : 'npm', ['run', 'build'], { shell: process.platform === 'win32' });
+    run('build', process.execPath, ['node_modules/vite/bin/vite.js', 'build']);
     const fixture = JSON.parse(fs.readFileSync(fixtureFile, 'utf8'));
     for (const item of fixture.cases) {
         const target = path.join(out, 'fixtures', `${item.name}.jsonl`);
